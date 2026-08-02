@@ -131,19 +131,25 @@ img{max-width:100%;display:block;}
 @media (max-width:600px){.card-grid-about{grid-template-columns:1fr;}}
 
 /* ---------- Auto-play slideshow ---------- */
-.slideshow{position:relative;border:1px solid var(--grey-300);overflow:hidden;margin-bottom:2rem;}
-.slide{display:none;grid-template-columns:1.1fr 1fr;min-height:340px;}
-.slide.active{display:grid;}
+.slideshow{position:relative;border:1px solid var(--grey-300);overflow:hidden;margin-bottom:2rem;min-height:340px;}
+.slide{display:grid;grid-template-columns:1.1fr 1fr;min-height:340px;position:absolute;inset:0;opacity:0;transition:opacity .6s ease;pointer-events:none;}
+.slide.active{position:relative;opacity:1;pointer-events:auto;}
 .slide-media{overflow:hidden;}
 .slide-media img{width:100%;height:100%;object-fit:cover;display:block;}
-.slide-text{display:flex;flex-direction:column;justify-content:center;padding:2.4rem 3rem;}
+.slide-text{display:flex;flex-direction:column;justify-content:center;padding:2.4rem 3rem;background:#fff;}
 .slide-text h4{font-size:1.4rem;margin-bottom:1rem;}
 .slide-text p{color:var(--grey-600);}
-.slide-dots{position:absolute;bottom:1.2rem;left:50%;transform:translateX(-50%);display:flex;gap:.5rem;z-index:2;}
+.slide-dots{position:absolute;bottom:1.2rem;left:50%;transform:translateX(-50%);display:flex;gap:.5rem;z-index:3;}
 .slide-dots button{width:26px;height:3px;border:none;background:rgba(11,31,58,.25);cursor:pointer;padding:0;}
 .slide-dots button.active{background:var(--navy);}
+.slide-arrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:1px solid var(--grey-300);background:rgba(255,255,255,.92);cursor:pointer;z-index:3;font-size:1rem;color:var(--navy);}
+.slide-arrow:hover{border-color:var(--navy);}
+.slide-arrow.prev{left:1rem;}
+.slide-arrow.next{right:1rem;}
 @media (max-width:900px){
-  .slide{grid-template-columns:1fr;min-height:auto;}
+  .slideshow{min-height:auto;}
+  .slide{grid-template-columns:1fr;min-height:auto;position:relative;display:none;opacity:1;}
+  .slide.active{display:grid;}
   .slide-media{height:220px;}
   .slide-text{padding:1.8rem 1.6rem;}
 }
@@ -368,6 +374,8 @@ img{max-width:100%;display:block;}
       </div>
     </div>
     <div class="slide-dots" id="aboutSlideDots"></div>
+    <button class="slide-arrow prev" id="aboutPrev" aria-label="Previous">←</button>
+    <button class="slide-arrow next" id="aboutNext" aria-label="Next">→</button>
   </div>
 
   <div class="path-grid" style="margin-bottom:4rem;">
@@ -506,7 +514,11 @@ img{max-width:100%;display:block;}
     dotsWrap.children[current].classList.add('active');
   }
   function next(){ goTo((current + 1) % slides.length); }
-  function resetTimer(){ clearInterval(timer); timer = setInterval(next, 4500); }
+  function prev(){ goTo((current - 1 + slides.length) % slides.length); }
+  function resetTimer(){ clearInterval(timer); timer = setInterval(next, 6000); }
+
+  document.getElementById('aboutNext').addEventListener('click', function(){ next(); resetTimer(); });
+  document.getElementById('aboutPrev').addEventListener('click', function(){ prev(); resetTimer(); });
 
   resetTimer();
   container.addEventListener('mouseenter', function(){ clearInterval(timer); });
