@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AuranInspire | Designed by AK — Aviation Education &amp; Solutions</title>
-<meta name="description" content="AuranInspire, designed by AK, is a premium aviation education and training organization founded by Arun Kumar.">
+<title>Auran TestIt | AuranInspire — Designed by AK</title>
+<meta name="description" content="Auran TestIt, aviation practice quizzes and assessments from AuranInspire.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
+
 :root{
   --navy:#0b1f3a; --ink:#0d1420; --blue:#1d5fd6; --blue-deep:#123a8c;
   --grey-900:#1b2330; --grey-600:#5c6675; --grey-300:#e2e6eb; --grey-100:#f6f8fa;
@@ -143,10 +144,14 @@ img{max-width:100%;display:block;}
   .path-grid,.card-grid,.platform-grid,.event-grid{grid-template-columns:1fr;}
   .newsletter-form{flex-direction:column;}
 }
+
+.page-hero{background:var(--ink);color:#fff;padding:4.5rem 2rem 3rem;}
+.page-hero-inner{max-width:1280px;margin:0 auto;}
+.page-hero h1{color:#fff;font-size:clamp(1.8rem,3.6vw,2.6rem);max-width:640px;margin-bottom:1rem;}
+.page-hero p{color:#c3ccd9;max-width:520px;}
 </style>
 </head>
 <body>
-
 <header class="site-header">
   <div class="nav-wrap">
     <div class="logo-block">
@@ -154,225 +159,72 @@ img{max-width:100%;display:block;}
       <span class="logo-tag">Designed by AK</span>
     </div>
     <nav class="main-nav">
-      <a href="#about">About</a>
-      <a href="#programs">Programs</a>
-      <a href="#platform">Platform</a>
-      <a href="#insights">Insights</a>
-      <a href="#events">Events</a>
-      <a href="#contact">Contact</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#programs">Programs</a>
+      <a href="index.html#platform">Platform</a>
+      <a href="index.html#insights">Insights</a>
+      <a href="index.html#events">Events</a>
+      <a href="index.html#contact">Contact</a>
     </nav>
     <div class="nav-actions">
       <a href="cockpit.html" class="btn btn-ghost">Student &amp; Faculty Access</a>
-      <a href="#programs" class="btn btn-primary">Explore Programs</a>
+      <a href="index.html#programs" class="btn btn-primary">Explore Programs</a>
     </div>
   </div>
 </header>
 
-<section class="hero">
-  <img src="assets/images/hero-main.jpg" alt="AuranInspire — Connecting Today, Transforming Tomorrow">
-  <div class="hero-inner">
-    <p class="eyebrow eyebrow-light">DESIGNED BY AK</p>
-    <h1>Connecting today. Transforming tomorrow.</h1>
-    <p>AuranInspire is an aviation education and training organization — built by an aviation educator, for the next generation of aviation professionals.</p>
-    <div class="hero-actions">
-      <a href="#programs" class="btn btn-primary">Explore Programs</a>
-      <a href="#about" class="btn btn-ghost">About AuranInspire</a>
-    </div>
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <p class="eyebrow eyebrow-light">AURAN TESTIT</p>
+    <h1>Practice quizzes &amp; assessments</h1>
+    <p>Quick knowledge checks with instant feedback, no login needed.</p>
   </div>
 </section>
 
-<div class="stats-strip">
-  <div class="stat"><span class="stat-num">20</span><span class="stat-label">Aviation programs designed</span></div>
-  <div class="stat"><span class="stat-num">2</span><span class="stat-label">Flagship subjects currently taught</span></div>
-  <div class="stat"><span class="stat-num">Founding</span><span class="stat-label">Cohort enrolling now</span></div>
-</div>
-
-<!-- ===== Two audiences, one entry point ===== -->
 <section class="section">
-  <p class="eyebrow">WHO THIS IS FOR</p>
-  <h2 class="section-title">One organization, built for two audiences</h2>
-  <div class="path-grid">
-    <div class="path-card">
-      <h3>Aviation industry &amp; partners</h3>
-      <p>Learn about AuranInspire's approach to aviation education, our programs, and our founder's background in aviation management teaching.</p>
-      <a href="#programs" class="btn btn-ghost">Explore Programs →</a>
-    </div>
-    <div class="path-card">
-      <h3>Students &amp; faculty</h3>
-      <p>Sign in to access your courses, track learning progress, download resources, and take practice assessments.</p>
-      <a href="cockpit.html" class="btn btn-primary">Go to Student &amp; Faculty Access →</a>
-    </div>
+  <div class="path-card" style="max-width:640px;border:1px solid var(--grey-300);">
+    <div class="eyebrow" id="quizProgress">QUESTION 1 OF 3</div>
+    <div id="quizQuestion" style="font-weight:600;font-size:1rem;margin-bottom:1rem;"></div>
+    <div id="quizOptions"></div>
+    <div id="quizFeedback" style="font-size:.85rem;margin-top:.8rem;font-weight:600;display:none;"></div>
+    <button id="quizNext" class="btn btn-ghost" style="margin-top:1.2rem;display:none;">Next Question &rarr;</button>
   </div>
 </section>
+<script>
+var QUIZ=[
+ {q:"What does IATA stand for?",options:["International Air Transport Association","Indian Aviation Training Authority","International Airport Traffic Agency","Inter-Airline Technical Alliance"],correct:0},
+ {q:"A layover refers to:",options:["A cancelled flight","A stop between connecting flights without changing aircraft ownership","An aircraft maintenance delay","A baggage transfer error"],correct:1},
+ {q:"Which document authorizes a passenger to board a flight?",options:["Boarding Pass","Baggage Tag","Fare Rule Sheet","GDS Record"],correct:0}
+];
+var qi=0;
+function renderQuiz(){
+  var q=QUIZ[qi];
+  document.getElementById("quizProgress").textContent="QUESTION "+(qi+1)+" OF "+QUIZ.length;
+  document.getElementById("quizQuestion").textContent=q.q;
+  document.getElementById("quizOptions").innerHTML=q.options.map(function(o,i){return "<button class=\"btn btn-ghost\" style=\"display:block;width:100%;text-align:left;margin-bottom:.6rem;\" data-i=\""+i+"\">"+o+"</button>";}).join("");
+  document.getElementById("quizFeedback").style.display="none";
+  document.getElementById("quizNext").style.display="none";
+  var btns=document.querySelectorAll("#quizOptions button");
+  btns.forEach(function(b){b.addEventListener("click",function(){ans(parseInt(b.dataset.i));});});
+}
+function ans(i){
+  var q=QUIZ[qi];
+  document.querySelectorAll("#quizOptions button").forEach(function(b,idx){
+    b.disabled=true;
+    if(idx===q.correct){b.style.borderColor="#1b9c5a";b.style.color="#1b9c5a";}
+    else if(idx===i){b.style.borderColor="#d64545";b.style.color="#d64545";}
+  });
+  var fb=document.getElementById("quizFeedback");
+  fb.textContent=(i===q.correct)?"Correct!":"Not quite, correct answer highlighted above.";
+  fb.style.color=(i===q.correct)?"#1b9c5a":"#d64545";
+  fb.style.display="block";
+  var nb=document.getElementById("quizNext");
+  nb.style.display="inline-block";
+  nb.onclick=function(){qi=(qi+1)%QUIZ.length; renderQuiz();};
+}
+renderQuiz();
+</script>
 
-<!-- ===== Programs ===== -->
-<section class="section section-tint" id="programs">
-  <p class="eyebrow">PROGRAMS</p>
-  <h2 class="section-title">Structured learning across aviation disciplines</h2>
-  <div class="card-grid">
-    <div class="card">
-      <div class="card-media" style="background:linear-gradient(135deg,#0e2340,#1c4a75);"></div>
-      <span class="card-tag">Airline Management</span>
-      <h4>Airline Operations &amp; Fare Construction</h4>
-      <span class="link-arrow">Program Info →</span>
-    </div>
-    <div class="card">
-      <div class="card-media" style="background:linear-gradient(135deg,#16324f,#284f78);"></div>
-      <span class="card-tag">Airport Operations</span>
-      <h4>Ground Handling &amp; Airport Management</h4>
-      <span class="link-arrow">Program Info →</span>
-    </div>
-    <div class="card">
-      <div class="card-media" style="background:linear-gradient(135deg,#0e2340,#2a5a86);"></div>
-      <span class="card-tag">Cabin Crew</span>
-      <h4>Cabin Crew &amp; Soft Skills Programs</h4>
-      <span class="link-arrow">Program Info →</span>
-    </div>
-    <div class="card">
-      <div class="card-media" style="background:linear-gradient(135deg,#16324f,#1c4a75);"></div>
-      <span class="card-tag">Leadership</span>
-      <h4>Aviation Leadership &amp; Faculty Development</h4>
-      <span class="link-arrow">Program Info →</span>
-    </div>
-  </div>
-</section>
-
-<!-- ===== Platform ===== -->
-<section class="section" id="platform">
-  <p class="eyebrow">THE PLATFORM</p>
-  <h2 class="section-title">Everything you need, in one place</h2>
-  <div class="platform-grid">
-    <a href="studio.html" target="_blank" class="platform-card">
-      <span class="platform-icon">◆</span>
-      <h4>Auran Studio</h4>
-      <p>Your learning dashboard — courses, progress, and practice.</p>
-    </a>
-    <a href="readit.html" class="platform-card">
-      <span class="platform-icon">📖</span>
-      <h4>Auran ReadIt</h4>
-      <p>Curated reading — textbooks, case studies, reports.</p>
-    </a>
-    <a href="viewit.html" class="platform-card">
-      <span class="platform-icon">👁</span>
-      <h4>Auran ViewIt</h4>
-      <p>Industry insights, trends, and expert perspective.</p>
-    </a>
-    <a href="cockpit.html" class="platform-card">
-      <span class="platform-icon">✈</span>
-      <h4>Auran Cockpit</h4>
-      <p>Student &amp; faculty sign-in — your control panel.</p>
-    </a>
-    <a href="testit.html" class="platform-card">
-      <span class="platform-icon">✓</span>
-      <h4>Auran TestIt</h4>
-      <p>Practice quizzes and assessments with instant feedback.</p>
-    </a>
-    <a href="learnit.html" class="platform-card">
-      <span class="platform-icon">🎓</span>
-      <h4>Auran LearnIt</h4>
-      <p>Structured courses and learning paths.</p>
-    </a>
-    <a href="indicators.html" class="platform-card">
-      <span class="platform-icon">📊</span>
-      <h4>Auran Indicators</h4>
-      <p>Your performance analytics and progress tracking.</p>
-    </a>
-    <a href="taskit.html" class="platform-card">
-      <span class="platform-icon">☑</span>
-      <h4>Auran TaskIt</h4>
-      <p>Assignments, deadlines, and task tracking.</p>
-    </a>
-  </div>
-</section>
-
-<!-- ===== About / Founder ===== -->
-<section class="section" id="about">
-  <p class="eyebrow">FOUNDER &amp; AVIATION EDUCATOR</p>
-  <h2 class="section-title">Arun Kumar</h2>
-  <div class="founder-grid">
-    <div class="founder-photo">
-      <!-- UPLOAD IMAGE HERE: Founder professional photo | 1200x1500 | JPG | Formal suit, navy background -->
-      <div class="photo-placeholder">Arun Kumar<br><small>Photo — 1200x1500, professional suit, navy background</small></div>
-    </div>
-    <div class="founder-text">
-      <p>With years of academic and industry experience across aviation management education, Arun Kumar founded AuranInspire to close the gap between classroom aviation theory and real industry practice — combining teaching, research, and innovation under one roof.</p>
-      <a href="#contact" class="btn btn-ghost">Get in Touch →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ===== Insights (CAPA-style headline feed) ===== -->
-<section class="section section-tint" id="insights">
-  <p class="eyebrow">LATEST INSIGHTS</p>
-  <h2 class="section-title">Ideas &amp; perspective on aviation education</h2>
-  <div class="insight-feed">
-    <div class="insight-row">
-      <span class="insight-date">31-Jul-2026</span>
-      <span class="insight-tag">Industry</span>
-      <a href="#" class="insight-headline">Why fare construction still matters in the GDS era</a>
-    </div>
-    <div class="insight-row">
-      <span class="insight-date">28-Jul-2026</span>
-      <span class="insight-tag">Sustainability</span>
-      <a href="#" class="insight-headline">Green airports: what students should know before graduating</a>
-    </div>
-    <div class="insight-row">
-      <span class="insight-date">22-Jul-2026</span>
-      <span class="insight-tag">Education</span>
-      <a href="#" class="insight-headline">Bridging classroom theory and real airline practice</a>
-    </div>
-    <div class="insight-row">
-      <span class="insight-date">15-Jul-2026</span>
-      <span class="insight-tag">Research</span>
-      <a href="#" class="insight-headline">Urban air mobility: an emerging regulatory landscape</a>
-    </div>
-  </div>
-</section>
-
-<!-- ===== Events ===== -->
-<section class="section" id="events">
-  <p class="eyebrow">EVENTS</p>
-  <h2 class="section-title">Upcoming sessions &amp; conferences</h2>
-  <div class="event-grid">
-    <div class="event-card">
-      <div class="event-date">Thu · 4:00 PM IST</div>
-      <h4>Guest Lecture: Sustainability in Airport Design</h4>
-      <p>Hosted by AuranInspire faculty — open to all enrolled students.</p>
-    </div>
-    <div class="event-card">
-      <div class="event-date">Sat · 10:00 AM IST</div>
-      <h4>Aviation Innovation Challenge 2026</h4>
-      <p>Student teams pitch future-aviation concepts to an industry panel.</p>
-    </div>
-    <div class="event-card">
-      <div class="event-date">Ongoing</div>
-      <h4>Industry Connect Webinar Series</h4>
-      <p>Monthly sessions with aviation professionals across airlines and airports.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ===== Newsletter ===== -->
-<section class="newsletter-band">
-  <p class="eyebrow">STAY UPDATED</p>
-  <h2>Weekly aviation education insights</h2>
-  <p>Get the latest programs, research, and industry perspective from AuranInspire, delivered weekly.</p>
-  <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Connect this form to your email service to receive real subscribers.');">
-    <input type="email" placeholder="Your email address" required>
-    <button type="submit">Subscribe</button>
-  </form>
-</section>
-
-<!-- ===== CTA ===== -->
-<section class="cta-band">
-  <div class="cta-inner">
-    <p class="eyebrow eyebrow-light">GET STARTED</p>
-    <h2>Ready to take the first step towards your aviation career?</h2>
-    <a href="#programs" class="btn btn-primary" style="background:#fff;color:var(--navy);border-color:#fff;">Explore Programs</a>
-  </div>
-</section>
-
-<!-- ===== Contact / Footer ===== -->
 <footer class="site-footer" id="contact">
   <div class="footer-grid">
     <div class="logo-block">
@@ -380,14 +232,13 @@ img{max-width:100%;display:block;}
       <span class="logo-tag" style="color:#8b96a8;">Designed by AK</span>
     </div>
     <div class="footer-links">
-      <a href="#about">About</a>
-      <a href="#programs">Programs</a>
-      <a href="#insights">Insights</a>
-      <a href="cockpit.html">Student &amp; Faculty Access</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#programs">Programs</a>
+      <a href="index.html#platform">Platform</a>
+      <a href="index.html#contact">Contact</a>
     </div>
   </div>
-  <div class="footer-bottom">© 2026 AuranInspire. Designed by AK. All rights reserved.</div>
+  <div class="footer-bottom">&copy; 2026 AuranInspire. Designed by AK. All rights reserved.</div>
 </footer>
-
 </body>
 </html>
