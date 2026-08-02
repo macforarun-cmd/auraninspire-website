@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auran LearnIt | AuranInspire — Designed by AK</title>
+<meta name="description" content="Auran LearnIt, structured aviation learning paths from AuranInspire.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --navy:#0b1f3a; --ink:#0d1420; --blue:#1d5fd6; --blue-deep:#123a8c;
+  --grey-900:#1b2330; --grey-600:#5c6675; --grey-300:#e2e6eb; --grey-100:#f6f8fa;
+  --white:#fff; --font:'Inter',sans-serif; --mono:'IBM Plex Mono',monospace;
+  --ease:cubic-bezier(.22,.9,.32,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font);color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;line-height:1.6;}
+a{color:inherit;text-decoration:none;}
+h1,h2,h3{font-weight:700;letter-spacing:-.015em;line-height:1.18;}
+img{max-width:100%;display:block;}
+.eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:.8rem;}
+.eyebrow-light{color:#a9c2f2;}
+
+/* ---------- Header ---------- */
+.site-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.97);border-bottom:1px solid var(--grey-300);backdrop-filter:blur(6px);}
+.nav-wrap{max-width:1280px;margin:0 auto;padding:.95rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;}
+.logo-block{display:flex;flex-direction:column;line-height:1.1;}
+.logo{font-weight:800;font-size:1.2rem;color:var(--navy);letter-spacing:-.01em;}
+.logo span{color:var(--blue-deep);}
+.logo-tag{font-family:var(--mono);font-size:.64rem;color:var(--grey-600);letter-spacing:.05em;margin-top:2px;}
+.main-nav{display:flex;gap:1.8rem;}
+.main-nav a{font-size:.87rem;font-weight:500;color:var(--grey-600);}
+.main-nav a:hover{color:var(--blue-deep);}
+.nav-actions{display:flex;align-items:center;gap:.8rem;}
+.btn{display:inline-block;padding:.7rem 1.4rem;font-weight:600;font-size:.84rem;border-radius:4px;transition:background .2s,color .2s,border-color .2s;}
+.btn-primary{background:var(--navy);color:#fff;border:1px solid var(--navy);}
+.btn-primary:hover{background:var(--blue-deep);border-color:var(--blue-deep);}
+.btn-ghost{border:1px solid var(--grey-300);color:var(--navy);}
+.btn-ghost:hover{border-color:var(--navy);}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:82vh;display:flex;align-items:flex-end;overflow:hidden;background:var(--ink);}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.55;}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,20,32,.25) 0%,rgba(13,20,32,.92) 100%);}
+.hero-inner{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:4rem 2rem 4.5rem;color:#fff;width:100%;}
+.hero-inner h1{font-size:clamp(2rem,4.6vw,3.4rem);max-width:760px;margin-bottom:1.3rem;color:#fff;}
+.hero-inner p{max-width:560px;color:#d3dbe8;font-size:1.05rem;margin-bottom:2rem;}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;}
+.hero-actions .btn-primary{background:#fff;color:var(--navy);border-color:#fff;}
+.hero-actions .btn-primary:hover{background:transparent;color:#fff;}
+.hero-actions .btn-ghost{color:#fff;border-color:rgba(255,255,255,.4);}
+.hero-actions .btn-ghost:hover{border-color:#fff;}
+
+/* ---------- Stats ---------- */
+.stats-strip{background:var(--ink);color:#fff;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.1);}
+.stat{padding:2.2rem;border-left:1px solid rgba(255,255,255,.12);}
+.stat:first-child{border-left:none;}
+.stat-num{display:block;font-size:1.9rem;font-weight:700;}
+.stat-label{font-size:.82rem;color:#9db0cc;margin-top:.2rem;}
+
+/* ---------- Two-path section ---------- */
+.section{max-width:1280px;margin:0 auto;padding:5.5rem 2rem;}
+.section-title{font-size:clamp(1.5rem,2.8vw,2rem);max-width:640px;margin-bottom:3rem;}
+.path-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
+.path-card{background:#fff;padding:2.6rem;}
+.path-card h3{font-size:1.25rem;margin-bottom:.9rem;}
+.path-card p{color:var(--grey-600);margin-bottom:1.6rem;max-width:420px;}
+
+/* ---------- Programs (image-led cards) ---------- */
+.section-tint{background:var(--grey-100);max-width:none;}
+.section-tint>*{max-width:1280px;margin-left:auto;margin-right:auto;}
+.card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
+.card{background:#fff;padding:0 0 1.6rem;}
+.card-media{height:140px;background:linear-gradient(135deg,#0e2340,#1c4a75);}
+.card-tag{display:block;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin:1.1rem 1.3rem .5rem;}
+.card h4{font-size:.98rem;margin:0 1.3rem .8rem;}
+.link-arrow{display:inline-flex;align-items:center;gap:.4rem;font-size:.82rem;font-weight:600;color:var(--blue-deep);margin:0 1.3rem;}
+
+/* ---------- Platform grid ---------- */
+.platform-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
+.platform-card{background:#fff;padding:2rem 1.6rem;display:block;transition:background .2s;}
+.platform-card:hover{background:var(--grey-100);}
+.platform-icon{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;font-size:1rem;margin-bottom:1rem;}
+.platform-card h4{font-size:.95rem;margin-bottom:.5rem;}
+.platform-card p{font-size:.82rem;color:var(--grey-600);}
+
+/* ---------- Insights feed (CAPA-style headline list) ---------- */
+.insight-feed{border-top:1px solid var(--grey-300);}
+.insight-row{display:grid;grid-template-columns:110px 140px 1fr;gap:1.5rem;padding:1.3rem 0;border-bottom:1px solid var(--grey-300);align-items:baseline;}
+.insight-date{font-family:var(--mono);font-size:.76rem;color:var(--grey-600);}
+.insight-tag{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);}
+.insight-headline{font-size:.95rem;font-weight:600;}
+.insight-headline:hover{color:var(--blue-deep);}
+
+/* ---------- Events grid ---------- */
+.event-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
+.event-card{background:#fff;padding:1.8rem;}
+.event-date{font-family:var(--mono);font-size:.76rem;color:var(--blue);margin-bottom:.6rem;}
+.event-card h4{font-size:1rem;margin-bottom:.5rem;}
+.event-card p{font-size:.85rem;color:var(--grey-600);}
+
+/* ---------- Newsletter band ---------- */
+.newsletter-band{background:var(--grey-100);border-top:1px solid var(--grey-300);border-bottom:1px solid var(--grey-300);padding:3.5rem 2rem;text-align:center;}
+.newsletter-band h2{font-size:1.4rem;margin-bottom:.7rem;}
+.newsletter-band p{color:var(--grey-600);max-width:520px;margin:0 auto 1.6rem;}
+.newsletter-form{display:flex;gap:0;max-width:400px;margin:0 auto;border:1px solid var(--navy);}
+.newsletter-form input{flex:1;padding:.75rem 1rem;border:none;font-family:inherit;font-size:.88rem;}
+.newsletter-form button{padding:.75rem 1.4rem;border:none;background:var(--navy);color:#fff;font-weight:600;font-size:.84rem;cursor:pointer;}
+.newsletter-form button:hover{background:var(--blue-deep);}
+
+/* ---------- Founder ---------- */
+.founder-grid{display:grid;grid-template-columns:.75fr 1.25fr;gap:3rem;align-items:center;}
+.founder-photo{aspect-ratio:4/5;background:var(--grey-100);border:1px solid var(--grey-300);display:flex;align-items:center;justify-content:center;}
+.photo-placeholder{text-align:center;color:var(--grey-600);font-family:var(--mono);font-size:.78rem;padding:1rem;}
+.founder-text p{color:var(--grey-600);margin-bottom:1.4rem;max-width:520px;}
+
+/* ---------- CTA band ---------- */
+.cta-band{background:var(--navy);color:#fff;padding:5rem 2rem;text-align:left;}
+.cta-inner{max-width:1280px;margin:0 auto;}
+.cta-band h2{font-size:clamp(1.5rem,3vw,2.1rem);max-width:600px;margin-bottom:1.6rem;}
+
+/* ---------- Footer ---------- */
+.site-footer{background:var(--ink);color:#aab4c6;padding:3.5rem 2rem 1.5rem;}
+.footer-grid{max-width:1280px;margin:0 auto 2rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:2rem;}
+.footer-grid .logo{color:#fff;}
+.footer-links{display:flex;gap:2.5rem;flex-wrap:wrap;}
+.footer-links a{font-size:.85rem;color:#aab4c6;}
+.footer-links a:hover{color:#fff;}
+.footer-bottom{max-width:1280px;margin:0 auto;font-size:.78rem;color:#6b7688;border-top:1px solid rgba(255,255,255,.1);padding-top:1.4rem;}
+
+@media (max-width:900px){
+  .main-nav{display:none;}
+  .path-grid,.card-grid,.platform-grid,.event-grid{grid-template-columns:1fr 1fr;}
+  .founder-grid{grid-template-columns:1fr;}
+  .stats-strip{grid-template-columns:1fr;}
+  .stat{border-left:none;border-top:1px solid rgba(255,255,255,.12);}
+  .stat:first-child{border-top:none;}
+  .insight-row{grid-template-columns:1fr;gap:.3rem;}
+}
+@media (max-width:600px){
+  .path-grid,.card-grid,.platform-grid,.event-grid{grid-template-columns:1fr;}
+  .newsletter-form{flex-direction:column;}
+}
+
+.page-hero{background:var(--ink);color:#fff;padding:4.5rem 2rem 3rem;}
+.page-hero-inner{max-width:1280px;margin:0 auto;}
+.page-hero h1{color:#fff;font-size:clamp(1.8rem,3.6vw,2.6rem);max-width:640px;margin-bottom:1rem;}
+.page-hero p{color:#c3ccd9;max-width:520px;}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="nav-wrap">
+    <div class="logo-block">
+      <a href="index.html" class="logo">Auran<span>Inspire</span></a>
+      <span class="logo-tag">Designed by AK</span>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html#about">About</a>
+      <a href="index.html#programs">Programs</a>
+      <a href="index.html#platform">Platform</a>
+      <a href="index.html#insights">Insights</a>
+      <a href="index.html#events">Events</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="cockpit.html" class="btn btn-ghost">Student &amp; Faculty Access</a>
+      <a href="index.html#programs" class="btn btn-primary">Explore Programs</a>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <p class="eyebrow eyebrow-light">AURAN LEARNIT</p>
+    <h1>Structured learning paths</h1>
+    <p>Every course, organized into a clear learning path from fundamentals to specialization.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="card-grid">
+    <div class="card"><div class="card-media" style="background:linear-gradient(135deg,#0e2340,#1c4a75);"></div><span class="card-tag">Foundation</span><h4>Aviation Fundamentals</h4><span class="link-arrow">View Path &rarr;</span></div>
+    <div class="card"><div class="card-media" style="background:linear-gradient(135deg,#16324f,#284f78);"></div><span class="card-tag">Airline</span><h4>Airline Operations &amp; Fare Construction</h4><span class="link-arrow">View Path &rarr;</span></div>
+    <div class="card"><div class="card-media" style="background:linear-gradient(135deg,#0e2340,#2a5a86);"></div><span class="card-tag">Airport</span><h4>Ground Handling &amp; Airport Management</h4><span class="link-arrow">View Path &rarr;</span></div>
+    <div class="card"><div class="card-media" style="background:linear-gradient(135deg,#16324f,#1c4a75);"></div><span class="card-tag">Leadership</span><h4>Aviation Leadership &amp; Faculty Development</h4><span class="link-arrow">View Path &rarr;</span></div>
+  </div>
+</section>
+
+<footer class="site-footer" id="contact">
+  <div class="footer-grid">
+    <div class="logo-block">
+      <a href="index.html" class="logo">Auran<span>Inspire</span></a>
+      <span class="logo-tag" style="color:#8b96a8;">Designed by AK</span>
+    </div>
+    <div class="footer-links">
+      <a href="index.html#about">About</a>
+      <a href="index.html#programs">Programs</a>
+      <a href="index.html#platform">Platform</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">&copy; 2026 AuranInspire. Designed by AK. All rights reserved.</div>
+</footer>
+</body>
+</html>

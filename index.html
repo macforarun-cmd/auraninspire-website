@@ -42,7 +42,7 @@ img{max-width:100%;display:block;}
 
 /* ---------- Hero ---------- */
 .hero{position:relative;min-height:82vh;display:flex;align-items:flex-end;overflow:hidden;background:var(--ink);}
-.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.55;}
+.hero img,.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.55;}
 .hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,20,32,.25) 0%,rgba(13,20,32,.92) 100%);}
 .hero-inner{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:4rem 2rem 4.5rem;color:#fff;width:100%;}
 .hero-inner h1{font-size:clamp(2rem,4.6vw,3.4rem);max-width:760px;margin-bottom:1.3rem;color:#fff;}
@@ -110,6 +110,11 @@ img{max-width:100%;display:block;}
 .newsletter-form button{padding:.75rem 1.4rem;border:none;background:var(--navy);color:#fff;font-weight:600;font-size:.84rem;cursor:pointer;}
 .newsletter-form button:hover{background:var(--blue-deep);}
 
+/* ---------- About pillar grid ---------- */
+.card-grid-about{grid-template-columns:repeat(3,1fr);}
+@media (max-width:900px){.card-grid-about{grid-template-columns:1fr 1fr;}}
+@media (max-width:600px){.card-grid-about{grid-template-columns:1fr;}}
+
 /* ---------- Founder ---------- */
 .founder-grid{display:grid;grid-template-columns:.75fr 1.25fr;gap:3rem;align-items:center;}
 .founder-photo{aspect-ratio:4/5;background:var(--grey-100);border:1px solid var(--grey-300);display:flex;align-items:center;justify-content:center;}
@@ -169,7 +174,9 @@ img{max-width:100%;display:block;}
 </header>
 
 <section class="hero">
-  <img src="assets/images/hero-main.jpg" alt="AuranInspire — Connecting Today, Transforming Tomorrow">
+  <video autoplay muted loop playsinline poster="assets/images/hero-main.jpg">
+    <source src="assets/videos/hero-bg.mp4" type="video/mp4">
+  </video>
   <div class="hero-inner">
     <p class="eyebrow eyebrow-light">DESIGNED BY AK</p>
     <h1>Connecting today. Transforming tomorrow.</h1>
@@ -287,12 +294,41 @@ img{max-width:100%;display:block;}
 
 <!-- ===== About / Founder ===== -->
 <section class="section" id="about">
+  <p class="eyebrow">ABOUT AURANINSPIRE</p>
+  <h2 class="section-title">What AuranInspire is, and who it's for</h2>
+  <div class="card-grid card-grid-about" style="margin-bottom:4rem;">
+    <div class="card" style="padding:1.8rem;">
+      <span class="card-tag">Aviation Solutions</span>
+      <h4 style="margin-bottom:.7rem;">Corporate &amp; Consulting</h4>
+      <p style="font-size:.87rem;color:var(--grey-600);">Aviation-oriented consulting and solutions for airlines, airports, and industry partners — bringing practical, real-world aviation expertise into corporate engagements.</p>
+    </div>
+    <div class="card" style="padding:1.8rem;">
+      <span class="card-tag">Education</span>
+      <h4 style="margin-bottom:.7rem;">Aviation Education &amp; Training</h4>
+      <p style="font-size:.87rem;color:var(--grey-600);">Structured, practical aviation education — airline operations, airport management, cabin crew training, and leadership development — built by an aviation educator.</p>
+    </div>
+    <div class="card" style="padding:1.8rem;">
+      <span class="card-tag">Innovation</span>
+      <h4 style="margin-bottom:.7rem;">Research &amp; Innovation</h4>
+      <p style="font-size:.87rem;color:var(--grey-600);">Forward-looking research and innovation work — sustainability, digital aviation, and emerging technology shaping the future of the industry.</p>
+    </div>
+  </div>
+  <div class="path-grid" style="margin-bottom:4rem;">
+    <div class="path-card">
+      <h3>What we do</h3>
+      <p>AuranInspire brings together aviation solutions, education, and innovation under one organization — built to close the gap between classroom aviation theory and real industry practice.</p>
+    </div>
+    <div class="path-card">
+      <h3>Who it's for</h3>
+      <p>Students building a career in airline, airport, or aviation management; industry partners looking for aviation consulting and solutions; and professionals seeking structured, practical training.</p>
+    </div>
+  </div>
+
   <p class="eyebrow">FOUNDER &amp; AVIATION EDUCATOR</p>
   <h2 class="section-title">Arun Kumar</h2>
   <div class="founder-grid">
     <div class="founder-photo">
-      <!-- UPLOAD IMAGE HERE: Founder professional photo | 1200x1500 | JPG | Formal suit, navy background -->
-      <div class="photo-placeholder">Arun Kumar<br><small>Photo — 1200x1500, professional suit, navy background</small></div>
+      <img src="assets/images/founder-arun-kumar.jpg" alt="Arun Kumar — Founder & Mentor, AuranInspire" style="width:100%;height:100%;object-fit:cover;">
     </div>
     <div class="founder-text">
       <p>With years of academic and industry experience across aviation management education, Arun Kumar founded AuranInspire to close the gap between classroom aviation theory and real industry practice — combining teaching, research, and innovation under one roof.</p>
