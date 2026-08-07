@@ -13,10 +13,16 @@
   --grey-900:#1b2330; --grey-600:#5c6675; --grey-300:#e2e6eb; --grey-100:#f6f8fa;
   --white:#fff; --font:'Inter',sans-serif; --mono:'IBM Plex Mono',monospace;
   --ease:cubic-bezier(.22,.9,.32,1);
+  --bg-page:#fff; --surface:#fff; --text:#0d1420; --header-bg:rgba(255,255,255,.97);
+}
+[data-theme="dark"]{
+  --bg-page:#0a0f18; --surface:#121a27; --text:#e6ebf2;
+  --grey-600:#9aa6b8; --grey-300:#28323f; --grey-100:#101724;
+  --header-bg:rgba(10,15,24,.94);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:var(--font);color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;line-height:1.6;}
+body{font-family:var(--font);color:var(--text);background:var(--bg-page);-webkit-font-smoothing:antialiased;line-height:1.6;transition:background .25s,color .25s;}
 a{color:inherit;text-decoration:none;}
 h1,h2,h3{font-weight:700;letter-spacing:-.015em;line-height:1.18;}
 img{max-width:100%;display:block;}
@@ -24,16 +30,35 @@ img{max-width:100%;display:block;}
 .eyebrow-light{color:#a9c2f2;}
 
 /* ---------- Header ---------- */
-.site-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.97);border-bottom:1px solid var(--grey-300);backdrop-filter:blur(6px);}
-.nav-wrap{max-width:1280px;margin:0 auto;padding:.95rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;}
+.site-header{position:sticky;top:0;z-index:100;background:var(--header-bg);border-bottom:1px solid var(--grey-300);backdrop-filter:blur(6px);transition:background .25s,border-color .25s;}
+.nav-wrap{max-width:1280px;margin:0 auto;padding:.95rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.2rem;flex-wrap:wrap;}
 .logo-block{display:flex;flex-direction:column;line-height:1.1;}
 .logo{font-weight:800;font-size:1.2rem;color:var(--navy);letter-spacing:-.01em;}
 .logo span{color:var(--blue-deep);}
 .logo-tag{font-family:var(--mono);font-size:.64rem;color:var(--grey-600);letter-spacing:.05em;margin-top:2px;}
-.main-nav{display:flex;gap:1.8rem;}
+.main-nav{display:flex;flex-wrap:wrap;gap:1.2rem 1.8rem;}
 .main-nav a{font-size:.87rem;font-weight:500;color:var(--grey-600);}
 .main-nav a:hover{color:var(--blue-deep);}
 .nav-actions{display:flex;align-items:center;gap:.8rem;}
+.nav-icon-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;transition:background .2s;border:none;cursor:pointer;font-family:inherit;}
+.nav-icon-btn:hover{background:var(--blue-deep);}
+
+.theme-toggle-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;transition:background .2s;border:none;cursor:pointer;flex-shrink:0;}
+.theme-toggle-btn:hover{background:var(--blue-deep);}
+
+.flight-clock{display:flex;align-items:center;justify-content:center;gap:.9rem;background:var(--ink);padding:.6rem 1rem;position:relative;}
+.fc-badge{font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.08em;color:#8b9bb5;border:1px solid #2a3a56;border-radius:3px;padding:.15rem .45rem;}
+.fc-display{font-family:var(--mono);font-size:1rem;font-weight:600;letter-spacing:.08em;color:#ffb020;text-shadow:0 0 6px rgba(255,176,32,.35);}
+.fc-toggle{display:inline-flex;align-items:center;gap:.3rem;background:transparent;border:1px solid #2a3a56;border-radius:20px;color:#a9b8d0;font-family:var(--mono);font-size:.68rem;padding:.3rem .7rem;cursor:pointer;}
+.fc-toggle:hover{border-color:#3d5075;color:#fff;}
+.fc-toggle svg{transition:transform .2s;}
+.fc-toggle.open svg{transform:rotate(180deg);}
+.fc-panel{display:none;position:absolute;top:100%;right:1rem;margin-top:.4rem;background:var(--ink);border:1px solid #2a3a56;border-radius:8px;padding:.6rem 0;min-width:220px;box-shadow:0 10px 30px rgba(0,0,0,.35);z-index:50;}
+.fc-panel.open{display:block;}
+.fc-row{display:flex;justify-content:space-between;gap:1rem;padding:.5rem 1rem;font-family:var(--mono);font-size:.78rem;}
+.fc-row .fc-zone{color:#8b9bb5;}
+.fc-row .fc-t{color:#fff;font-weight:600;}
+@media (max-width:600px){.fc-badge{display:none;}}
 .btn{display:inline-block;padding:.7rem 1.4rem;font-weight:600;font-size:.84rem;border-radius:4px;transition:background .2s,color .2s,border-color .2s;}
 .btn-primary{background:var(--navy);color:#fff;border:1px solid var(--navy);}
 .btn-primary:hover{background:var(--blue-deep);border-color:var(--blue-deep);}
@@ -64,7 +89,7 @@ img{max-width:100%;display:block;}
 .section{max-width:1280px;margin:0 auto;padding:5.5rem 2rem;}
 .section-title{font-size:clamp(1.5rem,2.8vw,2rem);max-width:640px;margin-bottom:3rem;}
 .path-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
-.path-card{background:#fff;padding:2.6rem;}
+.path-card{background:var(--surface);padding:2.6rem;}
 .path-card h3{font-size:1.25rem;margin-bottom:.9rem;}
 .path-card p{color:var(--grey-600);margin-bottom:1.6rem;max-width:420px;}
 
@@ -73,7 +98,7 @@ img{max-width:100%;display:block;}
 .section-tint>*{max-width:1280px;margin-left:auto;margin-right:auto;}
 .card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
 
-.card{background:#fff;padding:0 0 1.6rem;}
+.card{background:var(--surface);padding:0 0 1.6rem;}
 .card-media{height:190px;background:linear-gradient(135deg,#0e2340,#1c4a75);}
 .card-tag{display:block;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin:1.1rem 1.3rem .5rem;}
 .card h4{font-size:.98rem;margin:0 1.3rem .8rem;}
@@ -81,7 +106,7 @@ img{max-width:100%;display:block;}
 
 /* ---------- Platform grid ---------- */
 .platform-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
-.platform-card{background:#fff;padding:2rem 1.6rem;display:block;transition:background .2s;}
+.platform-card{background:var(--surface);padding:2rem 1.6rem;display:block;transition:background .2s;}
 .platform-card:hover{background:var(--grey-100);}
 .platform-icon{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;font-size:1rem;margin-bottom:1rem;}
 .platform-card h4{font-size:.95rem;margin-bottom:.5rem;}
@@ -128,7 +153,7 @@ img{max-width:100%;display:block;}
 .slide.active{position:relative;opacity:1;pointer-events:auto;}
 .slide-media{overflow:hidden;}
 .slide-media img{width:100%;height:100%;object-fit:cover;display:block;}
-.slide-text{display:flex;flex-direction:column;justify-content:center;padding:2.4rem 3rem;background:#fff;}
+.slide-text{display:flex;flex-direction:column;justify-content:center;padding:2.4rem 3rem;background:var(--surface);}
 .slide-text h4{font-size:1.4rem;margin-bottom:1rem;}
 .slide-text p{color:var(--grey-600);}
 .slide-dots{position:absolute;bottom:1.2rem;left:50%;transform:translateX(-50%);display:flex;gap:.5rem;z-index:3;}
@@ -154,7 +179,7 @@ img{max-width:100%;display:block;}
 
 /* ---------- Dashboard preview ---------- */
 .dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
-.dash-card{background:#fff;padding:2.2rem 1.8rem;display:block;text-decoration:none;color:inherit;transition:background .2s;}
+.dash-card{background:var(--surface);padding:2.2rem 1.8rem;display:block;text-decoration:none;color:inherit;transition:background .2s;}
 .dash-card[href]:hover{background:var(--grey-100);}
 .dash-icon{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;font-size:1.2rem;margin-bottom:1.1rem;}
 .dash-card h4{font-size:1rem;margin-bottom:.6rem;}
@@ -172,7 +197,7 @@ img{max-width:100%;display:block;}
 .footer-bottom{max-width:1280px;margin:0 auto;font-size:.78rem;color:#6b7688;border-top:1px solid rgba(255,255,255,.1);padding-top:1.4rem;}
 
 @media (max-width:900px){
-  .main-nav{display:none;}
+  .main-nav{order:3;width:100%;justify-content:center;padding-top:.8rem;border-top:1px solid var(--grey-200);}
   .path-grid,.card-grid,.platform-grid{grid-template-columns:1fr 1fr;}
   .founder-grid{grid-template-columns:1fr;}
   .insight-row{grid-template-columns:1fr;gap:.3rem;}
@@ -180,6 +205,8 @@ img{max-width:100%;display:block;}
 @media (max-width:600px){
   .path-grid,.card-grid,.platform-grid{grid-template-columns:1fr;}
   .newsletter-form{flex-direction:column;}
+  .main-nav{gap:.8rem 1.1rem;}
+  .main-nav a{font-size:.8rem;}
 }
 </style>
 </head>
@@ -199,8 +226,34 @@ img{max-width:100%;display:block;}
       <a href="#contact">Tower</a>
     </nav>
     <div class="nav-actions">
-      <a href="cockpit.html" class="btn btn-ghost">Student &amp; Faculty Access</a>
-      <a href="#about" class="btn btn-primary">About AuranInspire</a>
+      <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle dark mode">
+        <svg id="themeIconSun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="5.1" y1="5.1" x2="6.8" y2="6.8"/><line x1="17.2" y1="17.2" x2="18.9" y2="18.9"/><line x1="5.1" y1="18.9" x2="6.8" y2="17.2"/><line x1="17.2" y1="6.8" x2="18.9" y2="5.1"/></svg>
+        <svg id="themeIconMoon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 6.8 6.8 0 0 0 20 14.5Z"/></svg>
+      </button>
+      <a href="#platform" class="nav-icon-btn" aria-label="Auran Studio &amp; Platform">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <line x1="12" y1="12" x2="15.5" y2="8"/>
+          <line x1="12" y1="12" x2="12" y2="6" stroke-width="1"/>
+          <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="flight-clock">
+    <span class="fc-badge">IST</span>
+    <span class="fc-display" id="fc-india">--:--:--</span>
+    <button class="fc-toggle" id="fcToggle" aria-label="Show other time zones">
+      Other zones
+      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="fc-panel" id="fcPanel">
+      <div class="fc-row"><span class="fc-zone">Zulu / UTC</span><span class="fc-t" id="wc-UTC">--:--:--</span></div>
+      <div class="fc-row"><span class="fc-zone">Dubai</span><span class="fc-t" id="wc-Asia/Dubai">--:--:--</span></div>
+      <div class="fc-row"><span class="fc-zone">London</span><span class="fc-t" id="wc-Europe/London">--:--:--</span></div>
+      <div class="fc-row"><span class="fc-zone">New York</span><span class="fc-t" id="wc-America/New_York">--:--:--</span></div>
+      <div class="fc-row"><span class="fc-zone">Singapore</span><span class="fc-t" id="wc-Asia/Singapore">--:--:--</span></div>
+      <div class="fc-row"><span class="fc-zone">Tokyo</span><span class="fc-t" id="wc-Asia/Tokyo">--:--:--</span></div>
     </div>
   </div>
 </header>
@@ -242,42 +295,93 @@ img{max-width:100%;display:block;}
   <h2 class="section-title">Everything you need, in one place</h2>
   <div class="platform-grid">
     <div class="platform-card">
-      <span class="platform-icon">◆</span>
+      <span class="platform-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <polygon points="12,8.5 10,12 14,12" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
       <h4>Auran Studio</h4>
       <p>Your learning dashboard — courses, progress, and practice.</p>
     </div>
     <div class="platform-card">
-      <span class="platform-icon">📖</span>
+      <span class="platform-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <polygon points="12,4.5 14,12 12,19.5 10,12" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
       <h4>Auran ReadIT</h4>
       <p>Curated reading — textbooks, case studies, reports.</p>
     </div>
     <div class="platform-card">
-      <span class="platform-icon">👁</span>
+      <span class="platform-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <circle cx="12" cy="12" r="5"/>
+          <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>
+          <line x1="12" y1="12" x2="17.5" y2="6.5"/>
+        </svg>
+      </span>
       <h4>Auran ViewIT</h4>
       <p>Industry insights, trends, and expert perspective.</p>
     </div>
     <div class="platform-card">
-      <span class="platform-icon">✈</span>
+      <span class="platform-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="9" r="5"/>
+          <line x1="12" y1="14" x2="12" y2="20"/>
+          <line x1="7" y1="20" x2="17" y2="20"/>
+        </svg>
+      </span>
       <h4>Auran CockpIT</h4>
       <p>Student &amp; faculty sign-in — your control panel.</p>
     </div>
     <div class="platform-card">
-      <span class="platform-icon">✓</span>
+      <span class="platform-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <line x1="12" y1="12" x2="15.5" y2="8"/>
+          <line x1="12" y1="6" x2="12" y2="7" stroke-width="2"/>
+          <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
       <h4>Auran TestIT</h4>
       <p>Practice quizzes and assessments with instant feedback.</p>
     </div>
     <div class="platform-card">
-      <span class="platform-icon">🎓</span>
+      <span class="platform-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <polygon points="12,6 14.5,13.5 12,11.5 9.5,13.5" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
       <h4>Auran LearnIT</h4>
       <p>Structured courses and learning paths.</p>
     </div>
     <div class="platform-card">
-      <span class="platform-icon">📊</span>
+      <span class="platform-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <line x1="12" y1="12" x2="12" y2="6.5"/>
+          <line x1="12" y1="12" x2="16" y2="13.5"/>
+          <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
       <h4>Auran Indicators</h4>
       <p>Your performance analytics and progress tracking.</p>
     </div>
     <div class="platform-card">
-      <span class="platform-icon">☑</span>
+      <span class="platform-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <line x1="12" y1="12" x2="12" y2="7.5"/>
+          <line x1="12" y1="12" x2="15" y2="12"/>
+          <line x1="12" y1="3.3" x2="12" y2="4.3" stroke-width="2"/>
+          <line x1="19.7" y1="12" x2="20.7" y2="12" stroke-width="2"/>
+        </svg>
+      </span>
       <h4>Auran TaskIT</h4>
       <p>Assignments, deadlines, and task tracking.</p>
     </div>
@@ -493,6 +597,80 @@ img{max-width:100%;display:block;}
   resetTimer();
   container.addEventListener('mouseenter', function(){ clearInterval(timer); });
   container.addEventListener('mouseleave', resetTimer);
+})();
+
+(function(){
+  var root = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var sunIcon = document.getElementById('themeIconSun');
+  var moonIcon = document.getElementById('themeIconMoon');
+
+  function applyTheme(theme){
+    if(theme === 'dark'){
+      root.setAttribute('data-theme', 'dark');
+      sunIcon.style.display = 'none';
+      moonIcon.style.display = 'block';
+    } else {
+      root.removeAttribute('data-theme');
+      sunIcon.style.display = 'block';
+      moonIcon.style.display = 'none';
+    }
+  }
+
+  var saved = null;
+  try{ saved = localStorage.getItem('auranTheme'); }catch(e){}
+  if(!saved){
+    saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  }
+  applyTheme(saved);
+
+  toggle.addEventListener('click', function(){
+    var current = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    var next = current === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try{ localStorage.setItem('auranTheme', next); }catch(e){}
+  });
+})();
+
+(function(){
+  var fcToggle = document.getElementById('fcToggle');
+  var fcPanel = document.getElementById('fcPanel');
+  fcToggle.addEventListener('click', function(e){
+    e.stopPropagation();
+    fcToggle.classList.toggle('open');
+    fcPanel.classList.toggle('open');
+  });
+  document.addEventListener('click', function(e){
+    if(!fcPanel.contains(e.target) && e.target !== fcToggle){
+      fcToggle.classList.remove('open');
+      fcPanel.classList.remove('open');
+    }
+  });
+
+  var zones = ['Asia/Kolkata','UTC','Asia/Dubai','Europe/London','America/New_York','Asia/Singapore','Asia/Tokyo'];
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function formatZone(zone, now){
+    try{
+      return new Intl.DateTimeFormat('en-GB', {
+        timeZone: zone === 'UTC' ? 'UTC' : zone,
+        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+      }).format(now);
+    }catch(e){
+      return pad(now.getUTCHours()) + ':' + pad(now.getUTCMinutes()) + ':' + pad(now.getUTCSeconds());
+    }
+  }
+  function tick(){
+    var now = new Date();
+    var indiaEl = document.getElementById('fc-india');
+    if(indiaEl) indiaEl.textContent = formatZone('Asia/Kolkata', now);
+    zones.forEach(function(zone){
+      var el = document.getElementById('wc-' + zone);
+      if(!el) return;
+      el.textContent = formatZone(zone, now);
+    });
+  }
+  tick();
+  setInterval(tick, 1000);
 })();
 </script>
 </body>
