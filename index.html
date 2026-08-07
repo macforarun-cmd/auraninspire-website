@@ -154,7 +154,8 @@ img{max-width:100%;display:block;}
 
 /* ---------- Dashboard preview ---------- */
 .dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
-.dash-card{background:#fff;padding:2.2rem 1.8rem;}
+.dash-card{background:#fff;padding:2.2rem 1.8rem;display:block;text-decoration:none;color:inherit;transition:background .2s;}
+.dash-card[href]:hover{background:var(--grey-100);}
 .dash-icon{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;font-size:1.2rem;margin-bottom:1.1rem;}
 .dash-card h4{font-size:1rem;margin-bottom:.6rem;}
 .dash-card p{font-size:.85rem;color:var(--grey-600);}
@@ -417,11 +418,11 @@ img{max-width:100%;display:block;}
   <p class="eyebrow">YOUR DASHBOARD</p>
   <h2 class="section-title">Everything you need to stay on track</h2>
   <div class="dash-grid">
-    <div class="dash-card">
+    <a href="attendance-audit-tool.html" class="dash-card">
       <span class="dash-icon">🗓</span>
       <h4>Daily Tasks</h4>
       <p>A running list of what's due today — readings, quizzes, and assignments in one place.</p>
-    </div>
+    </a>
     <div class="dash-card">
       <span class="dash-icon">🔐</span>
       <h4>Student Access</h4>
