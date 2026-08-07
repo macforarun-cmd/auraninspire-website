@@ -99,6 +99,33 @@ img{max-width:100%;display:block;}
 .path-card h3{font-size:1.25rem;margin-bottom:.9rem;}
 .path-card p{color:var(--grey-600);margin-bottom:1.6rem;max-width:420px;}
 
+/* ---------- Airport network strip ---------- */
+.airport-strip{display:flex;gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);overflow-x:auto;margin-bottom:2.4rem;}
+.airport-chip{flex:1 0 130px;background:var(--surface);padding:1.4rem 1.2rem;display:flex;flex-direction:column;gap:.3rem;}
+.ac-code{font-family:var(--mono);font-size:1.3rem;font-weight:700;color:var(--navy);letter-spacing:.02em;}
+.ac-city{font-size:.85rem;font-weight:600;}
+.ac-tag{font-size:.72rem;color:var(--grey-600);}
+.ac-hq{background:var(--navy);}
+.ac-hq .ac-code,.ac-hq .ac-city{color:#fff;}
+.ac-hq .ac-tag{color:#a9c2e0;}
+
+/* ---------- Live flight tracker embed ---------- */
+.board-wrap{background:var(--ink);border-radius:8px;padding:1.6rem 1.8rem 1.8rem;}
+.board-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem;margin-bottom:1.1rem;}
+.board-title{font-family:var(--mono);font-size:.82rem;font-weight:600;color:#fff;letter-spacing:.03em;}
+.board-live{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.68rem;color:#8b9bb5;}
+.bl-dot{width:6px;height:6px;border-radius:50%;background:#3ddc84;box-shadow:0 0 5px rgba(61,220,132,.7);}
+.chain-label{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:#6b7f9e;margin:1.2rem 0 .6rem;}
+.chain-label:first-of-type{margin-top:0;}
+.chain-wrap{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);}
+.chain-track{display:flex;width:max-content;gap:2.2rem;animation:chainScroll 32s linear infinite;padding:.4rem 0;}
+.chain-track-rev{animation-direction:reverse;animation-duration:24s;}
+.chain-item{font-family:var(--mono);font-size:.8rem;color:#c9d4e6;white-space:nowrap;flex-shrink:0;}
+.chain-item b{color:#ffb020;margin-right:.4rem;}
+@keyframes chainScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+@media (prefers-reduced-motion:reduce){.chain-track{animation:none;}}
+.board-note{font-size:.76rem;color:#8b9bb5;margin-top:1.2rem;max-width:640px;}
+
 /* ---------- Programs (image-led cards) ---------- */
 .section-tint{background:var(--grey-100);max-width:none;}
 .section-tint>*{max-width:1280px;margin-left:auto;margin-right:auto;}
@@ -277,20 +304,67 @@ img{max-width:100%;display:block;}
   </div>
 </section>
 
-<!-- ===== Two audiences, one entry point ===== -->
+<!-- ===== Airport network + flight board ===== -->
 <section class="section">
-  <p class="eyebrow">WHO THIS IS FOR</p>
-  <h2 class="section-title">One organization, built for two audiences</h2>
-  <div class="path-grid">
-    <div class="path-card">
-      <h3>Aviation industry &amp; partners</h3>
-      <p>Learn about AuranInspire's approach to aviation education, our programs, and our founder's background in aviation management teaching.</p>
-      <a href="#about" class="btn btn-ghost">About AuranInspire →</a>
+  <p class="eyebrow">AVIATION NETWORK</p>
+  <h2 class="section-title">🇮🇳 Airports across India</h2>
+  <div class="airport-strip">
+    <div class="airport-chip"><span class="ac-code">DEL</span><span class="ac-city">Delhi</span><span class="ac-tag">Network hub</span></div>
+    <div class="airport-chip"><span class="ac-code">BOM</span><span class="ac-city">Mumbai</span><span class="ac-tag">Partner airlines</span></div>
+    <div class="airport-chip"><span class="ac-code">AMD</span><span class="ac-city">Ahmedabad</span><span class="ac-tag">Ground handling</span></div>
+    <div class="airport-chip"><span class="ac-code">CCU</span><span class="ac-city">Kolkata</span><span class="ac-tag">Partner airlines</span></div>
+    <div class="airport-chip"><span class="ac-code">HYD</span><span class="ac-city">Hyderabad</span><span class="ac-tag">Cabin crew training</span></div>
+    <div class="airport-chip"><span class="ac-code">BLR</span><span class="ac-city">Bangalore</span><span class="ac-tag">Aviation tech partners</span></div>
+    <div class="airport-chip ac-hq"><span class="ac-code">MAA</span><span class="ac-city">Chennai</span><span class="ac-tag">Headquarters</span></div>
+    <div class="airport-chip"><span class="ac-code">COK</span><span class="ac-city">Kochi</span><span class="ac-tag">Airport operations</span></div>
+  </div>
+
+  <div class="board-wrap">
+    <div class="board-head">
+      <span class="board-title">Airports &amp; airlines — IATA reference</span>
+      <span class="board-live"><span class="bl-dot"></span>India</span>
     </div>
-    <div class="path-card">
-      <h3>Students &amp; faculty</h3>
-      <p>Sign in to access your courses, track learning progress, download resources, and take practice assessments.</p>
-      <a href="cockpit.html" class="btn btn-primary">Go to Student &amp; Faculty Access →</a>
+
+    <p class="chain-label">AIRPORTS</p>
+    <div class="chain-wrap">
+      <div class="chain-track">
+        <span class="chain-item"><b>DEL</b> Indira Gandhi Intl · Delhi</span>
+        <span class="chain-item"><b>BOM</b> Chhatrapati Shivaji Maharaj Intl · Mumbai</span>
+        <span class="chain-item"><b>MAA</b> Chennai Intl · Chennai</span>
+        <span class="chain-item"><b>BLR</b> Kempegowda Intl · Bangalore</span>
+        <span class="chain-item"><b>HYD</b> Rajiv Gandhi Intl · Hyderabad</span>
+        <span class="chain-item"><b>CCU</b> Netaji Subhas Chandra Bose Intl · Kolkata</span>
+        <span class="chain-item"><b>AMD</b> Sardar Vallabhbhai Patel Intl · Ahmedabad</span>
+        <span class="chain-item"><b>COK</b> Cochin Intl · Kochi</span>
+        <span class="chain-item"><b>DEL</b> Indira Gandhi Intl · Delhi</span>
+        <span class="chain-item"><b>BOM</b> Chhatrapati Shivaji Maharaj Intl · Mumbai</span>
+        <span class="chain-item"><b>MAA</b> Chennai Intl · Chennai</span>
+        <span class="chain-item"><b>BLR</b> Kempegowda Intl · Bangalore</span>
+        <span class="chain-item"><b>HYD</b> Rajiv Gandhi Intl · Hyderabad</span>
+        <span class="chain-item"><b>CCU</b> Netaji Subhas Chandra Bose Intl · Kolkata</span>
+        <span class="chain-item"><b>AMD</b> Sardar Vallabhbhai Patel Intl · Ahmedabad</span>
+        <span class="chain-item"><b>COK</b> Cochin Intl · Kochi</span>
+      </div>
+    </div>
+
+    <p class="chain-label">AIRLINES</p>
+    <div class="chain-wrap">
+      <div class="chain-track chain-track-rev">
+        <span class="chain-item"><b>6E</b> IndiGo</span>
+        <span class="chain-item"><b>AI</b> Air India</span>
+        <span class="chain-item"><b>QP</b> Akasa Air</span>
+        <span class="chain-item"><b>SG</b> SpiceJet</span>
+        <span class="chain-item"><b>IX</b> Air India Express</span>
+        <span class="chain-item"><b>9I</b> Alliance Air</span>
+        <span class="chain-item"><b>S5</b> Star Air</span>
+        <span class="chain-item"><b>6E</b> IndiGo</span>
+        <span class="chain-item"><b>AI</b> Air India</span>
+        <span class="chain-item"><b>QP</b> Akasa Air</span>
+        <span class="chain-item"><b>SG</b> SpiceJet</span>
+        <span class="chain-item"><b>IX</b> Air India Express</span>
+        <span class="chain-item"><b>9I</b> Alliance Air</span>
+        <span class="chain-item"><b>S5</b> Star Air</span>
+      </div>
     </div>
   </div>
 </section>
