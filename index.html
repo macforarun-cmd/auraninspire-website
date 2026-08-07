@@ -95,12 +95,18 @@ img{max-width:100%;display:block;}
 .insight-headline{font-size:.95rem;font-weight:600;}
 .insight-headline:hover{color:var(--blue-deep);}
 
-/* ---------- Events grid ---------- */
-.event-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
-.event-card{background:#fff;padding:1.8rem;}
-.event-date{font-family:var(--mono);font-size:.76rem;color:var(--blue);margin-bottom:.6rem;}
-.event-card h4{font-size:1rem;margin-bottom:.5rem;}
-.event-card p{font-size:.85rem;color:var(--grey-600);}
+/* ---------- Events list (date / title / more-details row) ---------- */
+.events-list{border-top:1px solid var(--grey-300);}
+.event-row{display:grid;grid-template-columns:170px 1fr auto;gap:2rem;align-items:center;padding:1.9rem 0;border-bottom:1px solid var(--grey-300);}
+.event-date{font-family:var(--mono);font-size:.8rem;font-weight:700;color:var(--blue-deep);letter-spacing:.02em;}
+.event-body h4{font-size:1.05rem;margin-bottom:.4rem;}
+.event-body p{font-size:.88rem;color:var(--grey-600);}
+.event-more{white-space:nowrap;font-size:.85rem;font-weight:600;color:var(--navy);border-bottom:2px solid var(--navy);padding-bottom:2px;}
+.event-more:hover{color:var(--blue-deep);border-color:var(--blue-deep);}
+@media (max-width:800px){
+  .event-row{grid-template-columns:1fr;gap:.6rem;text-align:left;}
+  .event-more{justify-self:start;}
+}
 
 /* ---------- Newsletter band ---------- */
 .newsletter-band{background:var(--grey-100);border-top:1px solid var(--grey-300);border-bottom:1px solid var(--grey-300);padding:3.5rem 2rem;text-align:center;}
@@ -146,10 +152,14 @@ img{max-width:100%;display:block;}
 .photo-placeholder{text-align:center;color:var(--grey-600);font-family:var(--mono);font-size:.78rem;padding:1rem;}
 .founder-text p{color:var(--grey-600);margin-bottom:1.4rem;max-width:520px;}
 
-/* ---------- CTA band ---------- */
-.cta-band{background:var(--navy);color:#fff;padding:5rem 2rem;text-align:left;}
-.cta-inner{max-width:1280px;margin:0 auto;}
-.cta-band h2{font-size:clamp(1.5rem,3vw,2.1rem);max-width:600px;margin-bottom:1.6rem;}
+/* ---------- Dashboard preview ---------- */
+.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
+.dash-card{background:#fff;padding:2.2rem 1.8rem;}
+.dash-icon{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;font-size:1.2rem;margin-bottom:1.1rem;}
+.dash-card h4{font-size:1rem;margin-bottom:.6rem;}
+.dash-card p{font-size:.85rem;color:var(--grey-600);}
+@media (max-width:900px){.dash-grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:600px){.dash-grid{grid-template-columns:1fr;}}
 
 /* ---------- Footer ---------- */
 .site-footer{background:var(--ink);color:#aab4c6;padding:3.5rem 2rem 1.5rem;}
@@ -162,15 +172,12 @@ img{max-width:100%;display:block;}
 
 @media (max-width:900px){
   .main-nav{display:none;}
-  .path-grid,.card-grid,.platform-grid,.event-grid{grid-template-columns:1fr 1fr;}
+  .path-grid,.card-grid,.platform-grid{grid-template-columns:1fr 1fr;}
   .founder-grid{grid-template-columns:1fr;}
-  .stats-strip{grid-template-columns:1fr;}
-  .stat{border-left:none;border-top:1px solid rgba(255,255,255,.12);}
-  .stat:first-child{border-top:none;}
   .insight-row{grid-template-columns:1fr;gap:.3rem;}
 }
 @media (max-width:600px){
-  .path-grid,.card-grid,.platform-grid,.event-grid{grid-template-columns:1fr;}
+  .path-grid,.card-grid,.platform-grid{grid-template-columns:1fr;}
   .newsletter-form{flex-direction:column;}
 }
 </style>
@@ -202,7 +209,6 @@ img{max-width:100%;display:block;}
     <source src="assets/videos/hero-bg.mp4" type="video/mp4">
   </video>
   <div class="hero-inner">
-    <p class="eyebrow eyebrow-light">DESIGNED BY AK</p>
     <h1>Connecting today. Transforming tomorrow.</h1>
     <p>AuranInspire is an aviation education and training organization — built by an aviation educator, for the next generation of aviation professionals.</p>
     <div class="hero-actions">
@@ -210,12 +216,6 @@ img{max-width:100%;display:block;}
     </div>
   </div>
 </section>
-
-<div class="stats-strip">
-  <div class="stat"><span class="stat-num">20</span><span class="stat-label">Aviation programs designed</span></div>
-  <div class="stat"><span class="stat-num">2</span><span class="stat-label">Flagship subjects currently taught</span></div>
-  <div class="stat"><span class="stat-num">Founding</span><span class="stat-label">Cohort enrolling now</span></div>
-</div>
 
 <!-- ===== Two audiences, one entry point ===== -->
 <section class="section">
@@ -240,46 +240,46 @@ img{max-width:100%;display:block;}
   <p class="eyebrow">THE PLATFORM</p>
   <h2 class="section-title">Everything you need, in one place</h2>
   <div class="platform-grid">
-    <a href="studio.html" target="_blank" class="platform-card">
+    <div class="platform-card">
       <span class="platform-icon">◆</span>
       <h4>Auran Studio</h4>
       <p>Your learning dashboard — courses, progress, and practice.</p>
-    </a>
-    <a href="readit.html" class="platform-card">
+    </div>
+    <div class="platform-card">
       <span class="platform-icon">📖</span>
-      <h4>Auran ReadIt</h4>
+      <h4>Auran ReadIT</h4>
       <p>Curated reading — textbooks, case studies, reports.</p>
-    </a>
-    <a href="viewit.html" class="platform-card">
+    </div>
+    <div class="platform-card">
       <span class="platform-icon">👁</span>
-      <h4>Auran ViewIt</h4>
+      <h4>Auran ViewIT</h4>
       <p>Industry insights, trends, and expert perspective.</p>
-    </a>
-    <a href="cockpit.html" class="platform-card">
+    </div>
+    <div class="platform-card">
       <span class="platform-icon">✈</span>
-      <h4>Auran Cockpit</h4>
+      <h4>Auran CockpIT</h4>
       <p>Student &amp; faculty sign-in — your control panel.</p>
-    </a>
-    <a href="testit.html" class="platform-card">
+    </div>
+    <div class="platform-card">
       <span class="platform-icon">✓</span>
-      <h4>Auran TestIt</h4>
+      <h4>Auran TestIT</h4>
       <p>Practice quizzes and assessments with instant feedback.</p>
-    </a>
-    <a href="learnit.html" class="platform-card">
+    </div>
+    <div class="platform-card">
       <span class="platform-icon">🎓</span>
-      <h4>Auran LearnIt</h4>
+      <h4>Auran LearnIT</h4>
       <p>Structured courses and learning paths.</p>
-    </a>
-    <a href="indicators.html" class="platform-card">
+    </div>
+    <div class="platform-card">
       <span class="platform-icon">📊</span>
       <h4>Auran Indicators</h4>
       <p>Your performance analytics and progress tracking.</p>
-    </a>
-    <a href="taskit.html" class="platform-card">
+    </div>
+    <div class="platform-card">
       <span class="platform-icon">☑</span>
-      <h4>Auran TaskIt</h4>
+      <h4>Auran TaskIT</h4>
       <p>Assignments, deadlines, and task tracking.</p>
-    </a>
+    </div>
   </div>
 </section>
 
@@ -373,21 +373,30 @@ img{max-width:100%;display:block;}
 <section class="section" id="events">
   <p class="eyebrow">EVENTS</p>
   <h2 class="section-title">Upcoming sessions &amp; conferences</h2>
-  <div class="event-grid">
-    <div class="event-card">
+  <div class="events-list">
+    <div class="event-row">
       <div class="event-date">Thu · 4:00 PM IST</div>
-      <h4>Guest Lecture: Sustainability in Airport Design</h4>
-      <p>Hosted by AuranInspire faculty — open to all enrolled students.</p>
+      <div class="event-body">
+        <h4>Guest Lecture: Sustainability in Airport Design</h4>
+        <p>Hosted by AuranInspire faculty — open to all enrolled students.</p>
+      </div>
+      <a href="#" class="event-more">More Details →</a>
     </div>
-    <div class="event-card">
+    <div class="event-row">
       <div class="event-date">Sat · 10:00 AM IST</div>
-      <h4>Aviation Innovation Challenge 2026</h4>
-      <p>Student teams pitch future-aviation concepts to an industry panel.</p>
+      <div class="event-body">
+        <h4>Aviation Innovation Challenge 2026</h4>
+        <p>Student teams pitch future-aviation concepts to an industry panel.</p>
+      </div>
+      <a href="#" class="event-more">More Details →</a>
     </div>
-    <div class="event-card">
+    <div class="event-row">
       <div class="event-date">Ongoing</div>
-      <h4>Industry Connect Webinar Series</h4>
-      <p>Monthly sessions with aviation professionals across airlines and airports.</p>
+      <div class="event-body">
+        <h4>Industry Connect Webinar Series</h4>
+        <p>Monthly sessions with aviation professionals across airlines and airports.</p>
+      </div>
+      <a href="#" class="event-more">More Details →</a>
     </div>
   </div>
 </section>
@@ -403,12 +412,34 @@ img{max-width:100%;display:block;}
   </form>
 </section>
 
-<!-- ===== CTA ===== -->
-<section class="cta-band">
-  <div class="cta-inner">
-    <p class="eyebrow eyebrow-light">GET STARTED</p>
-    <h2>Ready to take the first step towards your aviation career?</h2>
-    <a href="cockpit.html" class="btn btn-primary" style="background:#fff;color:var(--navy);border-color:#fff;">Student &amp; Faculty Access</a>
+<!-- ===== Dashboard preview ===== -->
+<section class="section section-tint" id="dashboard-preview">
+  <p class="eyebrow">YOUR DASHBOARD</p>
+  <h2 class="section-title">Everything you need to stay on track</h2>
+  <div class="dash-grid">
+    <div class="dash-card">
+      <span class="dash-icon">🗓</span>
+      <h4>Daily Tasks</h4>
+      <p>A running list of what's due today — readings, quizzes, and assignments in one place.</p>
+    </div>
+    <div class="dash-card">
+      <span class="dash-icon">🔐</span>
+      <h4>Student Access</h4>
+      <p>One login for courses, materials, certificates, and your learning history.</p>
+    </div>
+    <div class="dash-card">
+      <span class="dash-icon">🏆</span>
+      <h4>Gamification Learning Centre</h4>
+      <p>Earn points, badges, and streaks as you complete modules and assessments.</p>
+    </div>
+    <div class="dash-card">
+      <span class="dash-icon">📈</span>
+      <h4>Progress Tracker</h4>
+      <p>See your course completion, quiz scores, and skill growth at a glance.</p>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:2.4rem;">
+    <a href="#" class="btn btn-primary">Explore the Dashboard</a>
   </div>
 </section>
 
