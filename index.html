@@ -47,8 +47,8 @@ img{max-width:100%;display:block;}
 .theme-toggle-btn:hover{background:var(--blue-deep);}
 
 .flight-clock{display:flex;align-items:center;justify-content:center;gap:.9rem;background:var(--ink);padding:.6rem 1rem;position:relative;}
-.fc-badge{font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.08em;color:#8b9bb5;border:1px solid #2a3a56;border-radius:3px;padding:.15rem .45rem;}
-.fc-display{font-family:var(--mono);font-size:1rem;font-weight:600;letter-spacing:.08em;color:#ffb020;text-shadow:0 0 6px rgba(255,176,32,.35);}
+.fc-badge{font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.08em;color:#9fc2ff;border:1px solid #2a4a7a;border-radius:3px;padding:.15rem .45rem;}
+.fc-display{font-family:var(--mono);font-size:1rem;font-weight:600;letter-spacing:.08em;color:#fff;text-shadow:0 0 6px rgba(120,170,255,.55);}
 .fc-toggle{display:inline-flex;align-items:center;gap:.3rem;background:transparent;border:1px solid #2a3a56;border-radius:20px;color:#a9b8d0;font-family:var(--mono);font-size:.68rem;padding:.3rem .7rem;cursor:pointer;}
 .fc-toggle:hover{border-color:#3d5075;color:#fff;}
 .fc-toggle svg{transition:transform .2s;}
@@ -70,7 +70,13 @@ img{max-width:100%;display:block;}
 .hero img,.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.55;}
 .hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,20,32,.25) 0%,rgba(13,20,32,.92) 100%);}
 .hero-inner{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:4rem 2rem 4.5rem;color:#fff;width:100%;}
-.hero-inner h1{font-size:clamp(2rem,4.6vw,3.4rem);max-width:760px;margin-bottom:1.3rem;color:#fff;}
+.hero-inner h1{margin-bottom:1.3rem;width:100%;}
+.h1-line1{display:block;font-weight:800;font-size:clamp(1.05rem,3.1vw,2.3rem);letter-spacing:-.01em;line-height:1.18;color:#fff;text-transform:uppercase;white-space:nowrap;animation:neonPulseWhite 3.2s ease-in-out infinite;}
+@keyframes neonPulseWhite{
+  0%,100%{text-shadow:0 0 6px rgba(255,255,255,.55),0 0 16px rgba(255,255,255,.3),0 0 30px rgba(255,255,255,.15);}
+  50%{text-shadow:0 0 12px rgba(255,255,255,.9),0 0 28px rgba(255,255,255,.55),0 0 46px rgba(255,255,255,.3);}
+}
+@media (prefers-reduced-motion:reduce){.h1-line1{animation:none;}}
 .hero-inner p{max-width:560px;color:#d3dbe8;font-size:1.05rem;margin-bottom:2rem;}
 .hero-actions{display:flex;gap:1rem;flex-wrap:wrap;}
 .hero-actions .btn-primary{background:#fff;color:var(--navy);border-color:#fff;}
@@ -263,7 +269,7 @@ img{max-width:100%;display:block;}
     <source src="assets/videos/hero-bg.mp4" type="video/mp4">
   </video>
   <div class="hero-inner">
-    <h1>Connecting today. Transforming tomorrow.</h1>
+    <h1><span class="h1-line1">Connecting today. Transforming tomorrow.</span></h1>
     <p>AuranInspire is an aviation education and training organization — built by an aviation educator, for the next generation of aviation professionals.</p>
     <div class="hero-actions">
       <a href="#about" class="btn btn-primary">About AuranInspire</a>
