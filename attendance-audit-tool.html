@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BBA Aviation — IIC Daily Attendance Audit</title>
+<style>
+  :root{
+    --navy:#0e2038; --navy-2:#142c4a; --blue:#1f5fa8; --blue-light:#e7f0fa;
+    --grey-100:#f4f6f8; --grey-200:#e5e9ee; --grey-300:#d4dae2; --grey-600:#5c6674;
+    --ink:#0e131a; --white:#ffffff;
+    --auth:#1f7a4d; --auth-bg:#e6f5ec;
+    --unauth:#b23b3b; --unauth-bg:#fbe9e9;
+    --other:#8a6d1f; --other-bg:#faf3e0;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;background:var(--grey-100);color:var(--ink);}
+  .wrap{max-width:1320px;margin:0 auto;padding:1.6rem;}
+  .topbar{background:var(--navy);color:#fff;border-radius:10px;padding:1.4rem 1.8rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.4rem;}
+  .topbar h1{font-size:1.15rem;margin:0 0 .25rem;}
+  .topbar p{margin:0;font-size:.82rem;color:#a9c2e0;}
+  .btn{border:none;border-radius:8px;padding:.65rem 1.1rem;font-size:.85rem;font-weight:600;cursor:pointer;}
+  .btn-primary{background:#fff;color:var(--navy);}
+  .btn-primary:hover{background:#e6edf5;}
+  .btn-ghost{background:transparent;border:1px solid #3a5a80;color:#fff;}
+  .btn-ghost:hover{background:#1a3252;}
+  .btn-small{border:1px solid var(--grey-300);background:#fff;color:var(--grey-600);border-radius:6px;padding:.35rem .6rem;font-size:.78rem;cursor:pointer;}
+  .btn-small:hover{background:var(--grey-100);}
+  .btn-danger{border:1px solid #e6b8b8;color:var(--unauth);background:#fff;border-radius:6px;padding:.35rem .55rem;font-size:.78rem;cursor:pointer;}
+  .btn-danger:hover{background:var(--unauth-bg);}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+  @media (max-width:1000px){.grid{grid-template-columns:1fr;}}
+  .card{background:#fff;border:1px solid var(--grey-300);border-radius:10px;padding:1.4rem 1.5rem;margin-bottom:1.4rem;}
+  .card h2{font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;color:var(--blue);margin:0 0 1rem;}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.9rem;}
+  .field{display:flex;flex-direction:column;gap:.35rem;}
+  .field label{font-size:.76rem;color:var(--grey-600);font-weight:600;}
+  .field input,.field select,.field textarea{border:1px solid var(--grey-300);border-radius:6px;padding:.5rem .6rem;font-size:.85rem;font-family:inherit;background:#fff;color:var(--ink);}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--blue);outline-offset:1px;}
+  .row-entry{border:1px solid var(--grey-300);border-radius:8px;padding:.9rem 1rem;margin-bottom:.8rem;position:relative;background:var(--grey-100);}
+  .row-entry .field-row{grid-template-columns:1fr 1fr;}
+  .row-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;}
+  .row-head .sno{font-size:.78rem;font-weight:700;color:var(--navy);}
+  .add-btn{width:100%;border:1.5px dashed var(--blue);color:var(--blue);background:#fff;border-radius:8px;padding:.7rem;font-size:.85rem;font-weight:600;cursor:pointer;}
+  .add-btn:hover{background:var(--blue-light);}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:1.2rem;}
+  .stat{background:var(--grey-100);border-radius:8px;padding:.8rem;text-align:center;}
+  .stat .num{font-size:1.4rem;font-weight:700;color:var(--navy);}
+  .stat .lbl{font-size:.72rem;color:var(--grey-600);margin-top:.15rem;}
+  table.preview{width:100%;border-collapse:collapse;font-size:.8rem;}
+  table.preview th{background:var(--navy);color:#fff;padding:.5rem .5rem;text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.02em;}
+  table.preview td{padding:.5rem .5rem;border-bottom:1px solid var(--grey-200);vertical-align:top;}
+  table.preview tr:nth-child(even) td{background:var(--grey-100);}
+  .code-pill{display:inline-block;font-size:.72rem;font-weight:700;padding:.15rem .5rem;border-radius:4px;}
+  .code-AUTH{background:var(--auth-bg);color:var(--auth);}
+  .code-UNAUTH{background:var(--unauth-bg);color:var(--unauth);}
+  .code-GROOM,.code-OD,.code-SUSP{background:var(--other-bg);color:var(--other);}
+  .pc-Y{color:var(--auth);font-weight:700;}
+  .pc-N{color:var(--unauth);font-weight:700;}
+  .empty-note{font-size:.85rem;color:var(--grey-600);padding:1.2rem 0;text-align:center;}
+  .notes-row{display:flex;gap:.6rem;align-items:center;margin-bottom:.6rem;}
+  .notes-row span{font-size:.78rem;color:var(--grey-600);width:1.4rem;}
+  .notes-row input{flex:1;}
+  .signoff{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  .footer-note{font-size:.78rem;color:var(--grey-600);margin-top:.3rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <h1>BBA Aviation — IIC Daily Attendance Audit</h1>
+      <p>MH Cockpit submission format · VELS Institute of Science, Technology &amp; Advanced Studies</p>
+    </div>
+    <div style="display:flex;gap:.6rem;">
+      <button class="btn btn-ghost" onclick="resetForm()">Clear form</button>
+      <button class="btn btn-primary" onclick="downloadDoc()">Download Word document</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Section A — Submission details</h2>
+    <div class="field-row">
+      <div class="field"><label>Institution / college name</label><input id="fInstitution" value="VELS INSTITUTE OF SCIENCE TECHNOLOGY AND ADVANCED STUDIES"></div>
+      <div class="field"><label>Programme</label><input id="fProgramme" value="BBA — AVIATION"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Date (DD/MM/YYYY)</label><input id="fDate" type="date"></div>
+      <div class="field"><label>Year &amp; batch</label><input id="fYearBatch" value="II &amp; 2025"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Class in-charge name</label><input id="fInCharge" value="ARUN KUMAR K"></div>
+      <div class="field"><label>Submission time</label><input id="fSubTime" type="time"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Total students on roll</label><input id="fTotalRoll" type="number" value="44" min="0"></div>
+      <div></div>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <div>
+      <div class="card">
+        <h2>Section B — Absent students (data entry)</h2>
+        <div id="rowsContainer"></div>
+        <button class="add-btn" onclick="addRow()">+ Add absent student</button>
+      </div>
+
+      <div class="card">
+        <h2>Section D — Special notes (if any)</h2>
+        <div class="notes-row"><span>1</span><input id="note1" placeholder="Welfare concern, repeat absence, suspension confirmation..."></div>
+        <div class="notes-row"><span>2</span><input id="note2" placeholder=""></div>
+        <div class="notes-row"><span>3</span><input id="note3" placeholder=""></div>
+      </div>
+
+      <div class="card">
+        <h2>Section E — Coordinator sign-off</h2>
+        <div class="signoff">
+          <div class="field"><label>Coordinator name</label><input id="fCoordName" value="Arun Kumar K"></div>
+          <div class="field"><label>Signature (typed name)</label><input id="fSignature" value="Arun Kumar K"></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h2>Live document preview — mirrors the downloaded Word file</h2>
+        <div class="stats">
+          <div class="stat"><div class="num" id="stRoll">44</div><div class="lbl">Total on roll</div></div>
+          <div class="stat"><div class="num" id="stPresent">44</div><div class="lbl">Total present</div></div>
+          <div class="stat"><div class="num" id="stAbsent">0</div><div class="lbl">Total absent</div></div>
+          <div class="stat"><div class="num" id="stAuth">0</div><div class="lbl">AUTH / UNAUTH</div></div>
+        </div>
+        <div id="previewTableWrap" style="background:#fff;border:1px solid var(--grey-300);border-radius:6px;padding:1.1rem 1.2rem;overflow-x:auto;"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="footer-note" style="text-align:center;">File downloads as <strong>BBA AVIATION -IIC &lt;date&gt;.doc</strong> — opens directly in Microsoft Word, matching the original submission form layout.</p>
+
+</div>
+
+<script>
+var STUDENTS = ["ABDUL SATTAR","AKASH SELAVN","ALI AAMIR","AMBHAREEN SULTHANA R","ANKITHA","ARIF","ASIR AHAMED","ATCHAYA","BAGATH MARKS","BHARANI DHARAN","DELISH KUMAR","DHARSHINI","DHIYA","GOPIKA","HARIDEV","HARISUDHAN","HEMACHANDER KOSHIK","JASMINE","JAY SHREE","JOSHAN","KARTHIKA","KARTHIKEYAN","KISHORE G","KISHORE KUMAR","MOHAMMED AADHIL","MOHAMED ASHIFQ","MOHAMED IQBAL","MOHAMED SAMEER BASHA","SOLAI KUGANESAN","MUKESH","NAFIZA","NARMADHA","ROGITH","VISHAL R","SANTHOSHKUMAR","SHAHIL J","SHAIK MOHAMMED HAMZA","SHAIK MOHAMMED S H","TAWFEEQ MOHAMED R","THARUN KUMAR","VASUNDARA SELVAM","VISHAL G","YUSUF I"];
+var ABS_CODES = ["AUTH","UNAUTH","GROOM","OD","SUSP"];
+var REASONS = [
+  "1. Medical Reason (Self)",
+  "2. Medical Emergency (Family Member)",
+  "3. Family Function",
+  "4. Bereavement / Death in the Family",
+  "5. Personal Emergency",
+  "6. Educational Loan / Bank Visit",
+  "7. Internship / Industrial Training Submission",
+  "8. Official University / Government Work",
+  "9. Travel Due to Personal Reasons",
+  "10. Attending Competitive Examination / Interview",
+  "11. Passport / Visa / Document Verification",
+  "12. Court / Legal Proceedings",
+  "13. Public Transport / Vehicle Breakdown",
+  "14. Weather / Natural Calamity",
+  "15. Participation in Sports / Cultural / NCC / NSS Event",
+  "16. Academic Project / Research Work",
+  "17. Placement Drive / Campus Recruitment",
+  "18. Mental Health / Stress-Related Reason",
+  "19. Religious Observance",
+  "20. Other (Please Specify)"
+];
+var AUTO_CONTACT = { "AUTH":"Y", "UNAUTH":"N", "GROOM":"Y", "OD":"Y", "SUSP":"Y" };
+var rowCount = 0;
+var rows = {};
+
+function todayISO(){
+  var d = new Date();
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function nowHM(){
+  var d = new Date();
+  return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
+}
+function ddmmyyyy(iso){
+  if(!iso) return "";
+  var p = iso.split("-");
+  return p[2]+"/"+p[1]+"/"+p[0];
+}
+
+document.getElementById("fDate").value = todayISO();
+document.getElementById("fSubTime").value = nowHM();
+
+function studentOptions(selected){
+  var html = '<option value="">Select student...</option>';
+  for(var i=0;i<STUDENTS.length;i++){
+    var s = STUDENTS[i];
+    html += '<option value="'+s+'"'+(s===selected?' selected':'')+'>'+s+'</option>';
+  }
+  return html;
+}
+function codeOptions(selected){
+  var html = '<option value="">Select...</option>';
+  for(var i=0;i<ABS_CODES.length;i++){
+    var c = ABS_CODES[i];
+    html += '<option value="'+c+'"'+(c===selected?' selected':'')+'>'+c+'</option>';
+  }
+  return html;
+}
+function reasonOptions(selected){
+  var html = '<option value="">Select reason...</option>';
+  for(var i=0;i<REASONS.length;i++){
+    var r = REASONS[i];
+    html += '<option value="'+r+'"'+(r===selected?' selected':'')+'>'+r+'</option>';
+  }
+  return html;
+}
+
+function addRow(){
+  rowCount++;
+  var id = rowCount;
+  rows[id] = true;
+  var container = document.getElementById("rowsContainer");
+  var div = document.createElement("div");
+  div.className = "row-entry";
+  div.id = "row-"+id;
+  div.innerHTML =
+    '<div class="row-head"><span class="sno">Entry #'+id+'</span>'+
+    '<button class="btn-danger" onclick="removeRow('+id+')">Remove</button></div>'+
+    '<div class="field-row">'+
+      '<div class="field"><label>Student full name</label><select id="name-'+id+'" onchange="refresh()">'+studentOptions("")+'</select></div>'+
+      '<div class="field"><label>Absence type</label><select id="type-'+id+'" onchange="onTypeChange('+id+')">'+codeOptions("")+'</select></div>'+
+    '</div>'+
+    '<div class="field" style="margin-bottom:.9rem;"><label>Reason for absence</label><select id="reason-'+id+'" onchange="onReasonChange('+id+')">'+reasonOptions("")+'</select></div>'+
+    '<div class="field" id="otherwrap-'+id+'" style="display:none;margin-bottom:.9rem;"><label>Please specify</label><input id="reasonother-'+id+'" placeholder="Type the reason" oninput="refresh()"></div>'+
+    '<div class="field-row">'+
+      '<div class="field"><label>Parent contacted? <span style="font-weight:400;color:var(--grey-600);">(auto-set by absence type, editable)</span></label><select id="contact-'+id+'" onchange="refresh()">'+
+        '<option value="">Select...</option><option value="Y">Y — Contacted</option><option value="N">N — Not contacted</option></select></div>'+
+      '<div class="field"><label>Remarks / additional notes</label><input id="remarks-'+id+'" placeholder="Optional" oninput="refresh()"></div>'+
+    '</div>';
+  container.appendChild(div);
+  refresh();
+}
+
+function onTypeChange(id){
+  var type = document.getElementById("type-"+id).value;
+  var contactSelect = document.getElementById("contact-"+id);
+  if(AUTO_CONTACT[type]){
+    contactSelect.value = AUTO_CONTACT[type];
+  }
+  refresh();
+}
+function onReasonChange(id){
+  var reason = document.getElementById("reason-"+id).value;
+  var otherWrap = document.getElementById("otherwrap-"+id);
+  if(reason.indexOf("Other") === 0 || reason.indexOf("20.") === 0){
+    otherWrap.style.display = "flex";
+  } else {
+    otherWrap.style.display = "none";
+  }
+  refresh();
+}
+
+function removeRow(id){
+  delete rows[id];
+  var el = document.getElementById("row-"+id);
+  if(el) el.remove();
+  refresh();
+}
+
+function resetForm(){
+  document.getElementById("rowsContainer").innerHTML = "";
+  rows = {};
+  rowCount = 0;
+  document.getElementById("fDate").value = todayISO();
+  document.getElementById("fSubTime").value = nowHM();
+  document.getElementById("fTotalRoll").value = 44;
+  document.getElementById("note1").value = "";
+  document.getElementById("note2").value = "";
+  document.getElementById("note3").value = "";
+  refresh();
+}
+
+function collectRows(){
+  var out = [];
+  Object.keys(rows).forEach(function(id){
+    var name = document.getElementById("name-"+id).value;
+    var type = document.getElementById("type-"+id).value;
+    var reason = document.getElementById("reason-"+id).value;
+    if(reason.indexOf("20.") === 0){
+      var otherEl = document.getElementById("reasonother-"+id);
+      var otherText = otherEl ? otherEl.value : "";
+      reason = otherText ? "Other — " + otherText : "20. Other (Please Specify)";
+    }
+    var contact = document.getElementById("contact-"+id).value;
+    var remarks = document.getElementById("remarks-"+id).value;
+    if(name || type || reason || contact || remarks){
+      out.push({id:id,name:name,type:type,reason:reason,contact:contact,remarks:remarks});
+    }
+  });
+  return out;
+}
+
+function esc(s){
+  return (s||"").toString().replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function buildDocumentHtml(){
+  var data = collectRows();
+  var roll = parseInt(document.getElementById("fTotalRoll").value || "0", 10);
+  var absent = data.length;
+  var present = roll - absent;
+  var authCount = 0, unauthCount = 0;
+  data.forEach(function(r){
+    if(r.type === "AUTH") authCount++;
+    if(r.type === "UNAUTH") unauthCount++;
+  });
+
+  var dateISO = document.getElementById("fDate").value;
+  var dateDisp = ddmmyyyy(dateISO);
+  var institution = esc(document.getElementById("fInstitution").value);
+  var programme = esc(document.getElementById("fProgramme").value);
+  var yearBatch = esc(document.getElementById("fYearBatch").value);
+  var inCharge = esc(document.getElementById("fInCharge").value);
+  var subTime = esc(document.getElementById("fSubTime").value);
+  var coordName = esc(document.getElementById("fCoordName").value);
+  var signature = esc(document.getElementById("fSignature").value);
+  var note1 = esc(document.getElementById("note1").value);
+  var note2 = esc(document.getElementById("note2").value);
+  var note3 = esc(document.getElementById("note3").value);
+
+  var rowsHtml = "";
+  if(data.length === 0){
+    rowsHtml = '<tr><td colspan="6" style="text-align:center;color:#888;">No absent students recorded yet</td></tr>';
+  } else {
+    data.forEach(function(r,i){
+      rowsHtml += '<tr>'+
+        '<td>'+(i+1)+'</td>'+
+        '<td>'+(esc(r.name)||"&nbsp;")+'</td>'+
+        '<td>'+(esc(r.type)||"&nbsp;")+'</td>'+
+        '<td>'+(esc(r.reason)||"&nbsp;")+'</td>'+
+        '<td>'+(esc(r.contact)||"&nbsp;")+'</td>'+
+        '<td>'+(esc(r.remarks)||"&nbsp;")+'</td>'+
+      '</tr>';
+    });
+  }
+
+  var html =
+  '<div style="font-family:Calibri,Arial,sans-serif;font-size:11pt;">'+
+  '<p style="text-align:center;font-weight:bold;font-size:14pt;margin-bottom:2px;">MH COCKPIT — DAILY ATTENDANCE SUBMISSION FORM</p>'+
+  '<p style="text-align:center;font-size:9pt;color:#555;margin-top:0;">For Class In-Charges and CPL Instructors | Submit by 12:30 PM daily</p>'+
+
+  '<p style="font-weight:bold;background:#0e2038;color:#ffffff;padding:4px 6px;margin-top:16px;">SECTION A — SUBMISSION DETAILS</p>'+
+  '<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;">'+
+    '<tr><td style="width:25%;"><b>Institution / College Name:</b></td><td style="width:25%;">'+institution+'</td>'+
+        '<td style="width:25%;"><b>Date (DD/MM/YYYY):</b></td><td style="width:25%;">'+dateDisp+'</td></tr>'+
+    '<tr><td><b>Programme:</b></td><td>'+programme+'</td><td><b>Year &amp; Batch:</b></td><td>'+yearBatch+'</td></tr>'+
+    '<tr><td><b>Class In Charge Name:</b></td><td>'+inCharge+'</td><td><b>Submission Time:</b></td><td>'+subTime+'</td></tr>'+
+    '<tr><td><b>Total Students on Roll:</b></td><td>'+roll+'</td><td><b>Total Present / Absent:</b></td><td>'+present+' / '+absent+'</td></tr>'+
+  '</table>'+
+
+  '<p style="font-weight:bold;background:#0e2038;color:#ffffff;padding:4px 6px;margin-top:16px;">SECTION B — ABSENT STUDENTS</p>'+
+  '<p style="font-size:9pt;color:#555;">Absence Type Codes: AUTH = Authorized | UNAUTH = Unauthorized | GROOM = Grooming | OD = On Duty | SUSP = Suspended</p>'+
+  '<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:10pt;">'+
+    '<tr style="background:#e7f0fa;"><th>S.No</th><th>Student Full Name</th><th>Absence Type</th><th>Reason for Absence</th><th>Parent Contacted? (Y/N)</th><th>Remarks / Additional Notes</th></tr>'+
+    rowsHtml+
+  '</table>'+
+
+  '<p style="font-weight:bold;background:#0e2038;color:#ffffff;padding:4px 6px;margin-top:16px;">SECTION C — TOTALS VERIFICATION</p>'+
+  '<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;">'+
+    '<tr style="background:#e7f0fa;"><th>Total on Roll</th><th>Total Present</th><th>Total Absent</th><th>AUTH</th><th>UNAUTH</th></tr>'+
+    '<tr><td>'+roll+'</td><td>'+present+'</td><td>'+absent+'</td><td>'+authCount+'</td><td>'+unauthCount+'</td></tr>'+
+  '</table>'+
+
+  '<p style="font-weight:bold;background:#0e2038;color:#ffffff;padding:4px 6px;margin-top:16px;">SECTION D — SPECIAL NOTES (IF ANY)</p>'+
+  '<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;">'+
+    '<tr style="background:#e7f0fa;"><th style="width:8%;">S.No</th><th>Note / Observation</th></tr>'+
+    '<tr><td>1</td><td>'+(note1||"&nbsp;")+'</td></tr>'+
+    '<tr><td>2</td><td>'+(note2||"&nbsp;")+'</td></tr>'+
+    '<tr><td>3</td><td>'+(note3||"&nbsp;")+'</td></tr>'+
+  '</table>'+
+
+  '<p style="font-weight:bold;background:#0e2038;color:#ffffff;padding:4px 6px;margin-top:16px;">SECTION E — COORDINATOR SIGN-OFF</p>'+
+  '<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;">'+
+    '<tr style="background:#e7f0fa;"><th>Coordinator Name</th><th>Signature</th><th>Date &amp; Time of Submission</th></tr>'+
+    '<tr><td>'+coordName+'</td><td>'+signature+'</td><td>'+dateDisp+' '+subTime+'</td></tr>'+
+  '</table>'+
+  '</div>';
+
+  return { html: html, roll: roll, present: present, absent: absent, authCount: authCount, unauthCount: unauthCount, dateDisp: dateDisp };
+}
+
+function refresh(){
+  var built = buildDocumentHtml();
+
+  document.getElementById("stRoll").textContent = built.roll;
+  document.getElementById("stPresent").textContent = built.present;
+  document.getElementById("stAbsent").textContent = built.absent;
+  document.getElementById("stAuth").textContent = built.authCount + " / " + built.unauthCount;
+
+  document.getElementById("previewTableWrap").innerHTML = built.html;
+}
+
+function downloadDoc(){
+  var built = buildDocumentHtml();
+  var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Attendance</title></head><body>";
+  var postHtml = "</body></html>";
+  var fullHtml = preHtml + built.html + postHtml;
+
+  var blob = new Blob(['\ufeff', fullHtml], { type: 'application/msword' });
+  var url = URL.createObjectURL(blob);
+  var filename = "BBA AVIATION -IIC " + built.dateDisp.replace(/\//g,"-") + ".doc";
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+addRow();
+refresh();
+</script>
+</body>
+</html>
