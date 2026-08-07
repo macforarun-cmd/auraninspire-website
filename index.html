@@ -73,20 +73,6 @@ img{max-width:100%;display:block;}
 .section-tint>*{max-width:1280px;margin-left:auto;margin-right:auto;}
 .card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
 
-/* ---------- Program rows (alternating image/text) ---------- */
-.program-rows{display:flex;flex-direction:column;gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
-.program-row{display:grid;grid-template-columns:1fr 1fr;background:#fff;min-height:280px;}
-.program-row.reverse{direction:rtl;}
-.program-row.reverse>*{direction:ltr;}
-.program-row-media{overflow:hidden;}
-.program-row-media img{width:100%;height:100%;object-fit:cover;display:block;}
-.program-row-text{display:flex;flex-direction:column;justify-content:center;padding:2.4rem 3rem;}
-.program-row-text h4{font-size:1.3rem;margin-bottom:.9rem;}
-@media (max-width:900px){
-  .program-row{grid-template-columns:1fr;}
-  .program-row-media{height:220px;}
-  .program-row-text{padding:1.8rem 1.6rem;}
-}
 .card{background:#fff;padding:0 0 1.6rem;}
 .card-media{height:190px;background:linear-gradient(135deg,#0e2340,#1c4a75);}
 .card-tag{display:block;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin:1.1rem 1.3rem .5rem;}
@@ -199,7 +185,6 @@ img{max-width:100%;display:block;}
     </div>
     <nav class="main-nav">
       <a href="#about">About</a>
-      <a href="#programs">Programs</a>
       <a href="#platform">Platform</a>
       <a href="#insights">Insights</a>
       <a href="#events">Events</a>
@@ -207,7 +192,7 @@ img{max-width:100%;display:block;}
     </nav>
     <div class="nav-actions">
       <a href="cockpit.html" class="btn btn-ghost">Student &amp; Faculty Access</a>
-      <a href="#programs" class="btn btn-primary">Explore Programs</a>
+      <a href="#about" class="btn btn-primary">About AuranInspire</a>
     </div>
   </div>
 </header>
@@ -221,8 +206,7 @@ img{max-width:100%;display:block;}
     <h1>Connecting today. Transforming tomorrow.</h1>
     <p>AuranInspire is an aviation education and training organization — built by an aviation educator, for the next generation of aviation professionals.</p>
     <div class="hero-actions">
-      <a href="#programs" class="btn btn-primary">Explore Programs</a>
-      <a href="#about" class="btn btn-ghost">About AuranInspire</a>
+      <a href="#about" class="btn btn-primary">About AuranInspire</a>
     </div>
   </div>
 </section>
@@ -241,7 +225,7 @@ img{max-width:100%;display:block;}
     <div class="path-card">
       <h3>Aviation industry &amp; partners</h3>
       <p>Learn about AuranInspire's approach to aviation education, our programs, and our founder's background in aviation management teaching.</p>
-      <a href="#programs" class="btn btn-ghost">Explore Programs →</a>
+      <a href="#about" class="btn btn-ghost">About AuranInspire →</a>
     </div>
     <div class="path-card">
       <h3>Students &amp; faculty</h3>
@@ -250,51 +234,6 @@ img{max-width:100%;display:block;}
     </div>
   </div>
 </section>
-
-<!-- ===== Programs ===== -->
-<section class="section section-tint" id="programs">
-  <p class="eyebrow">PROGRAMS</p>
-  <h2 class="section-title">Structured learning across aviation disciplines</h2>
-  <div class="program-rows">
-    <div class="program-row">
-      <div class="program-row-media"><img src="assets/images/program-airline-fare.jpg" alt="Airline Operations & Fare Construction"></div>
-      <div class="program-row-text">
-        <span class="card-tag">Airline Management</span>
-        <h4>Airline Operations &amp; Fare Construction</h4>
-        <p style="color:var(--grey-600);margin-bottom:1.2rem;">Ticketing systems, GDS fundamentals, and fare construction logic for airline commercial operations.</p>
-        <span class="link-arrow">Program Info →</span>
-      </div>
-    </div>
-    <div class="program-row reverse">
-      <div class="program-row-media"><img src="assets/images/program-ground-handling.jpg" alt="Ground Handling & Airport Management"></div>
-      <div class="program-row-text">
-        <span class="card-tag">Airport Operations</span>
-        <h4>Ground Handling &amp; Airport Management</h4>
-        <p style="color:var(--grey-600);margin-bottom:1.2rem;">Runway operations, ground handling, safety systems, and airport management fundamentals.</p>
-        <span class="link-arrow">Program Info →</span>
-      </div>
-    </div>
-    <div class="program-row">
-      <div class="program-row-media"><img src="assets/images/program-cabin-crew.jpg" alt="Cabin Crew & Soft Skills Programs"></div>
-      <div class="program-row-text">
-        <span class="card-tag">Cabin Crew</span>
-        <h4>Cabin Crew &amp; Soft Skills Programs</h4>
-        <p style="color:var(--grey-600);margin-bottom:1.2rem;">Service excellence, safety procedures, communication, and professional etiquette training.</p>
-        <span class="link-arrow">Program Info →</span>
-      </div>
-    </div>
-    <div class="program-row reverse">
-      <div class="program-row-media"><img src="assets/images/program-leadership.jpg" alt="Aviation Leadership & Faculty Development"></div>
-      <div class="program-row-text">
-        <span class="card-tag">Leadership</span>
-        <h4>Aviation Leadership &amp; Faculty Development</h4>
-        <p style="color:var(--grey-600);margin-bottom:1.2rem;">Building the next generation of aviation educators and industry leaders.</p>
-        <span class="link-arrow">Program Info →</span>
-      </div>
-    </div>
-  </div>
-</section>
-
 
 <!-- ===== Platform ===== -->
 <section class="section" id="platform">
@@ -469,7 +408,7 @@ img{max-width:100%;display:block;}
   <div class="cta-inner">
     <p class="eyebrow eyebrow-light">GET STARTED</p>
     <h2>Ready to take the first step towards your aviation career?</h2>
-    <a href="#programs" class="btn btn-primary" style="background:#fff;color:var(--navy);border-color:#fff;">Explore Programs</a>
+    <a href="cockpit.html" class="btn btn-primary" style="background:#fff;color:var(--navy);border-color:#fff;">Student &amp; Faculty Access</a>
   </div>
 </section>
 
@@ -482,7 +421,6 @@ img{max-width:100%;display:block;}
     </div>
     <div class="footer-links">
       <a href="#about">About</a>
-      <a href="#programs">Programs</a>
       <a href="#insights">Insights</a>
       <a href="cockpit.html">Student &amp; Faculty Access</a>
     </div>
