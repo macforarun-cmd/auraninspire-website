@@ -188,14 +188,18 @@
     <div class="panel" id="panel-student-access">
       <div class="student-panel">
         <div class="eyebrow">Add a student</div>
-        <p style="font-size:13px;color:#5B6472;">Add students here so they can sign in with their mobile number. You'll get a text the moment a student signs in.</p>
+        <p style="font-size:13px;color:#5B6472;">Add students here with a username and password so they can sign in.</p>
         <div class="field">
           <label>Student name</label>
           <input id="new-student-name" type="text" placeholder="Full name">
         </div>
         <div class="field">
-          <label>Mobile number</label>
-          <input id="new-student-mobile" type="tel" placeholder="10-digit mobile number">
+          <label>Username</label>
+          <input id="new-student-username" type="text" placeholder="Username">
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input id="new-student-password" type="text" placeholder="Password">
         </div>
         <div class="field">
           <label>Semester</label>
@@ -211,10 +215,14 @@
 <section class="gate" id="student-gate" style="display:none;">
   <div class="eyebrow">Student sign-in</div>
   <h2>Enter Course File Work</h2>
-  <p>Sign in with your registered mobile number.</p>
+  <p>Sign in with your username and password.</p>
   <div class="field">
-    <label>Mobile number</label>
-    <input id="student-mobile" type="tel" placeholder="Mobile number">
+    <label>Username</label>
+    <input id="student-username" type="text" placeholder="Username">
+  </div>
+  <div class="field">
+    <label>Password</label>
+    <input id="student-password" type="text" placeholder="Password">
   </div>
   <button class="primary" id="student-login-btn">Sign In</button>
   <div class="status" id="student-login-status"></div>
@@ -326,18 +334,19 @@ async function loadRankCard(semester){
 
 document.getElementById('add-student-btn').addEventListener('click', async ()=>{
   const name = document.getElementById('new-student-name').value.trim();
-  const mobile = document.getElementById('new-student-mobile').value.trim();
+  const username = document.getElementById('new-student-username').value.trim();
+  const password = document.getElementById('new-student-password').value.trim();
   const semester = document.getElementById('new-student-sem').value.trim();
   const statusEl = document.getElementById('add-student-status');
 
-  if(!name || !mobile || !semester){
-    statusEl.textContent = 'Fill in name, mobile, and semester.';
+  if(!name || !username || !password || !semester){
+    statusEl.textContent = 'Fill in name, username, password, and semester.';
     statusEl.className = 'status err';
     return;
   }
   if(!supa){ statusEl.textContent='Supabase not configured yet.'; statusEl.className='status err'; return; }
 
-  const { error } = await supa.from('students').insert({ name, mobile, semester });
+  const { error } = await supa.from('students').insert({ name, username, password, semester });
   if(error){
     statusEl.textContent = 'Could not add student: ' + error.message;
     statusEl.className = 'status err';
@@ -346,20 +355,22 @@ document.getElementById('add-student-btn').addEventListener('click', async ()=>{
   statusEl.textContent = `${name} added.`;
   statusEl.className = 'status ok';
   document.getElementById('new-student-name').value = '';
-  document.getElementById('new-student-mobile').value = '';
+  document.getElementById('new-student-username').value = '';
+  document.getElementById('new-student-password').value = '';
   document.getElementById('new-student-sem').value = '';
 });
 
 const studentBtn = document.getElementById('student-login-btn');
 if(studentBtn){
   studentBtn.addEventListener('click', async ()=>{
-    const mobile = document.getElementById('student-mobile').value.trim();
+    const username = document.getElementById('student-username').value.trim();
+    const password = document.getElementById('student-password').value.trim();
     const statusEl = document.getElementById('student-login-status');
     if(!supa){ statusEl.textContent='Supabase not configured yet.'; statusEl.className='status err'; return; }
 
-    const { data, error } = await supa.functions.invoke('student-login', { body: { mobile } });
+    const { data, error } = await supa.functions.invoke('student-login', { body: { username, password } });
     if(error || !data || !data.ok){
-      statusEl.textContent = 'Mobile number not recognized. Contact your faculty.';
+      statusEl.textContent = 'Incorrect username or password.';
       statusEl.className = 'status err';
       return;
     }
@@ -367,7 +378,8 @@ if(studentBtn){
     statusEl.className = 'status ok';
   });
 }
-  document.getElementById('student-signin-link').addEventListener('click', (e)=>{
+
+document.getElementById('student-signin-link').addEventListener('click', (e)=>{
   e.preventDefault();
   document.getElementById('gate').style.display = 'none';
   document.getElementById('workspace').style.display = 'none';
