@@ -140,7 +140,8 @@
 
 <header class="top">
   <a href="index.html">AuranInspire</a>
-  <a href="cockpit.html" style="font-size:13px;color:#5B6472;">Student &amp; Faculty Access →</a>
+  <a href="cockpit.html" style="font-size:13px;color:#5B6472;">Faculty Access →</a>
+  <a href="#" id="student-signin-link" style="font-size:13px;color:#1E3A8A;margin-left:16px;font-weight:600;">Student Sign-In →</a>
 </header>
 
 <main>
@@ -366,6 +367,12 @@ if(studentBtn){
     statusEl.className = 'status ok';
   });
 }
+  document.getElementById('student-signin-link').addEventListener('click', (e)=>{
+  e.preventDefault();
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('workspace').style.display = 'none';
+  document.getElementById('student-gate').style.display = 'block';
+});
 </script>
 
 </body>
