@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course File Work | AuranInspire</title>
+<meta name="description" content="Course file work, semester details, and student access — AuranInspire.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --navy:#0A1F44;
+    --royal:#1E3A8A;
+    --sky:#38BDF8;
+    --silver:#C7CDD6;
+    --white:#FFFFFF;
+    --charcoal:#1C1C1E;
+    --border:rgba(10,31,68,0.10);
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--white);
+    color:var(--charcoal);
+    font-family:'Manrope',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--royal);
+  }
+  header.top{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:20px 40px;border-bottom:1px solid var(--border);
+  }
+  header.top a{color:var(--navy);text-decoration:none;font-weight:800;font-size:18px;}
+  main{
+    max-width:1100px;margin:0 auto;padding:56px 24px 160px;
+  }
+  h1{font-size:34px;margin:6px 0 8px;color:var(--navy);letter-spacing:-0.01em;}
+  p.lead{color:#4B5566;font-size:16px;line-height:1.6;max-width:60ch;}
+  .gate{
+    max-width:420px;margin:64px auto;
+    border:1px solid var(--border);border-radius:var(--radius);
+    padding:32px;background:linear-gradient(180deg,#fff, #F7F9FC);
+    box-shadow:0 20px 40px -20px rgba(10,31,68,0.18);
+  }
+  .gate h2{margin:6px 0 4px;font-size:20px;color:var(--navy);}
+  .gate p{color:#5B6472;font-size:14px;margin:0 0 20px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:12px;color:#5B6472;margin-bottom:6px;font-weight:600;}
+  .field input{
+    width:100%;padding:12px 14px;border:1px solid #DDE2EA;border-radius:10px;
+    font-family:'Manrope',sans-serif;font-size:14px;outline:none;transition:.15s border-color;
+  }
+  .field input:focus{border-color:var(--sky);}
+  button.primary{
+    width:100%;padding:13px 16px;border:none;border-radius:10px;
+    background:var(--royal);color:#fff;font-weight:700;font-size:14px;cursor:pointer;
+    transition:.15s background,.15s transform;
+  }
+  button.primary:hover{background:var(--navy);}
+  button.primary:active{transform:scale(.98);}
+  .error{color:#B4232B;font-size:13px;margin-top:10px;display:none;}
+  #workspace{display:none;}
+  .tabs{display:flex;gap:8px;border-bottom:1px solid var(--border);margin:32px 0 28px;}
+  .tab{
+    padding:10px 4px;font-size:14px;font-weight:700;color:#8A93A3;cursor:pointer;
+    border-bottom:2px solid transparent;margin-right:20px;
+  }
+  .tab.active{color:var(--navy);border-color:var(--sky);}
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .rank-card{
+    border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+    box-shadow:0 12px 30px -18px rgba(10,31,68,0.18);
+  }
+  .rank-card table{width:100%;border-collapse:collapse;font-size:14px;}
+  .rank-card th{
+    text-align:left;background:var(--navy);color:#fff;padding:12px 16px;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  }
+  .rank-card td{padding:12px 16px;border-top:1px solid var(--border);}
+  .rank-card tr:nth-child(even) td{background:#F7F9FC;}
+  .rank-pill{
+    display:inline-block;min-width:28px;text-align:center;padding:2px 8px;border-radius:20px;
+    background:var(--sky);color:var(--navy);font-weight:800;font-size:12px;
+  }
+  .sem-select{margin-bottom:18px;display:flex;gap:8px;flex-wrap:wrap;}
+  .sem-select button{
+    padding:8px 14px;border-radius:20px;border:1px solid var(--border);background:#fff;
+    font-size:13px;font-weight:600;cursor:pointer;color:var(--navy);
+  }
+  .sem-select button.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .student-panel{
+    border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-top:8px;
+  }
+  .student-panel .field{max-width:320px;}
+  .hint{font-size:12px;color:#8A93A3;margin-top:6px;}
+  .status{font-size:13px;margin-top:12px;display:none;padding:10px 12px;border-radius:8px;}
+  .status.ok{display:block;background:#EAF7EE;color:#1E7A3D;}
+  .status.err{display:block;background:#FCEBEC;color:#B4232B;}
+  .dock-wrap{
+    position:fixed;left:0;right:0;bottom:22px;display:flex;justify-content:center;
+    pointer-events:none;
+  }
+  .dock{
+    pointer-events:auto;
+    display:flex;align-items:flex-end;gap:14px;
+    padding:12px 18px;border-radius:22px;
+    background:rgba(10,31,68,0.85);
+    backdrop-filter:blur(14px);
+    box-shadow:0 20px 40px -14px rgba(10,31,68,0.5);
+  }
+  .dock-item{
+    width:46px;height:46px;border-radius:13px;
+    background:linear-gradient(160deg,var(--royal),var(--navy));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:19px;cursor:pointer;
+    transition:transform .12s ease-out;
+    transform-origin:bottom center;
+    position:relative;
+  }
+  .dock-item:hover{transform:translateY(-2px) scale(1.15);}
+  .dock-item .tip{
+    position:absolute;bottom:60px;left:50%;transform:translateX(-50%);
+    background:var(--navy);color:#fff;font-size:11px;padding:4px 8px;border-radius:6px;
+    white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .12s;
+  }
+  .dock-item:hover .tip{opacity:1;}
+  .dock-item.current{outline:2px solid var(--sky);}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="index.html">AuranInspire</a>
+  <a href="cockpit.html" style="font-size:13px;color:#5B6472;">Student &amp; Faculty Access →</a>
+</header>
+
+<main>
+  <div class="eyebrow">Auran CockpIT · Faculty Tools</div>
+  <h1>Course File Work</h1>
+  <p class="lead">Manage semester details, student rankings, and course file records for AuranInspire programs.</p>
+
+  <section class="gate" id="gate">
+    <div class="eyebrow">Faculty sign-in</div>
+    <h2>Enter Course File Work</h2>
+    <p>Sign in with your faculty credentials to continue.</p>
+    <div class="field">
+      <label for="admin-user">Username</label>
+      <input id="admin-user" type="text" autocomplete="username" placeholder="Username">
+    </div>
+    <div class="field">
+      <label for="admin-pass">Password</label>
+      <input id="admin-pass" type="password" autocomplete="current-password" placeholder="Password">
+    </div>
+    <button class="primary" id="admin-login-btn">Sign In</button>
+    <div class="error" id="admin-error">Incorrect username or password.</div>
+  </section>
+
+  <section id="workspace">
+    <div class="tabs">
+      <div class="tab active" data-panel="semester">Semester Details</div>
+      <div class="tab" data-panel="student-access">Student Access</div>
+    </div>
+
+    <div class="panel active" id="panel-semester">
+      <div class="sem-select" id="sem-select"></div>
+      <div class="rank-card">
+        <table>
+          <thead>
+            <tr><th>Rank</th><th>Student</th><th>Roll No.</th><th>Score</th></tr>
+          </thead>
+          <tbody id="rank-body">
+            <tr><td colspan="4" style="padding:24px;color:#8A93A3;">No students added yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-student-access">
+      <div class="student-panel">
+        <div class="eyebrow">Add a student</div>
+        <p style="font-size:13px;color:#5B6472;">Add students here so they can sign in with their mobile number. You'll get a text the moment a student signs in.</p>
+        <div class="field">
+          <label>Student name</label>
+          <input id="new-student-name" type="text" placeholder="Full name">
+        </div>
+        <div class="field">
+          <label>Mobile number</label>
+          <input id="new-student-mobile" type="tel" placeholder="10-digit mobile number">
+        </div>
+        <div class="field">
+          <label>Semester</label>
+          <input id="new-student-sem" type="text" placeholder="e.g. Semester 3">
+        </div>
+        <button class="primary" id="add-student-btn" style="max-width:200px;">Add Student</button>
+        <div class="status" id="add-student-status"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<section class="gate" id="student-gate" style="display:none;">
+  <div class="eyebrow">Student sign-in</div>
+  <h2>Enter Course File Work</h2>
+  <p>Sign in with your registered mobile number.</p>
+  <div class="field">
+    <label>Mobile number</label>
+    <input id="student-mobile" type="tel" placeholder="Mobile number">
+  </div>
+  <button class="primary" id="student-login-btn">Sign In</button>
+  <div class="status" id="student-login-status"></div>
+</section>
+
+<div class="dock-wrap">
+  <nav class="dock" id="dock">
+    <div class="dock-item current" data-href="course-file-work.html">📁<span class="tip">Course File Work</span></div>
+    <div class="dock-item" data-href="index.html#platform">🧭<span class="tip">Auran Studio</span></div>
+    <div class="dock-item" data-href="index.html#platform">📚<span class="tip">ReadIT</span></div>
+    <div class="dock-item" data-href="index.html#platform">📊<span class="tip">Indicators</span></div>
+    <div class="dock-item" data-href="cockpit.html">🔐<span class="tip">Cockpit</span></div>
+  </nav>
+</div>
+
+<script>
+const SUPABASE_URL = "https://yfwkyyzhkvvvmpasdeqn.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_szis3TQmUzg_qAlDkkOyzg_PyYo7IqC";
+const supa = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+document.querySelectorAll('.dock-item').forEach(item=>{
+  item.addEventListener('click', ()=>{
+    const href = item.getAttribute('data-href');
+    if(href) window.location.href = href;
+  });
+});
+const dock = document.getElementById('dock');
+dock.addEventListener('mousemove', (e)=>{
+  const items = dock.querySelectorAll('.dock-item');
+  items.forEach(item=>{
+    const rect = item.getBoundingClientRect();
+    const center = rect.left + rect.width/2;
+    const dist = Math.abs(e.clientX - center);
+    const scale = Math.max(1, 1.35 - dist/220);
+    item.style.transform = `translateY(${(scale-1)*-14}px) scale(${scale})`;
+  });
+});
+dock.addEventListener('mouseleave', ()=>{
+  dock.querySelectorAll('.dock-item').forEach(item=> item.style.transform = '');
+});
+
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-'+tab.dataset.panel).classList.add('active');
+  });
+});
+
+document.getElementById('admin-login-btn').addEventListener('click', async ()=>{
+  const username = document.getElementById('admin-user').value.trim();
+  const password = document.getElementById('admin-pass').value;
+  const errEl = document.getElementById('admin-error');
+  errEl.style.display = 'none';
+
+  if(!supa){ errEl.textContent = 'Supabase not configured yet.'; errEl.style.display='block'; return; }
+
+  const { data, error } = await supa.functions.invoke('admin-verify', { body: { username, password } });
+  if(error || !data || !data.ok){
+    errEl.textContent = 'Incorrect username or password.';
+    errEl.style.display = 'block';
+    return;
+  }
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('workspace').style.display = 'block';
+  loadSemesterButtons();
+});
+
+const SEMESTERS = ['Semester 1','Semester 2','Semester 3','Semester 4','Semester 5','Semester 6'];
+function loadSemesterButtons(){
+  const wrap = document.getElementById('sem-select');
+  wrap.innerHTML = '';
+  SEMESTERS.forEach((sem, i)=>{
+    const btn = document.createElement('button');
+    btn.textContent = sem;
+    if(i===0) btn.classList.add('active');
+    btn.addEventListener('click', ()=>{
+      wrap.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      loadRankCard(sem);
+    });
+    wrap.appendChild(btn);
+  });
+  loadRankCard(SEMESTERS[0]);
+}
+
+async function loadRankCard(semester){
+  const body = document.getElementById('rank-body');
+  if(!supa){ return; }
+  const { data, error } = await supa
+    .from('students')
+    .select('name, roll_no, score')
+    .eq('semester', semester)
+    .order('score', { ascending:false });
+
+  if(error || !data || data.length===0){
+    body.innerHTML = `<tr><td colspan="4" style="padding:24px;color:#8A93A3;">No students added for ${semester} yet.</td></tr>`;
+    return;
+  }
+  body.innerHTML = data.map((s,i)=>`
+    <tr>
+      <td><span class="rank-pill">${i+1}</span></td>
+      <td>${s.name}</td>
+      <td>${s.roll_no || '—'}</td>
+      <td>${s.score ?? '—'}</td>
+    </tr>`).join('');
+}
+
+document.getElementById('add-student-btn').addEventListener('click', async ()=>{
+  const name = document.getElementById('new-student-name').value.trim();
+  const mobile = document.getElementById('new-student-mobile').value.trim();
+  const semester = document.getElementById('new-student-sem').value.trim();
+  const statusEl = document.getElementById('add-student-status');
+
+  if(!name || !mobile || !semester){
+    statusEl.textContent = 'Fill in name, mobile, and semester.';
+    statusEl.className = 'status err';
+    return;
+  }
+  if(!supa){ statusEl.textContent='Supabase not configured yet.'; statusEl.className='status err'; return; }
+
+  const { error } = await supa.from('students').insert({ name, mobile, semester });
+  if(error){
+    statusEl.textContent = 'Could not add student: ' + error.message;
+    statusEl.className = 'status err';
+    return;
+  }
+  statusEl.textContent = `${name} added.`;
+  statusEl.className = 'status ok';
+  document.getElementById('new-student-name').value = '';
+  document.getElementById('new-student-mobile').value = '';
+  document.getElementById('new-student-sem').value = '';
+});
+
+const studentBtn = document.getElementById('student-login-btn');
+if(studentBtn){
+  studentBtn.addEventListener('click', async ()=>{
+    const mobile = document.getElementById('student-mobile').value.trim();
+    const statusEl = document.getElementById('student-login-status');
+    if(!supa){ statusEl.textContent='Supabase not configured yet.'; statusEl.className='status err'; return; }
+
+    const { data, error } = await supa.functions.invoke('student-login', { body: { mobile } });
+    if(error || !data || !data.ok){
+      statusEl.textContent = 'Mobile number not recognized. Contact your faculty.';
+      statusEl.className = 'status err';
+      return;
+    }
+    statusEl.textContent = `Welcome, ${data.name}. Signed in.`;
+    statusEl.className = 'status ok';
+  });
+}
+</script>
+
+</body>
+</html>
