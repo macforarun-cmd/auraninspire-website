@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Magazine - Auran Studio</title>
+<style>
+body { font-family: -apple-system, sans-serif; margin: 0; background: #f7f7f7; color: #1a1a1a; }
+.header { background: #0c2340; color: #fff; padding: 20px 32px; }
+.header a { color: #b5d4f4; text-decoration: none; font-size: 13px; }
+.header h1 { margin: 8px 0 0; font-size: 22px; }
+.content { max-width: 900px; margin: 0 auto; padding: 24px 32px; }
+.upload-box { border: 2px dashed #ccc; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px; background: #fff; }
+button { background: #0c2340; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-size: 14px; }
+.month-block { margin-bottom: 24px; }
+.month-title { font-weight: 600; margin-bottom: 8px; }
+.file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.file-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 12px; text-align: center; font-size: 13px; }
+.file-card a { color: #185fa5; text-decoration: none; word-break: break-word; }
+</style>
+</head>
+<body>
+
+<div class="header">
+<a href="studio.html">&larr; Auran Studio</a>
+<h1>Magazine</h1>
+</div>
+
+<div class="content">
+<div class="upload-box">
+<p>Upload any file type — PDF, image, video, doc.</p>
+<input type="file" id="file-input" multiple style="display:none">
+<button onclick="document.getElementById('file-input').click()">Upload file</button>
+</div>
+
+<div id="months-container"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const CATEGORY = "magazine";
+const SUPABASE_URL = "REPLACE_WITH_YOUR_SUPABASE_URL";
+const SUPABASE_KEY = "REPLACE_WITH_YOUR_PUBLISHABLE_KEY";
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+function currentMonthLabel() {
+  return new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" });
+}
+
+async function uploadFile(file) {
+  const monthLabel = currentMonthLabel();
+  const path = `${CATEGORY}/${monthLabel}/${Date.now()}_${file.name}`;
+  const { error: uploadError } = await supabase.storage.from("studio-files").upload(path, file);
+  if (uploadError) { alert("Upload failed: " + uploadError.message); return; }
+  const { data: urlData } = supabase.storage.from("studio-files").getPublicUrl(path);
+  await supabase.from("content_files").insert({
+    category: CATEGORY, month_label: monthLabel, file_name: file.name,
+    file_url: urlData.publicUrl, source: "manual", status: "published"
+  });
+  loadMonths();
+}
+
+async function loadMonths() {
+  const { data, error } = await supabase.from("content_files").select("*")
+    .eq("category", CATEGORY).eq("status", "published").order("uploaded_at", { ascending: false });
+  if (error) { console.error(error); return; }
+  const grouped = {};
+  data.forEach((row) => {
+    if (!grouped[row.month_label]) grouped[row.month_label] = [];
+    grouped[row.month_label].push(row);
+  });
+  const container = document.getElementById("months-container");
+  container.innerHTML = "";
+  Object.keys(grouped).forEach((month) => {
+    const block = document.createElement("div");
+    block.className = "month-block";
+    const title = document.createElement("div");
+    title.className = "month-title";
+    title.textContent = month;
+    block.appendChild(title);
+    const grid = document.createElement("div");
+    grid.className = "file-grid";
+    grouped[month].forEach((f) => {
+      const card = document.createElement("div");
+      card.className = "file-card";
+      card.innerHTML = `<a href="${f.file_url}" target="_blank">${f.file_name}</a>`;
+      grid.appendChild(card);
+    });
+    block.appendChild(grid);
+    container.appendChild(block);
+  });
+}
+
+document.getElementById("file-input").addEventListener("change", (e) => {
+  Array.from(e.target.files).forEach(uploadFile);
+});
+
+loadMonths();
+</script>
+</body>
+</html>
