@@ -2,99 +2,63 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Events - Auran Studio</title>
+<title>Auran Studio - Welcome on board</title>
 <style>
 body { font-family: -apple-system, sans-serif; margin: 0; background: #f7f7f7; color: #1a1a1a; }
 .header { background: #0c2340; color: #fff; padding: 20px 32px; }
 .header a { color: #b5d4f4; text-decoration: none; font-size: 13px; }
-.header h1 { margin: 8px 0 0; font-size: 22px; }
-.content { max-width: 900px; margin: 0 auto; padding: 24px 32px; }
-.upload-box { border: 2px dashed #ccc; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px; background: #fff; }
-button { background: #0c2340; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-size: 14px; }
-.month-block { margin-bottom: 24px; }
-.month-title { font-weight: 600; margin-bottom: 8px; }
-.file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-.file-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 12px; text-align: center; font-size: 13px; }
-.file-card a { color: #185fa5; text-decoration: none; word-break: break-word; }
+.header h1 { margin: 8px 0 4px; font-size: 24px; }
+.header p { margin: 0; color: #b5d4f4; font-size: 14px; }
+.content { max-width: 900px; margin: 0 auto; padding: 32px; }
+.folder-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; }
+.folder-tile { text-decoration: none; color: inherit; cursor: pointer; }
+.folder-tab { width: 56px; height: 14px; border-radius: 6px 6px 0 0; margin-left: 12px; }
+.folder-body { height: 86px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 32px; margin-top: -1px; }
+.folder-name { margin-top: 10px; text-align: center; font-size: 13px; font-weight: 600; }
+.folder-count { text-align: center; font-size: 11px; color: #888; }
 </style>
 </head>
 <body>
 
 <div class="header">
-<a href="studio.html">&larr; Auran Studio</a>
-<h1>Events</h1>
+<a href="index.html">&larr; Home</a>
+<h1>Welcome on board</h1>
+<p>Upload and manage aviation content by category.</p>
 </div>
 
 <div class="content">
-<div class="upload-box">
-<p>Upload any file type — PDF, image, video, doc.</p>
-<input type="file" id="file-input" multiple style="display:none">
-<button onclick="document.getElementById('file-input').click()">Upload file</button>
+<div class="folder-grid">
+
+<a class="folder-tile" href="studio-magazine.html">
+<div class="folder-tab" style="background:#B5D4F4"></div>
+<div class="folder-body" style="background:#E6F1FB; border:1px solid #85B7EB; color:#0C447C">&#128240;</div>
+<div class="folder-name">Magazine</div>
+<div class="folder-count">View items</div>
+</a>
+
+<a class="folder-tile" href="studio-brochure.html">
+<div class="folder-tab" style="background:#F5C4B3"></div>
+<div class="folder-body" style="background:#FAECE7; border:1px solid #F0997B; color:#993C1D">&#128196;</div>
+<div class="folder-name">Brochure</div>
+<div class="folder-count">View items</div>
+</a>
+
+<a class="folder-tile" href="studio-events.html">
+<div class="folder-tab" style="background:#9FE1CB"></div>
+<div class="folder-body" style="background:#E1F5EE; border:1px solid #5DCAA5; color:#0F6E56">&#128197;</div>
+<div class="folder-name">Events</div>
+<div class="folder-count">View items</div>
+</a>
+
+<a class="folder-tile" href="studio-conference.html">
+<div class="folder-tab" style="background:#CECBF6"></div>
+<div class="folder-body" style="background:#EEEDFE; border:1px solid #AFA9EC; color:#3C3489">&#127908;</div>
+<div class="folder-name">Conference and conclave</div>
+<div class="folder-count">View items</div>
+</a>
+
+</div>
 </div>
 
-<div id="months-container"></div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const CATEGORY = "events";
-const SUPABASE_URL = "REPLACE_WITH_YOUR_SUPABASE_URL";
-const SUPABASE_KEY = "REPLACE_WITH_YOUR_PUBLISHABLE_KEY";
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-function currentMonthLabel() {
-  return new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" });
-}
-
-async function uploadFile(file) {
-  const monthLabel = currentMonthLabel();
-  const path = `${CATEGORY}/${monthLabel}/${Date.now()}_${file.name}`;
-  const { error: uploadError } = await supabase.storage.from("studio-files").upload(path, file);
-  if (uploadError) { alert("Upload failed: " + uploadError.message); return; }
-  const { data: urlData } = supabase.storage.from("studio-files").getPublicUrl(path);
-  await supabase.from("content_files").insert({
-    category: CATEGORY, month_label: monthLabel, file_name: file.name,
-    file_url: urlData.publicUrl, source: "manual", status: "published"
-  });
-  loadMonths();
-}
-
-async function loadMonths() {
-  const { data, error } = await supabase.from("content_files").select("*")
-    .eq("category", CATEGORY).eq("status", "published").order("uploaded_at", { ascending: false });
-  if (error) { console.error(error); return; }
-  const grouped = {};
-  data.forEach((row) => {
-    if (!grouped[row.month_label]) grouped[row.month_label] = [];
-    grouped[row.month_label].push(row);
-  });
-  const container = document.getElementById("months-container");
-  container.innerHTML = "";
-  Object.keys(grouped).forEach((month) => {
-    const block = document.createElement("div");
-    block.className = "month-block";
-    const title = document.createElement("div");
-    title.className = "month-title";
-    title.textContent = month;
-    block.appendChild(title);
-    const grid = document.createElement("div");
-    grid.className = "file-grid";
-    grouped[month].forEach((f) => {
-      const card = document.createElement("div");
-      card.className = "file-card";
-      card.innerHTML = `<a href="${f.file_url}" target="_blank">${f.file_name}</a>`;
-      grid.appendChild(card);
-    });
-    block.appendChild(grid);
-    container.appendChild(block);
-  });
-}
-
-document.getElementById("file-input").addEventListener("change", (e) => {
-  Array.from(e.target.files).forEach(uploadFile);
-});
-
-loadMonths();
-</script>
 </body>
 </html>
