@@ -60,10 +60,13 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;line-height:1.18;}
 .platform-card:nth-child(4n+3) .platform-icon{background:linear-gradient(155deg,#3ddc9e,#0f9e6e);box-shadow:0 10px 22px rgba(15,158,110,.32),inset 0 1px 0 rgba(255,255,255,.3);}
 .platform-card:nth-child(4n+4) .platform-icon{background:linear-gradient(155deg,#7c7ff0,#4b3fc9);box-shadow:0 10px 22px rgba(75,63,201,.32),inset 0 1px 0 rgba(255,255,255,.3);}
 .platform-card h4{font-size:.92rem;font-weight:600;color:var(--navy);white-space:normal;line-height:1.3;min-height:2.5em;display:flex;align-items:flex-start;justify-content:center;}
+.platform-card.wide{flex:0 0 150px;}
+.platform-card.wide h4{white-space:nowrap;}
 
 @media (max-width:700px){
   .platform-grid{gap:2rem 1.4rem;}
   .platform-card{flex:0 0 84px;}
+  .platform-card.wide{flex:0 0 130px;}
   .platform-icon{width:52px;height:52px;}
 }
 </style>
@@ -121,7 +124,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;line-height:1.18;}
         </span>
         <h4>Auran CockpIT</h4>
       </a>
-      <a href="course-file-work.html" class="platform-card">
+      <a href="course-file-work.html" class="platform-card wide">
         <span class="platform-icon">📁</span>
         <h4>Course File Work</h4>
       </a>
@@ -145,7 +148,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;line-height:1.18;}
         </span>
         <h4>Auran LearnIT</h4>
       </a>
-      <a href="indicators.html" class="platform-card">
+      <a href="indicators.html" class="platform-card wide">
         <span class="platform-icon">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="9"/>
