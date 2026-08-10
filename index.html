@@ -137,13 +137,65 @@ img{max-width:100%;display:block;}
 .card h4{font-size:.98rem;margin:0 1.3rem .8rem;}
 .link-arrow{display:inline-flex;align-items:center;gap:.4rem;font-size:.82rem;font-weight:600;color:var(--blue-deep);margin:0 1.3rem;}
 
-/* ---------- Platform grid ---------- */
-.platform-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
-.platform-card{background:var(--surface);padding:2rem 1.6rem;display:block;transition:background .2s;}
-.platform-card:hover{background:var(--grey-100);}
-.platform-icon{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;font-size:1rem;margin-bottom:1rem;}
-.platform-card h4{font-size:.95rem;margin-bottom:.5rem;}
-.platform-card p{font-size:.82rem;color:var(--grey-600);}
+/* ---------- Platform grid: macOS Launchpad style ---------- */
+.runway-band{
+  position:relative; overflow:hidden; max-width:none;
+  background:
+    radial-gradient(circle at 12% 15%, rgba(29,95,214,.16), transparent 42%),
+    radial-gradient(circle at 88% 10%, rgba(255,176,32,.14), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(18,58,140,.12), transparent 45%),
+    #f6f8fb;
+  padding-top:6rem; padding-bottom:6.5rem;
+}
+.runway-band>*{max-width:1280px;margin-left:auto;margin-right:auto;position:relative;z-index:1;}
+.runway-band .eyebrow{color:var(--blue-deep);}
+.runway-band .section-title{color:var(--navy);}
+.beacon{display:none;}
+.runway-lights{display:none;}
+
+.platform-grid{display:flex;gap:2.2rem 1.4rem;background:transparent;border:none;overflow-x:auto;padding:.5rem .2rem 1rem;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.platform-grid::-webkit-scrollbar{display:none;}
+.platform-card{
+  background:transparent;
+  border:none;
+  border-radius:0;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  box-shadow:none;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  flex:0 0 108px;
+  text-align:center;
+  transition:transform .38s cubic-bezier(.2,.9,.25,1.35);
+}
+.platform-card:hover{
+  transform:translateY(-6px) scale(1.06);
+  box-shadow:none;
+}
+.platform-card h4{white-space:normal;line-height:1.3;min-height:2.5em;display:flex;align-items:flex-start;justify-content:center;}
+.platform-grid .platform-card p{display:none;}
+.platform-grid.pg-center{justify-content:center;}
+.pg-center .platform-icon{width:84px;height:84px;background:linear-gradient(155deg,#2f9be0,#0f4f9e);box-shadow:0 14px 30px rgba(15,79,158,.4),inset 0 1px 0 rgba(255,255,255,.3);}
+.pg-center .platform-card h4{font-size:1.05rem;min-height:0;}
+.pg-center .platform-card{flex:0 0 auto;}
+.platform-icon{
+  display:flex; align-items:center; justify-content:center;
+  width:60px; height:60px; margin:0 auto 1.1rem;
+  border-radius:16px;
+  background:linear-gradient(155deg,#2f6fe0,#123a8c);
+  color:#fff; font-size:1.35rem;
+  box-shadow:0 10px 22px rgba(18,58,140,.4), inset 0 1px 0 rgba(255,255,255,.25);
+  transition:transform .38s cubic-bezier(.2,.9,.25,1.35);
+}
+.platform-card:hover .platform-icon{transform:scale(1.08) rotate(-2deg);}
+.platform-card:nth-child(4n+2) .platform-icon{background:linear-gradient(155deg,#ffc24d,#e08a00);box-shadow:0 6px 16px rgba(224,138,0,.35),inset 0 1px 0 rgba(255,255,255,.3);}
+.platform-card:nth-child(4n+3) .platform-icon{background:linear-gradient(155deg,#3ddc9e,#0f9e6e);box-shadow:0 6px 16px rgba(15,158,110,.32),inset 0 1px 0 rgba(255,255,255,.3);}
+.platform-card:nth-child(4n+4) .platform-icon{background:linear-gradient(155deg,#7c7ff0,#4b3fc9);box-shadow:0 6px 16px rgba(75,63,201,.32),inset 0 1px 0 rgba(255,255,255,.3);}
+.platform-card h4{font-size:.92rem;font-weight:600;margin-bottom:.4rem;color:var(--navy);}
+.platform-card p{font-size:.78rem;color:var(--grey-600);line-height:1.5;}
+@media (max-width:900px){.platform-card{border-radius:18px;}}
 
 /* ---------- Insights feed (CAPA-style headline list) ---------- */
 .insight-feed{border-top:1px solid var(--grey-300);}
@@ -305,106 +357,22 @@ img{max-width:100%;display:block;}
 </section>
 
 <!-- ===== Platform ===== -->
-<section class="section" id="platform">
+<section class="section runway-band" id="platform">
   <p class="eyebrow">THE PLATFORM</p>
   <h2 class="section-title">Everything you need, in one place</h2>
-  <div class="platform-grid">
-    <div class="platform-card">
+  <div class="platform-grid pg-center">
+    <a href="auran-world.html" class="platform-card">
       <span class="platform-icon">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="9"/>
+          <ellipse cx="12" cy="12" rx="4" ry="9"/>
           <line x1="3" y1="12" x2="21" y2="12"/>
-          <polygon points="12,8.5 10,12 14,12" fill="currentColor" stroke="none"/>
+          <path d="M4.8 7 C8 8.5 16 8.5 19.2 7"/>
+          <path d="M4.8 17 C8 15.5 16 15.5 19.2 17"/>
         </svg>
       </span>
-      <h4>Auran Studio</h4>
-      <p>Your learning dashboard — courses, progress, and practice.</p>
-    </div>
-    <div class="platform-card">
-      <span class="platform-icon">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9"/>
-          <polygon points="12,4.5 14,12 12,19.5 10,12" fill="currentColor" stroke="none"/>
-        </svg>
-      </span>
-      <h4>Auran ReadIT</h4>
-      <p>Curated reading — textbooks, case studies, reports.</p>
-    </div>
-    <div class="platform-card">
-      <span class="platform-icon">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9"/>
-          <circle cx="12" cy="12" r="5"/>
-          <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>
-          <line x1="12" y1="12" x2="17.5" y2="6.5"/>
-        </svg>
-      </span>
-      <h4>Auran ViewIT</h4>
-      <p>Industry insights, trends, and expert perspective.</p>
-    </div>
-    <div class="platform-card">
-      <span class="platform-icon">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="9" r="5"/>
-          <line x1="12" y1="14" x2="12" y2="20"/>
-          <line x1="7" y1="20" x2="17" y2="20"/>
-        </svg>
-      </span>
-      <h4>Auran CockpIT</h4>
-      <p>Student &amp; faculty sign-in — your control panel.</p>
-    </div>
-    <a href="course-file-work.html" class="platform-card">
-      <span class="platform-icon">📁</span>
-      <h4>Course File Work</h4>
-      <p>Semester details, student rankings, and course records.</p>
+      <h4>Auran World</h4>
     </a>
-    <div class="platform-card">
-      <span class="platform-icon">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9"/>
-          <line x1="12" y1="12" x2="15.5" y2="8"/>
-          <line x1="12" y1="6" x2="12" y2="7" stroke-width="2"/>
-          <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>
-        </svg>
-      </span>
-      <h4>Auran TestIT</h4>
-      <p>Practice quizzes and assessments with instant feedback.</p>
-    </div>
-    <div class="platform-card">
-      <span class="platform-icon">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9"/>
-          <polygon points="12,6 14.5,13.5 12,11.5 9.5,13.5" fill="currentColor" stroke="none"/>
-        </svg>
-      </span>
-      <h4>Auran LearnIT</h4>
-      <p>Structured courses and learning paths.</p>
-    </div>
-    <div class="platform-card">
-      <span class="platform-icon">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9"/>
-          <line x1="12" y1="12" x2="12" y2="6.5"/>
-          <line x1="12" y1="12" x2="16" y2="13.5"/>
-          <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>
-        </svg>
-      </span>
-      <h4>Auran Indicators</h4>
-      <p>Your performance analytics and progress tracking.</p>
-    </div>
-    <div class="platform-card">
-      <span class="platform-icon">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9"/>
-          <line x1="12" y1="12" x2="12" y2="7.5"/>
-          <line x1="12" y1="12" x2="15" y2="12"/>
-          <line x1="12" y1="3.3" x2="12" y2="4.3" stroke-width="2"/>
-          <line x1="19.7" y1="12" x2="20.7" y2="12" stroke-width="2"/>
-        </svg>
-      </span>
-      <h4>Auran TaskIT</h4>
-      <p>Assignments, deadlines, and task tracking.</p>
-    </div>
   </div>
 </section>
 
