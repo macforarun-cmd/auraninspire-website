@@ -199,9 +199,9 @@ img{max-width:100%;display:block;}
 
 /* ---------- Big spinning globe -> Auran World ---------- */
 .big-globe-link{display:flex;flex-direction:column;align-items:center;gap:1.2rem;text-decoration:none;position:relative;z-index:1;}
-.big-globe-wrap{width:220px;height:220px;border-radius:50%;perspective:900px;box-shadow:0 30px 60px rgba(11,31,58,.35);transition:transform .4s ease;}
+.big-globe-wrap{width:220px;height:220px;border-radius:50%;perspective:900px;transition:transform .4s ease;}
 .big-globe-link:hover .big-globe-wrap{transform:translateY(-6px) scale(1.03);}
-.big-globe-img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;animation:globeSpin 9s linear infinite;box-shadow:inset -14px 0 30px rgba(0,0,0,.25);}
+.big-globe-img{width:100%;height:100%;object-fit:contain;display:block;animation:globeSpin 9s linear infinite;filter:drop-shadow(0 18px 26px rgba(11,31,58,.35));}
 @keyframes globeSpin{from{transform:rotateY(0deg);}to{transform:rotateY(360deg);}}
 @media (prefers-reduced-motion:reduce){.big-globe-img{animation:none;}}
 .big-globe-label{font-size:1.15rem;font-weight:700;color:var(--navy);}
@@ -259,10 +259,10 @@ img{max-width:100%;display:block;}
 @media (max-width:600px){.card-grid-about{grid-template-columns:1fr;}}
 
 /* ---------- About billboard slideshow ---------- */
-.billboard-slideshow{position:relative;border-radius:0;overflow:hidden;aspect-ratio:1974/700;background:#0d1420;box-shadow:0 24px 50px rgba(11,31,58,.28);margin-bottom:1.4rem;width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);}
+.billboard-slideshow{position:relative;border-radius:0;overflow:hidden;aspect-ratio:11/5;background:#0d1420;box-shadow:0 24px 50px rgba(11,31,58,.28);margin-bottom:1.4rem;width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);}
 .bb-slide{position:absolute;inset:0;opacity:0;transition:opacity 1s ease;z-index:1;}
 .bb-slide.active{opacity:1;z-index:2;}
-.bb-slide img{width:100%;height:100%;object-fit:cover;display:block;}
+.bb-slide img{width:100%;height:100%;object-fit:contain;display:block;}
 .bb-lights{position:absolute;top:5%;left:0;width:100%;display:flex;justify-content:space-evenly;z-index:3;pointer-events:none;}
 .bb-lights span{width:9px;height:9px;border-radius:50%;background:#fff6d8;box-shadow:0 0 10px 4px rgba(255,246,216,.85);opacity:.35;animation:bbBlink 2.6s ease-in-out infinite;}
 .bb-lights span:nth-child(3n+1){animation-delay:0s;}
@@ -293,12 +293,13 @@ img{max-width:100%;display:block;}
 .aircraft-body svg{width:100%;height:auto;display:block;}
 .aircraft-photo-wrap{aspect-ratio:2048/736;}
 .aircraft-photo-img{width:100%;height:100%;object-fit:contain;display:block;}
-.aircraft-windows-photo .ac-window{top:56%;width:6%;}
-.aircraft-windows-photo .ac-window:nth-of-type(1){left:24%;}
-.aircraft-windows-photo .ac-window:nth-of-type(2){left:33%;}
-.aircraft-windows-photo .ac-window:nth-of-type(3){left:42%;}
-.aircraft-windows-photo .ac-window:nth-of-type(4){left:51%;}
-.aircraft-windows-photo .ac-window:nth-of-type(5){left:60%;}
+.aircraft-windows-photo .ac-window{top:56.4%;width:3.2%;font-size:.9rem;}
+.aircraft-windows-photo .ac-window:hover,.aircraft-windows-photo .ac-window:focus-visible{transform:scale(3.2);}
+.aircraft-windows-photo .ac-window:nth-of-type(1){left:20.8%;}
+.aircraft-windows-photo .ac-window:nth-of-type(2){left:29%;}
+.aircraft-windows-photo .ac-window:nth-of-type(3){left:44.8%;}
+.aircraft-windows-photo .ac-window:nth-of-type(4){left:54.6%;}
+.aircraft-windows-photo .ac-window:nth-of-type(5){left:64.4%;}
 .aircraft-windows{position:absolute;top:0;left:0;width:100%;height:100%;}
 .ac-window{
   position:absolute; top:30%; width:9.2%; aspect-ratio:1/1;
@@ -490,7 +491,7 @@ img{max-width:100%;display:block;}
   <h2 class="section-title">Everything you need, in one place</h2>
   <a href="auran-world.html" class="big-globe-link">
     <div class="big-globe-wrap">
-      <img src="assets/images/globe-world.png" alt="Enter Auran World" class="big-globe-img">
+      <img src="assets/images/globe-world-blue.png" alt="Enter Auran World" class="big-globe-img">
     </div>
     <span class="big-globe-label">Auran World</span>
   </a>
@@ -733,14 +734,17 @@ img{max-width:100%;display:block;}
 <!-- ===== Walking crew easter egg (cartoon image) ===== -->
 <style>
 .site-walker-img{position:fixed;bottom:0;left:-90px;z-index:9999;pointer-events:none;animation:walkAcrossImg 24s linear infinite;}
-.site-walker-img img{height:120px;width:auto;display:block;filter:drop-shadow(0 8px 10px rgba(0,0,0,.25));animation:walkBobImg .55s ease-in-out infinite;}
+.site-walker-img .wk-shadow{width:70px;height:14px;margin:0 auto;border-radius:50%;background:rgba(11,20,32,.32);filter:blur(2px);animation:shadowPulse .5s steps(2,jump-none) infinite;}
+.site-walker-img img{height:120px;width:auto;display:block;filter:drop-shadow(0 4px 4px rgba(0,0,0,.2));animation:walkBobImg .5s steps(2,jump-none) infinite;}
 @keyframes walkAcrossImg{0%{left:-90px;}100%{left:calc(100% + 90px);}}
-@keyframes walkBobImg{0%,100%{transform:translateY(0) rotate(-1.2deg);}50%{transform:translateY(-5px) rotate(1.2deg);}}
+@keyframes walkBobImg{0%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-7px) rotate(2deg);}100%{transform:translateY(0) rotate(-2deg);}}
+@keyframes shadowPulse{0%{transform:scaleX(1);opacity:.32;}50%{transform:scaleX(.72);opacity:.2;}100%{transform:scaleX(1);opacity:.32;}}
 @media (prefers-reduced-motion:reduce){.site-walker-img{display:none;}}
-@media (max-width:600px){.site-walker-img img{height:90px;}}
+@media (max-width:600px){.site-walker-img img{height:90px;} .site-walker-img .wk-shadow{width:52px;}}
 </style>
 <div class="site-walker-img" aria-hidden="true">
   <img src="assets/images/crew-walker.png" alt="">
+  <div class="wk-shadow"></div>
 </div>
 
 </body>
