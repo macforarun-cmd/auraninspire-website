@@ -293,13 +293,6 @@ img{max-width:100%;display:block;}
 .aircraft-body svg{width:100%;height:auto;display:block;}
 .aircraft-photo-wrap{aspect-ratio:2048/736;}
 .aircraft-photo-img{width:100%;height:100%;object-fit:contain;display:block;}
-.aircraft-windows-photo .ac-window{top:56.4%;width:3.2%;font-size:.9rem;}
-.aircraft-windows-photo .ac-window:hover,.aircraft-windows-photo .ac-window:focus-visible{transform:scale(3.2);}
-.aircraft-windows-photo .ac-window:nth-of-type(1){left:20.8%;}
-.aircraft-windows-photo .ac-window:nth-of-type(2){left:29%;}
-.aircraft-windows-photo .ac-window:nth-of-type(3){left:44.8%;}
-.aircraft-windows-photo .ac-window:nth-of-type(4){left:54.6%;}
-.aircraft-windows-photo .ac-window:nth-of-type(5){left:64.4%;}
 .aircraft-windows{position:absolute;top:0;left:0;width:100%;height:100%;}
 .ac-window{
   position:absolute; top:30%; width:9.2%; aspect-ratio:1/1;
@@ -310,19 +303,31 @@ img{max-width:100%;display:block;}
   font-size:1.3rem;
   text-decoration:none; color:var(--navy);
   cursor:pointer;
+  transform:translate(-50%,-50%);
   transition:transform .45s cubic-bezier(.2,.8,.2,1.3), box-shadow .45s ease;
   box-shadow:0 4px 10px rgba(0,0,0,.25);
 }
 .ac-window:hover,.ac-window:focus-visible{
-  transform:scale(2.4);
+  transform:translate(-50%,-50%) scale(2.4);
   z-index:5;
   box-shadow:0 20px 46px rgba(0,0,0,.4);
 }
-.ac-window:nth-of-type(1){left:16%;}
-.ac-window:nth-of-type(2){left:31%;}
-.ac-window:nth-of-type(3){left:46%;}
-.ac-window:nth-of-type(4){left:61%;}
-.ac-window:nth-of-type(5){left:76%;}
+/* nth-child (not nth-of-type) so the count includes both <a> and <span> windows in order */
+.ac-window:nth-child(1){left:16%;}
+.ac-window:nth-child(2){left:31%;}
+.ac-window:nth-child(3){left:46%;}
+.ac-window:nth-child(4){left:61%;}
+.ac-window:nth-child(5){left:76%;}
+
+/* Precise override measured directly from the real aircraft-photo.png pixels */
+.aircraft-windows-photo .ac-window{top:62.91%;width:3.2%;font-size:.9rem;}
+.aircraft-windows-photo .ac-window:hover,.aircraft-windows-photo .ac-window:focus-visible{transform:translate(-50%,-50%) scale(3.2);}
+.aircraft-windows-photo .ac-window:nth-child(1){left:20.36%;}
+.aircraft-windows-photo .ac-window:nth-child(2){left:29.39%;}
+.aircraft-windows-photo .ac-window:nth-child(3){left:37.18%;}
+.aircraft-windows-photo .ac-window:nth-child(4){left:45.19%;}
+.aircraft-windows-photo .ac-window:nth-child(5){left:54.22%;}
+
 .ac-label{
   position:absolute; top:100%; left:50%; transform:translate(-50%,10px);
   width:150px; text-align:center; font-size:.72rem; font-weight:600; color:var(--navy);
@@ -333,7 +338,7 @@ img{max-width:100%;display:block;}
 .ac-window:hover .ac-label,.ac-window:focus-visible .ac-label{opacity:1;}
 @media (max-width:800px){
   .ac-window{font-size:1rem;}
-  .ac-window:hover,.ac-window:focus-visible{transform:scale(1.8);}
+  .ac-window:hover,.ac-window:focus-visible{transform:translate(-50%,-50%) scale(1.8);}
   .ac-label{width:110px;font-size:.64rem;}
 }
 
