@@ -295,22 +295,32 @@ img{max-width:100%;display:block;}
 .aircraft-photo-img{width:100%;height:100%;object-fit:contain;display:block;}
 .aircraft-windows{position:absolute;top:0;left:0;width:100%;height:100%;}
 .ac-window{
-  position:absolute; top:30%; width:9.2%; aspect-ratio:1/1;
-  border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,#dcecfb,#9fc6e8 55%,#5c86b8 100%);
-  border:3px solid #1b2b45;
+  position:absolute; top:30%;
+  width:1%; aspect-ratio:0.68;
+  border-radius:50%/40%;
+  background:radial-gradient(circle at 35% 30%,#fff8e0 0%,#ffe9a8 45%,rgba(255,224,130,.2) 78%);
+  border:none;
   display:flex; align-items:center; justify-content:center;
-  font-size:1.3rem;
+  overflow:hidden;
+  font-size:0;
   text-decoration:none; color:var(--navy);
   cursor:pointer;
   transform:translate(-50%,-50%);
-  transition:transform .45s cubic-bezier(.2,.8,.2,1.3), box-shadow .45s ease;
-  box-shadow:0 4px 10px rgba(0,0,0,.25);
+  transition:width .4s cubic-bezier(.2,.8,.2,1.3), aspect-ratio .4s cubic-bezier(.2,.8,.2,1.3), border-radius .35s ease, background .35s ease, border-color .3s ease, box-shadow .4s ease, font-size .25s ease .08s;
+  box-shadow:0 0 5px 2px rgba(255,224,130,.6);
+  animation:acWinPulse 3.4s ease-in-out infinite;
 }
-.ac-window:hover,.ac-window:focus-visible{
-  transform:translate(-50%,-50%) scale(2.4);
+@keyframes acWinPulse{0%,100%{box-shadow:0 0 4px 1px rgba(255,224,130,.5);}50%{box-shadow:0 0 9px 3px rgba(255,224,130,.9);}}
+@media (prefers-reduced-motion:reduce){.ac-window{animation:none;}}
+.ac-window:hover,.ac-window:focus-visible,.ac-window.active{
+  width:9.2%; aspect-ratio:1/1;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#dcecfb,#9fc6e8 55%,#5c86b8 100%);
+  border:3px solid #1b2b45;
+  font-size:1.3rem;
   z-index:5;
   box-shadow:0 20px 46px rgba(0,0,0,.4);
+  animation:none;
 }
 /* nth-child (not nth-of-type) so the count includes both <a> and <span> windows in order */
 .ac-window:nth-child(1){left:16%;}
@@ -319,9 +329,11 @@ img{max-width:100%;display:block;}
 .ac-window:nth-child(4){left:61%;}
 .ac-window:nth-child(5){left:76%;}
 
-/* Precise override measured directly from the real aircraft-photo.png pixels */
-.aircraft-windows-photo .ac-window{top:62.91%;width:3.2%;font-size:.9rem;}
-.aircraft-windows-photo .ac-window:hover,.aircraft-windows-photo .ac-window:focus-visible{transform:translate(-50%,-50%) scale(3.2);}
+/* Precise override measured directly from the real aircraft-photo.png pixels.
+   Resting size (0.75%) matches the real window on the photo so it blends in;
+   hover/tap size (7%) is the enlarged, clickable state. */
+.aircraft-windows-photo .ac-window{top:62.91%; width:0.75%;}
+.aircraft-windows-photo .ac-window:hover,.aircraft-windows-photo .ac-window:focus-visible,.aircraft-windows-photo .ac-window.active{width:7%;}
 .aircraft-windows-photo .ac-window:nth-child(1){left:20.36%;}
 .aircraft-windows-photo .ac-window:nth-child(2){left:29.39%;}
 .aircraft-windows-photo .ac-window:nth-child(3){left:37.18%;}
@@ -734,6 +746,23 @@ img{max-width:100%;display:block;}
   }
   tick();
   setInterval(tick, 1000);
+})();
+
+(function(){
+  // Tap-to-expand for the window icons (real links still navigate normally on click;
+  // the non-linked placeholder windows just toggle open/closed so the label is reachable on mobile).
+  document.querySelectorAll('.ac-window').forEach(function(w){
+    w.addEventListener('click', function(e){
+      if(w.tagName === 'A') return;
+      e.stopPropagation();
+      var wasActive = w.classList.contains('active');
+      document.querySelectorAll('.ac-window.active').forEach(function(o){ o.classList.remove('active'); });
+      if(!wasActive) w.classList.add('active');
+    });
+  });
+  document.addEventListener('click', function(){
+    document.querySelectorAll('.ac-window.active').forEach(function(o){ o.classList.remove('active'); });
+  });
 })();
 </script>
 <!-- ===== Walking crew easter egg (cartoon image) ===== -->
