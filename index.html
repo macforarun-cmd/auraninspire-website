@@ -1,751 +1,205 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AuranInspire | Designed by AK — Aviation Education &amp; Solutions</title>
-<meta name="description" content="AuranInspire, designed by AK, is a premium aviation education and training organization founded by Arun Kumar.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<!doctype html>
+<html><head><meta charset="utf-8">
 <style>
-:root{
-  --navy:#0b1f3a; --ink:#0d1420; --blue:#1d5fd6; --blue-deep:#123a8c;
-  --grey-900:#1b2330; --grey-600:#5c6675; --grey-300:#e2e6eb; --grey-100:#f6f8fa;
-  --white:#fff; --font:'Inter',sans-serif; --mono:'IBM Plex Mono',monospace;
-  --ease:cubic-bezier(.22,.9,.32,1);
-  --bg-page:#fff; --surface:#fff; --text:#0d1420; --header-bg:rgba(255,255,255,.97);
-}
-[data-theme="dark"]{
-  --bg-page:#0a0f18; --surface:#121a27; --text:#e6ebf2;
-  --grey-600:#9aa6b8; --grey-300:#28323f; --grey-100:#101724;
-  --header-bg:rgba(10,15,24,.94);
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{font-family:var(--font);color:var(--text);background:var(--bg-page);-webkit-font-smoothing:antialiased;line-height:1.6;transition:background .25s,color .25s;}
-a{color:inherit;text-decoration:none;}
-h1,h2,h3{font-weight:700;letter-spacing:-.015em;line-height:1.18;}
-img{max-width:100%;display:block;}
-.eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:.8rem;}
-.eyebrow-light{color:#a9c2f2;}
+  body{margin:0;background:#f4f6f8;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;}
+  .dash-wrap{max-width:1100px;margin:40px auto;padding:0 20px;}
+  .dash-eyebrow{font-size:11px;letter-spacing:.1em;color:#8a93a3;text-transform:uppercase;font-weight:700;margin:0 0 6px;}
+  .dash-title{font-size:28px;font-weight:800;color:#101828;margin:0 0 40px;}
+  .plane-wrap{position:relative;width:100%;}
+  .plane-wrap img{width:100%;display:block;user-select:none;-webkit-user-drag:none;}
 
-/* ---------- Header ---------- */
-.site-header{position:sticky;top:0;z-index:100;background:var(--header-bg);border-bottom:1px solid var(--grey-300);backdrop-filter:blur(6px);transition:background .25s,border-color .25s;}
-.nav-wrap{max-width:1280px;margin:0 auto;padding:.95rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.2rem;flex-wrap:wrap;}
-.logo-block{display:flex;flex-direction:column;line-height:1.1;}
-.logo{font-weight:800;font-size:1.2rem;color:var(--navy);letter-spacing:-.01em;}
-.logo span{color:var(--blue-deep);}
-.logo-tag{font-family:var(--mono);font-size:.64rem;color:var(--grey-600);letter-spacing:.05em;margin-top:2px;}
-.main-nav{display:flex;flex-wrap:wrap;gap:1.2rem 1.8rem;}
-.main-nav a{font-size:.87rem;font-weight:500;color:var(--grey-600);}
-.main-nav a:hover{color:var(--blue-deep);}
-.nav-actions{display:flex;align-items:center;gap:.8rem;}
-.nav-icon-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;transition:background .2s;border:none;cursor:pointer;font-family:inherit;}
-.nav-icon-btn:hover{background:var(--blue-deep);}
+  .plane-window{
+    position:absolute;
+    border:none;background:transparent;padding:0;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    z-index:2;
+  }
+  .plane-window .glow{
+    position:absolute;inset:-35%;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(46,116,181,.55) 0%, rgba(46,116,181,0) 70%);
+    opacity:0;
+    transition:opacity .25s ease;
+    pointer-events:none;
+  }
+  .plane-window .pane{
+    position:relative;
+    width:41.7%;height:41.7%;
+    border-radius:45% / 55%;
+    background:linear-gradient(160deg,#dce9f7,#a9c6e6 60%,#7fa8cf);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.5), 0 0 0 1px rgba(46,74,110,.35);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .plane-window:hover .glow,
+  .plane-window.active .glow{opacity:1;}
+  .plane-window:hover .pane,
+  .plane-window.active .pane{
+    transform:scale(1.7);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.7), 0 0 10px rgba(46,116,181,.6), 0 0 0 2px #2E74B5;
+  }
+  .plane-window:focus-visible .pane{outline:2px solid #2E74B5;outline-offset:2px;}
 
-.theme-toggle-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;transition:background .2s;border:none;cursor:pointer;flex-shrink:0;}
-.theme-toggle-btn:hover{background:var(--blue-deep);}
+  /* the popup "flap" that props open from the window, like a shade lifting */
+  .window-card{
+    position:absolute;
+    left:50%;
+    bottom:100%;
+    transform-origin:bottom center;
+    transform:translateX(-50%) rotateX(-100deg) translateY(6px);
+    opacity:0;
+    pointer-events:none;
+    width:220px;
+    background:#101828;
+    color:#fff;
+    border-radius:10px;
+    padding:14px 16px 15px;
+    box-shadow:0 14px 30px rgba(16,24,40,.35);
+    margin-bottom:14px;
+    transition:transform .32s cubic-bezier(.2,.9,.25,1.3), opacity .22s ease;
+    z-index:5;
+  }
+  .plane-window.active .window-card{
+    opacity:1;
+    pointer-events:auto;
+    transform:translateX(-50%) rotateX(0deg) translateY(0);
+  }
+  .window-card:after{
+    content:"";
+    position:absolute;
+    top:100%;left:50%;
+    transform:translateX(-50%);
+    border:7px solid transparent;
+    border-top-color:#101828;
+  }
+  .window-card .wc-close{
+    position:absolute;top:6px;right:8px;
+    background:none;border:none;color:#8a93a3;font-size:15px;cursor:pointer;line-height:1;padding:4px;
+  }
+  .window-card .wc-close:hover{color:#fff;}
+  .window-card .wc-icon{font-size:20px;margin-bottom:6px;display:block;}
+  .window-card .wc-title{font-size:13.5px;font-weight:700;margin:0 0 3px;}
+  .window-card .wc-desc{font-size:11.5px;color:#c7d3e0;margin:0 0 10px;line-height:1.4;}
+  .window-card .wc-link{
+    display:inline-block;font-size:11.5px;font-weight:700;color:#fff;
+    background:#2E74B5;padding:6px 10px;border-radius:6px;text-decoration:none;
+  }
+  .window-card .wc-link.disabled{background:#3a4353;color:#8a93a3;cursor:default;}
+  .window-card .wc-link:hover:not(.disabled){background:#255d92;}
 
-.flight-clock{display:flex;align-items:center;justify-content:center;gap:.9rem;background:var(--ink);padding:.6rem 1rem;position:relative;}
-.fc-badge{font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.08em;color:#9fc2ff;border:1px solid #2a4a7a;border-radius:3px;padding:.15rem .45rem;}
-.fc-display{font-family:var(--mono);font-size:1rem;font-weight:600;letter-spacing:.08em;color:#fff;text-shadow:0 0 6px rgba(120,170,255,.55);}
-.fc-toggle{display:inline-flex;align-items:center;gap:.3rem;background:transparent;border:1px solid #2a3a56;border-radius:20px;color:#a9b8d0;font-family:var(--mono);font-size:.68rem;padding:.3rem .7rem;cursor:pointer;}
-.fc-toggle:hover{border-color:#3d5075;color:#fff;}
-.fc-toggle svg{transition:transform .2s;}
-.fc-toggle.open svg{transform:rotate(180deg);}
-.fc-panel{display:none;position:absolute;top:100%;right:1rem;margin-top:.4rem;background:var(--ink);border:1px solid #2a3a56;border-radius:8px;padding:.6rem 0;min-width:220px;box-shadow:0 10px 30px rgba(0,0,0,.35);z-index:50;}
-.fc-panel.open{display:block;}
-.fc-row{display:flex;justify-content:space-between;gap:1rem;padding:.5rem 1rem;font-family:var(--mono);font-size:.78rem;}
-.fc-row .fc-zone{color:#8b9bb5;}
-.fc-row .fc-t{color:#fff;font-weight:600;}
-@media (max-width:600px){.fc-badge{display:none;}}
-.btn{display:inline-block;padding:.7rem 1.4rem;font-weight:600;font-size:.84rem;border-radius:4px;transition:background .2s,color .2s,border-color .2s;}
-.btn-primary{background:var(--navy);color:#fff;border:1px solid var(--navy);}
-.btn-primary:hover{background:var(--blue-deep);border-color:var(--blue-deep);}
-.btn-ghost{border:1px solid var(--grey-300);color:var(--navy);}
-.btn-ghost:hover{border-color:var(--navy);}
-
-/* ---------- Hero ---------- */
-.hero{position:relative;min-height:82vh;display:flex;align-items:flex-end;overflow:hidden;background:var(--ink);}
-.hero img,.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.55;}
-.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,20,32,.25) 0%,rgba(13,20,32,.92) 100%);}
-.hero-inner{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:4rem 2rem 4.5rem;color:#fff;width:100%;}
-.hero-inner h1{margin-bottom:1.3rem;width:100%;}
-.h1-line1{display:block;font-weight:800;font-size:clamp(1.05rem,3.1vw,2.3rem);letter-spacing:-.01em;line-height:1.18;color:#fff;text-transform:uppercase;white-space:nowrap;animation:neonPulseWhite 3.2s ease-in-out infinite;}
-@keyframes neonPulseWhite{
-  0%,100%{text-shadow:0 0 6px rgba(255,255,255,.55),0 0 16px rgba(255,255,255,.3),0 0 30px rgba(255,255,255,.15);}
-  50%{text-shadow:0 0 12px rgba(255,255,255,.9),0 0 28px rgba(255,255,255,.55),0 0 46px rgba(255,255,255,.3);}
-}
-@media (prefers-reduced-motion:reduce){.h1-line1{animation:none;}}
-.hero-inner p{max-width:560px;color:#d3dbe8;font-size:1.05rem;margin-bottom:2rem;}
-.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;}
-.hero-actions .btn-primary{background:#fff;color:var(--navy);border-color:#fff;}
-.hero-actions .btn-primary:hover{background:transparent;color:#fff;}
-.hero-actions .btn-ghost{color:#fff;border-color:rgba(255,255,255,.4);}
-.hero-actions .btn-ghost:hover{border-color:#fff;}
-
-/* ---------- Stats ---------- */
-.stats-strip{background:var(--ink);color:#fff;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.1);}
-.stat{padding:2.2rem;border-left:1px solid rgba(255,255,255,.12);}
-.stat:first-child{border-left:none;}
-.stat-num{display:block;font-size:1.9rem;font-weight:700;}
-.stat-label{font-size:.82rem;color:#9db0cc;margin-top:.2rem;}
-
-/* ---------- Two-path section ---------- */
-.section{max-width:1280px;margin:0 auto;padding:5.5rem 2rem;}
-.section-title{font-size:clamp(1.5rem,2.8vw,2rem);max-width:640px;margin-bottom:3rem;}
-.path-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
-.path-card{background:var(--surface);padding:2.6rem;}
-.path-card h3{font-size:1.25rem;margin-bottom:.9rem;}
-.path-card p{color:var(--grey-600);margin-bottom:1.6rem;max-width:420px;}
-
-/* ---------- Airport network strip ---------- */
-.airport-strip{display:flex;gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);overflow-x:auto;margin-bottom:2.4rem;}
-.airport-chip{flex:1 0 130px;background:var(--surface);padding:1.4rem 1.2rem;display:flex;flex-direction:column;gap:.3rem;}
-.ac-code{font-family:var(--mono);font-size:1.3rem;font-weight:700;color:var(--navy);letter-spacing:.02em;}
-.ac-city{font-size:.85rem;font-weight:600;}
-.ac-tag{font-size:.72rem;color:var(--grey-600);}
-.ac-hq{background:var(--navy);}
-.ac-hq .ac-code,.ac-hq .ac-city{color:#fff;}
-.ac-hq .ac-tag{color:#a9c2e0;}
-
-/* ---------- Live flight tracker embed ---------- */
-.board-wrap{background:var(--ink);border-radius:8px;padding:1.6rem 1.8rem 1.8rem;}
-.board-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem;margin-bottom:1.1rem;}
-.board-title{font-family:var(--mono);font-size:.82rem;font-weight:600;color:#fff;letter-spacing:.03em;}
-.board-live{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.68rem;color:#8b9bb5;}
-.bl-dot{width:6px;height:6px;border-radius:50%;background:#3ddc84;box-shadow:0 0 5px rgba(61,220,132,.7);}
-.chain-label{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:#6b7f9e;margin:1.2rem 0 .6rem;}
-.chain-label:first-of-type{margin-top:0;}
-.chain-wrap{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);}
-.chain-track{display:flex;width:max-content;gap:2.2rem;animation:chainScroll 32s linear infinite;padding:.4rem 0;}
-.chain-track-rev{animation-direction:reverse;animation-duration:24s;}
-.chain-item{font-family:var(--mono);font-size:.8rem;color:#c9d4e6;white-space:nowrap;flex-shrink:0;}
-.chain-item b{color:#ffb020;margin-right:.4rem;}
-@keyframes chainScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-@media (prefers-reduced-motion:reduce){.chain-track{animation:none;}}
-.board-note{font-size:.76rem;color:#8b9bb5;margin-top:1.2rem;max-width:640px;}
-
-/* ---------- Programs (image-led cards) ---------- */
-.section-tint{background:var(--grey-100);max-width:none;}
-.section-tint>*{max-width:1280px;margin-left:auto;margin-right:auto;}
-.card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
-
-.card{background:var(--surface);padding:0 0 1.6rem;}
-.card-media{height:190px;background:linear-gradient(135deg,#0e2340,#1c4a75);}
-.card-tag{display:block;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin:1.1rem 1.3rem .5rem;}
-.card h4{font-size:.98rem;margin:0 1.3rem .8rem;}
-.link-arrow{display:inline-flex;align-items:center;gap:.4rem;font-size:.82rem;font-weight:600;color:var(--blue-deep);margin:0 1.3rem;}
-
-/* ---------- Platform grid: macOS Launchpad style ---------- */
-.runway-band{
-  position:relative; overflow:hidden; max-width:none;
-  background:
-    radial-gradient(circle at 12% 15%, rgba(29,95,214,.16), transparent 42%),
-    radial-gradient(circle at 88% 10%, rgba(255,176,32,.14), transparent 40%),
-    radial-gradient(circle at 50% 100%, rgba(18,58,140,.12), transparent 45%),
-    #f6f8fb;
-  padding-top:6rem; padding-bottom:6.5rem;
-}
-.runway-band>*{max-width:1280px;margin-left:auto;margin-right:auto;position:relative;z-index:1;}
-.runway-band .eyebrow{color:var(--blue-deep);}
-.runway-band .section-title{color:var(--navy);}
-.beacon{display:none;}
-.runway-lights{display:none;}
-
-/* ---------- Approach scene: plane descending toward runway ---------- */
-.approach-scene{position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none;}
-.approach-sky{position:absolute;inset:0;background:linear-gradient(180deg,#8fb6e6 0%,#c3ddf3 45%,#eaf3fb 75%,#f6f8fb 100%);opacity:.75;}
-.approach-runway{position:absolute;left:50%;bottom:0;width:34%;height:52%;transform:translateX(-50%);background:linear-gradient(180deg,#414d5e,#232b38);clip-path:polygon(47% 0%,53% 0%,80% 100%,20% 100%);}
-.approach-centerline{position:absolute;left:50%;bottom:0;width:6px;height:52%;transform:translateX(-50%);background-image:repeating-linear-gradient(180deg,#ffb020 0 10%,transparent 10% 20%);clip-path:polygon(30% 0%,70% 0%,100% 100%,0% 100%);opacity:.8;}
-.approach-plane{position:absolute;left:50%;top:16%;width:56px;transform:translate(-50%,0) scale(.12);opacity:0;animation:planeApproach 7s ease-in infinite;}
-.approach-plane svg{width:100%;display:block;}
-@keyframes planeApproach{
-  0%{transform:translate(-50%,0) scale(.1);opacity:0;top:12%;}
-  10%{opacity:1;}
-  85%{transform:translate(-50%,0) scale(1.05);top:56%;opacity:1;}
-  100%{transform:translate(-50%,0) scale(1.2);top:62%;opacity:0;}
-}
-@media (prefers-reduced-motion:reduce){.approach-plane{animation:none;opacity:.9;top:35%;transform:translate(-50%,0) scale(.5);}}
-@media (max-width:700px){.approach-runway,.approach-centerline{width:55%;}}
-
-.platform-grid{display:flex;gap:2.2rem 1.4rem;background:transparent;border:none;overflow-x:auto;padding:.5rem .2rem 1rem;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
-.platform-grid::-webkit-scrollbar{display:none;}
-.platform-card{
-  background:transparent;
-  border:none;
-  border-radius:0;
-  backdrop-filter:none;
-  -webkit-backdrop-filter:none;
-  box-shadow:none;
-  padding:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  flex:0 0 108px;
-  text-align:center;
-  transition:transform .38s cubic-bezier(.2,.9,.25,1.35);
-}
-.platform-card:hover{
-  transform:translateY(-6px) scale(1.06);
-  box-shadow:none;
-}
-.platform-card h4{white-space:normal;line-height:1.3;min-height:2.5em;display:flex;align-items:flex-start;justify-content:center;}
-.platform-grid .platform-card p{display:none;}
-.platform-grid.pg-center{justify-content:center;}
-.pg-center .platform-icon{width:84px;height:84px;background:linear-gradient(155deg,#2f9be0,#0f4f9e);box-shadow:0 14px 30px rgba(15,79,158,.4),inset 0 1px 0 rgba(255,255,255,.3);}
-.pg-center .platform-card h4{font-size:1.05rem;min-height:0;}
-.pg-center .platform-card{flex:0 0 auto;}
-
-/* ---------- Big spinning globe -> Auran World ---------- */
-.big-globe-link{display:flex;flex-direction:column;align-items:center;gap:1.2rem;text-decoration:none;position:relative;z-index:1;}
-.big-globe-wrap{width:220px;height:220px;border-radius:50%;perspective:900px;transition:transform .4s ease;}
-.big-globe-link:hover .big-globe-wrap{transform:translateY(-6px) scale(1.03);}
-.big-globe-img{width:100%;height:100%;object-fit:contain;display:block;animation:globeSpin 9s linear infinite;filter:drop-shadow(0 18px 26px rgba(11,31,58,.35));}
-@keyframes globeSpin{from{transform:rotateY(0deg);}to{transform:rotateY(360deg);}}
-@media (prefers-reduced-motion:reduce){.big-globe-img{animation:none;}}
-.big-globe-label{font-size:1.15rem;font-weight:700;color:var(--navy);}
-@media (max-width:700px){.big-globe-wrap{width:150px;height:150px;}}
-.platform-icon{
-  display:flex; align-items:center; justify-content:center;
-  width:60px; height:60px; margin:0 auto 1.1rem;
-  border-radius:16px;
-  background:linear-gradient(155deg,#2f6fe0,#123a8c);
-  color:#fff; font-size:1.35rem;
-  box-shadow:0 10px 22px rgba(18,58,140,.4), inset 0 1px 0 rgba(255,255,255,.25);
-  transition:transform .38s cubic-bezier(.2,.9,.25,1.35);
-}
-.platform-card:hover .platform-icon{transform:scale(1.08) rotate(-2deg);}
-.platform-card:nth-child(4n+2) .platform-icon{background:linear-gradient(155deg,#ffc24d,#e08a00);box-shadow:0 6px 16px rgba(224,138,0,.35),inset 0 1px 0 rgba(255,255,255,.3);}
-.platform-card:nth-child(4n+3) .platform-icon{background:linear-gradient(155deg,#3ddc9e,#0f9e6e);box-shadow:0 6px 16px rgba(15,158,110,.32),inset 0 1px 0 rgba(255,255,255,.3);}
-.platform-card:nth-child(4n+4) .platform-icon{background:linear-gradient(155deg,#7c7ff0,#4b3fc9);box-shadow:0 6px 16px rgba(75,63,201,.32),inset 0 1px 0 rgba(255,255,255,.3);}
-.platform-card h4{font-size:.92rem;font-weight:600;margin-bottom:.4rem;color:var(--navy);}
-.platform-card p{font-size:.78rem;color:var(--grey-600);line-height:1.5;}
-@media (max-width:900px){.platform-card{border-radius:18px;}}
-
-/* ---------- Insights feed (CAPA-style headline list) ---------- */
-.insight-feed{border-top:1px solid var(--grey-300);}
-.insight-row{display:grid;grid-template-columns:110px 140px 1fr;gap:1.5rem;padding:1.3rem 0;border-bottom:1px solid var(--grey-300);align-items:baseline;}
-.insight-date{font-family:var(--mono);font-size:.76rem;color:var(--grey-600);}
-.insight-tag{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);}
-.insight-headline{font-size:.95rem;font-weight:600;}
-.insight-headline:hover{color:var(--blue-deep);}
-
-/* ---------- Events list (date / title / more-details row) ---------- */
-.events-list{border-top:1px solid var(--grey-300);}
-.event-row{display:grid;grid-template-columns:170px 1fr auto;gap:2rem;align-items:center;padding:1.9rem 0;border-bottom:1px solid var(--grey-300);}
-.event-date{font-family:var(--mono);font-size:.8rem;font-weight:700;color:var(--blue-deep);letter-spacing:.02em;}
-.event-body h4{font-size:1.05rem;margin-bottom:.4rem;}
-.event-body p{font-size:.88rem;color:var(--grey-600);}
-.event-more{white-space:nowrap;font-size:.85rem;font-weight:600;color:var(--navy);border-bottom:2px solid var(--navy);padding-bottom:2px;}
-.event-more:hover{color:var(--blue-deep);border-color:var(--blue-deep);}
-@media (max-width:800px){
-  .event-row{grid-template-columns:1fr;gap:.6rem;text-align:left;}
-  .event-more{justify-self:start;}
-}
-
-/* ---------- Newsletter band ---------- */
-.newsletter-band{background:var(--grey-100);border-top:1px solid var(--grey-300);border-bottom:1px solid var(--grey-300);padding:3.5rem 2rem;text-align:center;}
-.newsletter-band h2{font-size:1.4rem;margin-bottom:.7rem;}
-.newsletter-band p{color:var(--grey-600);max-width:520px;margin:0 auto 1.6rem;}
-.newsletter-form{display:flex;gap:0;max-width:400px;margin:0 auto;border:1px solid var(--navy);}
-.newsletter-form input{flex:1;padding:.75rem 1rem;border:none;font-family:inherit;font-size:.88rem;}
-.newsletter-form button{padding:.75rem 1.4rem;border:none;background:var(--navy);color:#fff;font-weight:600;font-size:.84rem;cursor:pointer;}
-.newsletter-form button:hover{background:var(--blue-deep);}
-
-/* ---------- About pillar grid ---------- */
-.card-grid-about{grid-template-columns:repeat(3,1fr);}
-@media (max-width:900px){.card-grid-about{grid-template-columns:1fr 1fr;}}
-@media (max-width:600px){.card-grid-about{grid-template-columns:1fr;}}
-
-/* ---------- About billboard slideshow ---------- */
-.billboard-slideshow{position:relative;border-radius:0;overflow:hidden;aspect-ratio:11/5;background:#0d1420;box-shadow:0 24px 50px rgba(11,31,58,.28);margin-bottom:1.4rem;width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);}
-.bb-slide{position:absolute;inset:0;opacity:0;transition:opacity 1s ease;z-index:1;}
-.bb-slide.active{opacity:1;z-index:2;}
-.bb-slide img{width:100%;height:100%;object-fit:contain;display:block;}
-.bb-lights{position:absolute;top:5%;left:0;width:100%;display:flex;justify-content:space-evenly;z-index:3;pointer-events:none;}
-.bb-lights span{width:9px;height:9px;border-radius:50%;background:#fff6d8;box-shadow:0 0 10px 4px rgba(255,246,216,.85);opacity:.35;animation:bbBlink 2.6s ease-in-out infinite;}
-.bb-lights span:nth-child(3n+1){animation-delay:0s;}
-.bb-lights span:nth-child(3n+2){animation-delay:.7s;}
-.bb-lights span:nth-child(3n){animation-delay:1.4s;}
-@keyframes bbBlink{0%,100%{opacity:.25;transform:scale(.8);}50%{opacity:1;transform:scale(1.2);}}
-@media (prefers-reduced-motion:reduce){.bb-lights span{animation:none;opacity:.8;}}
-.bb-arrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:none;background:rgba(13,20,32,.55);color:#fff;cursor:pointer;z-index:4;font-size:1rem;backdrop-filter:blur(4px);}
-.bb-arrow:hover{background:rgba(13,20,32,.8);}
-.bb-prev{left:14px;}
-.bb-next{right:14px;}
-.bb-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:.5rem;z-index:4;}
-.bb-dots button{width:24px;height:3px;border:none;background:rgba(255,255,255,.35);cursor:pointer;padding:0;}
-.bb-dots button.active{background:#ffb020;}
-@media (max-width:800px){
-  .billboard-slideshow{aspect-ratio:16/13;}
-}
-
-/* ---------- Founder ---------- */
-.founder-grid{display:grid;grid-template-columns:.75fr 1.25fr;gap:3rem;align-items:center;}
-.founder-photo{aspect-ratio:4/5;background:var(--grey-100);border:1px solid var(--grey-300);display:flex;align-items:center;justify-content:center;}
-.photo-placeholder{text-align:center;color:var(--grey-600);font-family:var(--mono);font-size:.78rem;padding:1rem;}
-.founder-text p{color:var(--grey-600);margin-bottom:1.4rem;max-width:520px;}
-
-/* ---------- Dashboard preview: aircraft window design ---------- */
-.aircraft-stand{position:relative;max-width:1100px;margin:0 auto;padding:2rem 0 2.5rem;}
-.aircraft-body{position:relative;width:100%;}
-.aircraft-body svg{width:100%;height:auto;display:block;}
-.aircraft-photo-wrap{aspect-ratio:2048/736;}
-.aircraft-photo-img{width:100%;height:100%;object-fit:contain;display:block;}
-.aircraft-windows-photo .ac-window{top:56.4%;width:3.2%;font-size:.9rem;}
-.aircraft-windows-photo .ac-window:hover,.aircraft-windows-photo .ac-window:focus-visible{transform:scale(3.2);}
-.aircraft-windows-photo .ac-window:nth-of-type(1){left:20.8%;}
-.aircraft-windows-photo .ac-window:nth-of-type(2){left:29%;}
-.aircraft-windows-photo .ac-window:nth-of-type(3){left:44.8%;}
-.aircraft-windows-photo .ac-window:nth-of-type(4){left:54.6%;}
-.aircraft-windows-photo .ac-window:nth-of-type(5){left:64.4%;}
-.aircraft-windows{position:absolute;top:0;left:0;width:100%;height:100%;}
-.ac-window{
-  position:absolute; top:30%; width:9.2%; aspect-ratio:1/1;
-  border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,#dcecfb,#9fc6e8 55%,#5c86b8 100%);
-  border:3px solid #1b2b45;
-  display:flex; align-items:center; justify-content:center;
-  font-size:1.3rem;
-  text-decoration:none; color:var(--navy);
-  cursor:pointer;
-  transition:transform .45s cubic-bezier(.2,.8,.2,1.3), box-shadow .45s ease;
-  box-shadow:0 4px 10px rgba(0,0,0,.25);
-}
-.ac-window:hover,.ac-window:focus-visible{
-  transform:scale(2.4);
-  z-index:5;
-  box-shadow:0 20px 46px rgba(0,0,0,.4);
-}
-.ac-window:nth-of-type(1){left:16%;}
-.ac-window:nth-of-type(2){left:31%;}
-.ac-window:nth-of-type(3){left:46%;}
-.ac-window:nth-of-type(4){left:61%;}
-.ac-window:nth-of-type(5){left:76%;}
-.ac-label{
-  position:absolute; top:100%; left:50%; transform:translate(-50%,10px);
-  width:150px; text-align:center; font-size:.72rem; font-weight:600; color:var(--navy);
-  opacity:0; transition:opacity .3s ease; pointer-events:none;
-  background:#fff; border:1px solid var(--grey-300); border-radius:6px; padding:.4rem .6rem;
-  box-shadow:0 6px 14px rgba(0,0,0,.12);
-}
-.ac-window:hover .ac-label,.ac-window:focus-visible .ac-label{opacity:1;}
-@media (max-width:800px){
-  .ac-window{font-size:1rem;}
-  .ac-window:hover,.ac-window:focus-visible{transform:scale(1.8);}
-  .ac-label{width:110px;font-size:.64rem;}
-}
-
-/* ---------- Footer ---------- */
-.site-footer{background:var(--ink);color:#aab4c6;padding:3.5rem 2rem 1.5rem;}
-.footer-grid{max-width:1280px;margin:0 auto 2rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:2rem;}
-.footer-grid .logo{color:#fff;}
-.footer-links{display:flex;gap:2.5rem;flex-wrap:wrap;}
-.footer-links a{font-size:.85rem;color:#aab4c6;}
-.footer-links a:hover{color:#fff;}
-.footer-bottom{max-width:1280px;margin:0 auto;font-size:.78rem;color:#6b7688;border-top:1px solid rgba(255,255,255,.1);padding-top:1.4rem;}
-
-@media (max-width:900px){
-  .main-nav{order:3;width:100%;justify-content:center;padding-top:.8rem;border-top:1px solid var(--grey-200);}
-  .path-grid,.card-grid,.platform-grid{grid-template-columns:1fr 1fr;}
-  .founder-grid{grid-template-columns:1fr;}
-  .insight-row{grid-template-columns:1fr;gap:.3rem;}
-}
-@media (max-width:600px){
-  .path-grid,.card-grid,.platform-grid{grid-template-columns:1fr;}
-  .newsletter-form{flex-direction:column;}
-  .main-nav{gap:.8rem 1.1rem;}
-  .main-nav a{font-size:.8rem;}
-}
+  .dash-cta{text-align:center;margin-top:56px;}
+  .dash-cta a{background:#101828;color:#fff;padding:12px 22px;border-radius:7px;font-size:13.5px;font-weight:700;text-decoration:none;}
 </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="nav-wrap">
-    <div class="logo-block">
-      <a href="index.html" class="logo">Auran<span>Inspire</span></a>
-      <span class="logo-tag">Designed by AK</span>
-    </div>
-    <nav class="main-nav">
-      <a href="#about">Briefing</a>
-      <a href="auran-world.html">Hangar</a>
-      <a href="#insights">Radar</a>
-      <a href="#events">Runway</a>
-      <a href="#contact">Tower</a>
-    </nav>
-    <div class="nav-actions">
-      <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle dark mode">
-        <svg id="themeIconSun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="5.1" y1="5.1" x2="6.8" y2="6.8"/><line x1="17.2" y1="17.2" x2="18.9" y2="18.9"/><line x1="5.1" y1="18.9" x2="6.8" y2="17.2"/><line x1="17.2" y1="6.8" x2="18.9" y2="5.1"/></svg>
-        <svg id="themeIconMoon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 6.8 6.8 0 0 0 20 14.5Z"/></svg>
-      </button>
-      <a href="auran-world.html" class="nav-icon-btn" aria-label="Auran World">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9"/>
-          <line x1="12" y1="12" x2="15.5" y2="8"/>
-          <line x1="12" y1="12" x2="12" y2="6" stroke-width="1"/>
-          <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>
-        </svg>
-      </a>
-    </div>
-  </div>
-  <div class="flight-clock">
-    <span class="fc-badge">IST</span>
-    <span class="fc-display" id="fc-india">--:--:--</span>
-    <button class="fc-toggle" id="fcToggle" aria-label="Show other time zones">
-      Other zones
-      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+<div class="dash-wrap">
+  <p class="dash-eyebrow">Your Dashboard</p>
+  <h2 class="dash-title">Everything you need to stay on track</h2>
+
+  <div class="plane-wrap" id="planeWrap">
+    <img src="aircraft-photo.png" alt="AuranInspire aircraft" id="planeImg">
+
+    <button class="plane-window" data-x="0.2036" data-key="tasks">
+      <span class="glow"></span><span class="pane"></span>
+      <div class="window-card">
+        <button class="wc-close" aria-label="Close">&times;</button>
+        <span class="wc-icon">🗓</span>
+        <p class="wc-title">Daily Tasks</p>
+        <p class="wc-desc">What's due today</p>
+        <a class="wc-link" href="attendance-audit-tool.html">Open →</a>
+      </div>
     </button>
-    <div class="fc-panel" id="fcPanel">
-      <div class="fc-row"><span class="fc-zone">Zulu / UTC</span><span class="fc-t" id="wc-UTC">--:--:--</span></div>
-      <div class="fc-row"><span class="fc-zone">Dubai</span><span class="fc-t" id="wc-Asia/Dubai">--:--:--</span></div>
-      <div class="fc-row"><span class="fc-zone">London</span><span class="fc-t" id="wc-Europe/London">--:--:--</span></div>
-      <div class="fc-row"><span class="fc-zone">New York</span><span class="fc-t" id="wc-America/New_York">--:--:--</span></div>
-      <div class="fc-row"><span class="fc-zone">Singapore</span><span class="fc-t" id="wc-Asia/Singapore">--:--:--</span></div>
-      <div class="fc-row"><span class="fc-zone">Tokyo</span><span class="fc-t" id="wc-Asia/Tokyo">--:--:--</span></div>
-    </div>
-  </div>
-</header>
 
-<section class="hero">
-  <video autoplay muted loop playsinline poster="assets/images/hero-main.jpg">
-    <source src="assets/videos/hero-bg.mp4" type="video/mp4">
-  </video>
-  <div class="hero-inner">
-    <h1><span class="h1-line1">Connecting today. Transforming tomorrow.</span></h1>
-    <p>AuranInspire is an aviation education and training organization — built by an aviation educator, for the next generation of aviation professionals.</p>
-    <div class="hero-actions">
-      <a href="#about" class="btn btn-primary">About AuranInspire</a>
-    </div>
-  </div>
-</section>
-
-<!-- ===== About / Founder ===== -->
-<section class="section" id="about">
-  <p class="eyebrow">ABOUT AURANINSPIRE</p>
-  <h2 class="section-title">What AuranInspire is, and who it's for</h2>
-
-  <div class="billboard-slideshow" id="billboardSlideshow">
-    <div class="bb-slide active">
-      <img src="assets/images/billboard-corporate-consulting.png" alt="AuranInspire Corporate & Consulting billboard">
-    </div>
-    <div class="bb-slide">
-      <img src="assets/images/billboard-education-training.png" alt="AuranInspire Aviation Education & Training billboard">
-    </div>
-    <div class="bb-slide">
-      <img src="assets/images/billboard-research-innovation.png" alt="AuranInspire Research & Innovation billboard">
-    </div>
-    <div class="bb-lights" aria-hidden="true">
-      <span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-    <button class="bb-arrow bb-prev" id="bbPrev" aria-label="Previous">←</button>
-    <button class="bb-arrow bb-next" id="bbNext" aria-label="Next">→</button>
-    <div class="bb-dots" id="bbDots"></div>
-  </div>
-
-  <div class="path-grid" style="margin-bottom:4rem;">
-    <div class="path-card">
-      <h3>What we do</h3>
-      <p>AuranInspire brings together aviation solutions, education, and innovation under one organization — built to close the gap between classroom aviation theory and real industry practice.</p>
-    </div>
-    <div class="path-card">
-      <h3>Who it's for</h3>
-      <p>Students building a career in airline, airport, or aviation management; industry partners looking for aviation consulting and solutions; and professionals seeking structured, practical training.</p>
-    </div>
-  </div>
-
-  <p class="eyebrow">FOUNDER &amp; AVIATION EDUCATOR</p>
-  <h2 class="section-title">Arun Kumar</h2>
-  <div class="founder-grid">
-    <div class="founder-photo">
-      <img src="assets/images/founder-arun-kumar.jpg" alt="Arun Kumar — Founder & Mentor, AuranInspire" style="width:100%;height:100%;object-fit:cover;">
-    </div>
-    <div class="founder-text">
-      <p>With years of academic and industry experience across aviation management education, Arun Kumar founded AuranInspire to close the gap between classroom aviation theory and real industry practice — combining teaching, research, and innovation under one roof.</p>
-      <a href="#contact" class="btn btn-ghost">Get in Touch →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ===== Platform ===== -->
-<section class="section runway-band" id="platform">
-  <div class="approach-scene" aria-hidden="true">
-    <div class="approach-sky"></div>
-    <div class="approach-runway"></div>
-    <div class="approach-centerline"></div>
-    <div class="approach-plane">
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <path d="M50 40 L5 70 L15 74 L50 55 Z" fill="#e7edf5"/>
-        <path d="M50 40 L95 70 L85 74 L50 55 Z" fill="#cfd8e3"/>
-        <ellipse cx="50" cy="45" rx="10" ry="30" fill="#f4f7fb"/>
-        <path d="M50 20 L44 5 L56 5 Z" fill="#123a8c"/>
-        <ellipse cx="50" cy="24" rx="5" ry="6" fill="#123a8c"/>
-        <circle cx="46" cy="18" r="1.6" fill="#ffb020"/>
-        <circle cx="54" cy="18" r="1.6" fill="#3ddc84"/>
-      </svg>
-    </div>
-  </div>
-  <p class="eyebrow">THE PLATFORM</p>
-  <h2 class="section-title">Everything you need, in one place</h2>
-  <a href="auran-world.html" class="big-globe-link">
-    <div class="big-globe-wrap">
-      <img src="assets/images/globe-world-blue.png" alt="Enter Auran World" class="big-globe-img">
-    </div>
-    <span class="big-globe-label">Auran World</span>
-  </a>
-</section>
-
-<!-- ===== Insights (CAPA-style headline feed) ===== -->
-<section class="section section-tint" id="insights">
-  <p class="eyebrow">LATEST INSIGHTS</p>
-  <h2 class="section-title">Ideas &amp; perspective on aviation education</h2>
-  <div class="insight-feed">
-    <div class="insight-row">
-      <span class="insight-date">31-Jul-2026</span>
-      <span class="insight-tag">Industry</span>
-      <a href="#" class="insight-headline">Why fare construction still matters in the GDS era</a>
-    </div>
-    <div class="insight-row">
-      <span class="insight-date">28-Jul-2026</span>
-      <span class="insight-tag">Sustainability</span>
-      <a href="#" class="insight-headline">Green airports: what students should know before graduating</a>
-    </div>
-    <div class="insight-row">
-      <span class="insight-date">22-Jul-2026</span>
-      <span class="insight-tag">Education</span>
-      <a href="#" class="insight-headline">Bridging classroom theory and real airline practice</a>
-    </div>
-    <div class="insight-row">
-      <span class="insight-date">15-Jul-2026</span>
-      <span class="insight-tag">Research</span>
-      <a href="#" class="insight-headline">Urban air mobility: an emerging regulatory landscape</a>
-    </div>
-  </div>
-</section>
-
-<!-- ===== Events ===== -->
-<section class="section" id="events">
-  <p class="eyebrow">EVENTS</p>
-  <h2 class="section-title">Upcoming sessions &amp; conferences</h2>
-  <div class="events-list">
-    <div class="event-row">
-      <div class="event-date">Thu · 4:00 PM IST</div>
-      <div class="event-body">
-        <h4>Guest Lecture: Sustainability in Airport Design</h4>
-        <p>Hosted by AuranInspire faculty — open to all enrolled students.</p>
+    <button class="plane-window" data-x="0.2939" data-key="coursefile">
+      <span class="glow"></span><span class="pane"></span>
+      <div class="window-card">
+        <button class="wc-close" aria-label="Close">&times;</button>
+        <span class="wc-icon">📁</span>
+        <p class="wc-title">Course File Work</p>
+        <p class="wc-desc">Semester records</p>
+        <a class="wc-link" href="course-file-work.html">Open →</a>
       </div>
-      <a href="#" class="event-more">More Details →</a>
-    </div>
-    <div class="event-row">
-      <div class="event-date">Sat · 10:00 AM IST</div>
-      <div class="event-body">
-        <h4>Aviation Innovation Challenge 2026</h4>
-        <p>Student teams pitch future-aviation concepts to an industry panel.</p>
+    </button>
+
+    <button class="plane-window" data-x="0.3916" data-key="access">
+      <span class="glow"></span><span class="pane"></span>
+      <div class="window-card">
+        <button class="wc-close" aria-label="Close">&times;</button>
+        <span class="wc-icon">🔐</span>
+        <p class="wc-title">Student Access</p>
+        <p class="wc-desc">One login for everything</p>
+        <a class="wc-link" href="cockpit.html">Open →</a>
       </div>
-      <a href="#" class="event-more">More Details →</a>
-    </div>
-    <div class="event-row">
-      <div class="event-date">Ongoing</div>
-      <div class="event-body">
-        <h4>Industry Connect Webinar Series</h4>
-        <p>Monthly sessions with aviation professionals across airlines and airports.</p>
+    </button>
+
+    <button class="plane-window" data-x="0.4771" data-key="gamify">
+      <span class="glow"></span><span class="pane"></span>
+      <div class="window-card">
+        <button class="wc-close" aria-label="Close">&times;</button>
+        <span class="wc-icon">🏆</span>
+        <p class="wc-title">Gamification Learning Centre</p>
+        <p class="wc-desc">Points &amp; badges</p>
+        <a class="wc-link disabled" href="#" onclick="return false;">Coming soon</a>
       </div>
-      <a href="#" class="event-more">More Details →</a>
-    </div>
-  </div>
-</section>
+    </button>
 
-<!-- ===== Newsletter ===== -->
-<section class="newsletter-band">
-  <p class="eyebrow">STAY UPDATED</p>
-  <h2>Weekly aviation education insights</h2>
-  <p>Get the latest programs, research, and industry perspective from AuranInspire, delivered weekly.</p>
-  <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Connect this form to your email service to receive real subscribers.');">
-    <input type="email" placeholder="Your email address" required>
-    <button type="submit">Subscribe</button>
-  </form>
-</section>
+    <button class="plane-window" data-x="0.5549" data-key="progress">
+      <span class="glow"></span><span class="pane"></span>
+      <div class="window-card">
+        <button class="wc-close" aria-label="Close">&times;</button>
+        <span class="wc-icon">📈</span>
+        <p class="wc-title">Progress Tracker</p>
+        <p class="wc-desc">Scores &amp; skill growth</p>
+        <a class="wc-link disabled" href="#" onclick="return false;">Coming soon</a>
+      </div>
+    </button>
 
-<!-- ===== Dashboard preview ===== -->
-<section class="section section-tint" id="dashboard-preview">
-  <p class="eyebrow">YOUR DASHBOARD</p>
-  <h2 class="section-title">Everything you need to stay on track</h2>
-
-  <div class="aircraft-stand">
-    <div class="aircraft-body aircraft-photo-wrap">
-      <img src="assets/images/aircraft-photo.png" alt="AuranInspire aircraft" class="aircraft-photo-img">
-    </div>
-    <div class="aircraft-windows aircraft-windows-photo">
-      <a href="attendance-audit-tool.html" class="ac-window">
-        🗓
-        <span class="ac-label">Daily Tasks — what's due today</span>
-      </a>
-      <a href="course-file-work.html" class="ac-window">
-        📁
-        <span class="ac-label">Course File Work — semester records</span>
-      </a>
-      <span class="ac-window" tabindex="0">
-        🔐
-        <span class="ac-label">Student Access — one login for everything</span>
-      </span>
-      <span class="ac-window" tabindex="0">
-        🏆
-        <span class="ac-label">Gamification Learning Centre — points &amp; badges</span>
-      </span>
-      <span class="ac-window" tabindex="0">
-        📈
-        <span class="ac-label">Progress Tracker — scores &amp; skill growth</span>
-      </span>
-    </div>
   </div>
 
-  <div style="text-align:center;margin-top:2.4rem;">
-    <a href="#" class="btn btn-primary">Explore the Dashboard</a>
-  </div>
-</section>
-
-<!-- ===== Contact / Footer ===== -->
-<footer class="site-footer" id="contact">
-  <div class="footer-grid">
-    <div class="logo-block">
-      <a href="index.html" class="logo">Auran<span>Inspire</span></a>
-      <span class="logo-tag" style="color:#8b96a8;">Designed by AK</span>
-    </div>
-    <div class="footer-links">
-      <a href="#about">Briefing</a>
-      <a href="#insights">Radar</a>
-      <a href="cockpit.html">Student &amp; Faculty Access</a>
-    </div>
-  </div>
-  <div class="footer-bottom">© 2026 AuranInspire. Designed by AK. All rights reserved.</div>
-</footer>
-
-<script>
-(function(){
-  var container = document.getElementById('billboardSlideshow');
-  if(!container) return;
-  var slides = container.querySelectorAll('.bb-slide');
-  var dotsWrap = document.getElementById('bbDots');
-  var current = 0;
-  var timer;
-
-  slides.forEach(function(_, i){
-    var dot = document.createElement('button');
-    if(i === 0) dot.classList.add('active');
-    dot.addEventListener('click', function(){ goTo(i); resetTimer(); });
-    dotsWrap.appendChild(dot);
-  });
-
-  function goTo(i){
-    slides[current].classList.remove('active');
-    dotsWrap.children[current].classList.remove('active');
-    current = ((i % slides.length) + slides.length) % slides.length;
-    slides[current].classList.add('active');
-    dotsWrap.children[current].classList.add('active');
-  }
-  function next(){ goTo(current + 1); }
-  function prev(){ goTo(current - 1); }
-  function resetTimer(){ clearInterval(timer); timer = setInterval(next, 4500); }
-
-  document.getElementById('bbNext').addEventListener('click', function(){ next(); resetTimer(); });
-  document.getElementById('bbPrev').addEventListener('click', function(){ prev(); resetTimer(); });
-
-  resetTimer();
-  container.addEventListener('mouseenter', function(){ clearInterval(timer); });
-  container.addEventListener('mouseleave', resetTimer);
-})();
-
-(function(){
-  var root = document.documentElement;
-  var toggle = document.getElementById('themeToggle');
-  var sunIcon = document.getElementById('themeIconSun');
-  var moonIcon = document.getElementById('themeIconMoon');
-
-  function applyTheme(theme){
-    if(theme === 'dark'){
-      root.setAttribute('data-theme', 'dark');
-      sunIcon.style.display = 'none';
-      moonIcon.style.display = 'block';
-    } else {
-      root.removeAttribute('data-theme');
-      sunIcon.style.display = 'block';
-      moonIcon.style.display = 'none';
-    }
-  }
-
-  var saved = null;
-  try{ saved = localStorage.getItem('auranTheme'); }catch(e){}
-  if(!saved){
-    saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-  }
-  applyTheme(saved);
-
-  toggle.addEventListener('click', function(){
-    var current = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-    var next = current === 'dark' ? 'light' : 'dark';
-    applyTheme(next);
-    try{ localStorage.setItem('auranTheme', next); }catch(e){}
-  });
-})();
-
-(function(){
-  var fcToggle = document.getElementById('fcToggle');
-  var fcPanel = document.getElementById('fcPanel');
-  fcToggle.addEventListener('click', function(e){
-    e.stopPropagation();
-    fcToggle.classList.toggle('open');
-    fcPanel.classList.toggle('open');
-  });
-  document.addEventListener('click', function(e){
-    if(!fcPanel.contains(e.target) && e.target !== fcToggle){
-      fcToggle.classList.remove('open');
-      fcPanel.classList.remove('open');
-    }
-  });
-
-  var zones = ['Asia/Kolkata','UTC','Asia/Dubai','Europe/London','America/New_York','Asia/Singapore','Asia/Tokyo'];
-  function pad(n){ return String(n).padStart(2,'0'); }
-  function formatZone(zone, now){
-    try{
-      return new Intl.DateTimeFormat('en-GB', {
-        timeZone: zone === 'UTC' ? 'UTC' : zone,
-        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
-      }).format(now);
-    }catch(e){
-      return pad(now.getUTCHours()) + ':' + pad(now.getUTCMinutes()) + ':' + pad(now.getUTCSeconds());
-    }
-  }
-  function tick(){
-    var now = new Date();
-    var indiaEl = document.getElementById('fc-india');
-    if(indiaEl) indiaEl.textContent = formatZone('Asia/Kolkata', now);
-    zones.forEach(function(zone){
-      var el = document.getElementById('wc-' + zone);
-      if(!el) return;
-      el.textContent = formatZone(zone, now);
-    });
-  }
-  tick();
-  setInterval(tick, 1000);
-})();
-</script>
-<!-- ===== Walking crew easter egg (cartoon image) ===== -->
-<style>
-.site-walker-img{position:fixed;bottom:0;left:-90px;z-index:9999;pointer-events:none;animation:walkAcrossImg 24s linear infinite;}
-.site-walker-img .wk-shadow{width:70px;height:14px;margin:0 auto;border-radius:50%;background:rgba(11,20,32,.32);filter:blur(2px);animation:shadowPulse .5s steps(2,jump-none) infinite;}
-.site-walker-img img{height:120px;width:auto;display:block;filter:drop-shadow(0 4px 4px rgba(0,0,0,.2));animation:walkBobImg .5s steps(2,jump-none) infinite;}
-@keyframes walkAcrossImg{0%{left:-90px;}100%{left:calc(100% + 90px);}}
-@keyframes walkBobImg{0%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-7px) rotate(2deg);}100%{transform:translateY(0) rotate(-2deg);}}
-@keyframes shadowPulse{0%{transform:scaleX(1);opacity:.32;}50%{transform:scaleX(.72);opacity:.2;}100%{transform:scaleX(1);opacity:.32;}}
-@media (prefers-reduced-motion:reduce){.site-walker-img{display:none;}}
-@media (max-width:600px){.site-walker-img img{height:90px;} .site-walker-img .wk-shadow{width:52px;}}
-</style>
-<div class="site-walker-img" aria-hidden="true">
-  <img src="assets/images/crew-walker.png" alt="">
-  <div class="wk-shadow"></div>
+  <div class="dash-cta"><a href="#">Explore the Dashboard</a></div>
 </div>
 
-</body>
-</html>
+<script>
+// Fractions measured directly from the source image pixels (2048x736):
+// window row center sits at 62.91% of image height; each button's x fraction is set via data-x.
+var Y_FRAC = 0.6291;
+var WIN_W_FRAC = 12/2048;   // actual window width in the photo
+var WIN_H_FRAC = 18/736;    // actual window height in the photo
+var HIT_SCALE = 2.4;        // invisible extra click-target margin, visual pane stays window-sized
+
+function positionWindows(){
+  var img = document.getElementById('planeImg');
+  var w = img.clientWidth, h = img.clientHeight;
+  if(!w || !h) return;
+  document.querySelectorAll('.plane-window').forEach(function(btn){
+    var xFrac = parseFloat(btn.getAttribute('data-x'));
+    var cx = xFrac * w;
+    var cy = Y_FRAC * h;
+    var hitW = WIN_W_FRAC * w * HIT_SCALE;
+    var hitH = WIN_H_FRAC * h * HIT_SCALE;
+    btn.style.left = (cx - hitW/2) + 'px';
+    btn.style.top = (cy - hitH/2) + 'px';
+    btn.style.width = hitW + 'px';
+    btn.style.height = hitH + 'px';
+  });
+}
+
+var img = document.getElementById('planeImg');
+if(img.complete){ positionWindows(); } else { img.addEventListener('load', positionWindows); }
+window.addEventListener('resize', positionWindows);
+
+document.querySelectorAll('.plane-window').forEach(function(btn){
+  btn.addEventListener('click', function(e){
+    if(e.target.closest('.window-card') && !e.target.classList.contains('wc-close')) return;
+    var isActive = btn.classList.contains('active');
+    document.querySelectorAll('.plane-window.active').forEach(function(b){ b.classList.remove('active'); });
+    if(!isActive) btn.classList.add('active');
+  });
+});
+document.addEventListener('click', function(e){
+  if(!e.target.closest('.plane-window')){
+    document.querySelectorAll('.plane-window.active').forEach(function(b){ b.classList.remove('active'); });
+  }
+});
+</script>
+</body></html>
