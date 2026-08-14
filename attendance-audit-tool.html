@@ -1,152 +1,240 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BBA Aviation — IIC Daily Attendance Audit</title>
+<title>MH Cockpit — Daily Attendance Submission Form</title>
 <style>
   :root{
-    --navy:#0e2038; --navy-2:#142c4a; --blue:#1f5fa8; --blue-light:#e7f0fa;
-    --grey-100:#f4f6f8; --grey-200:#e5e9ee; --grey-300:#d4dae2; --grey-600:#5c6674;
-    --ink:#0e131a; --white:#ffffff;
-    --auth:#1f7a4d; --auth-bg:#e6f5ec;
-    --unauth:#b23b3b; --unauth-bg:#fbe9e9;
-    --other:#8a6d1f; --other-bg:#faf3e0;
+    --navy:#1F3864;
+    --navy-2:#16294a;
+    --orange:#C55A11;
+    --sec-blue:#2E74B5;
+    --sec-d-blue:#2E75B6;
+    --label-bg:#DCE6F1;
+    --zebra:#F2F2F2;
+    --line:#000000;
+    --red:#C00000;
+    --ink:#1a1a1a;
+    --muted:#5c6674;
+    --page-bg:#7c8896;
   }
   *{box-sizing:border-box;}
-  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;background:var(--grey-100);color:var(--ink);}
-  .wrap{max-width:1320px;margin:0 auto;padding:1.6rem;}
-  .topbar{background:var(--navy);color:#fff;border-radius:10px;padding:1.4rem 1.8rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.4rem;}
-  .topbar h1{font-size:1.15rem;margin:0 0 .25rem;}
-  .topbar p{margin:0;font-size:.82rem;color:#a9c2e0;}
-  .btn{border:none;border-radius:8px;padding:.65rem 1.1rem;font-size:.85rem;font-weight:600;cursor:pointer;}
+  body{
+    margin:0;
+    font-family:Cambria,"Times New Roman",Georgia,serif;
+    background:var(--page-bg);
+    color:var(--ink);
+  }
+  .toolbar{
+    position:sticky;top:0;z-index:20;
+    background:var(--navy-2);
+    color:#fff;
+    padding:.7rem 1.2rem;
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  }
+  .toolbar .tb-title{font-size:.85rem;color:#c7d3e0;}
+  .toolbar .tb-btns{display:flex;gap:.6rem;}
+  .btn{border:none;border-radius:5px;padding:.55rem 1rem;font-size:.82rem;font-weight:600;cursor:pointer;font-family:inherit;}
   .btn-primary{background:#fff;color:var(--navy);}
   .btn-primary:hover{background:#e6edf5;}
   .btn-ghost{background:transparent;border:1px solid #3a5a80;color:#fff;}
   .btn-ghost:hover{background:#1a3252;}
-  .btn-small{border:1px solid var(--grey-300);background:#fff;color:var(--grey-600);border-radius:6px;padding:.35rem .6rem;font-size:.78rem;cursor:pointer;}
-  .btn-small:hover{background:var(--grey-100);}
-  .btn-danger{border:1px solid #e6b8b8;color:var(--unauth);background:#fff;border-radius:6px;padding:.35rem .55rem;font-size:.78rem;cursor:pointer;}
-  .btn-danger:hover{background:var(--unauth-bg);}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
-  @media (max-width:1000px){.grid{grid-template-columns:1fr;}}
-  .card{background:#fff;border:1px solid var(--grey-300);border-radius:10px;padding:1.4rem 1.5rem;margin-bottom:1.4rem;}
-  .card h2{font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;color:var(--blue);margin:0 0 1rem;}
-  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.9rem;}
-  .field{display:flex;flex-direction:column;gap:.35rem;}
-  .field label{font-size:.76rem;color:var(--grey-600);font-weight:600;}
-  .field input,.field select,.field textarea{border:1px solid var(--grey-300);border-radius:6px;padding:.5rem .6rem;font-size:.85rem;font-family:inherit;background:#fff;color:var(--ink);}
-  .field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--blue);outline-offset:1px;}
-  .row-entry{border:1px solid var(--grey-300);border-radius:8px;padding:.9rem 1rem;margin-bottom:.8rem;position:relative;background:var(--grey-100);}
-  .row-entry .field-row{grid-template-columns:1fr 1fr;}
-  .row-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;}
-  .row-head .sno{font-size:.78rem;font-weight:700;color:var(--navy);}
-  .add-btn{width:100%;border:1.5px dashed var(--blue);color:var(--blue);background:#fff;border-radius:8px;padding:.7rem;font-size:.85rem;font-weight:600;cursor:pointer;}
-  .add-btn:hover{background:var(--blue-light);}
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:1.2rem;}
-  .stat{background:var(--grey-100);border-radius:8px;padding:.8rem;text-align:center;}
-  .stat .num{font-size:1.4rem;font-weight:700;color:var(--navy);}
-  .stat .lbl{font-size:.72rem;color:var(--grey-600);margin-top:.15rem;}
-  table.preview{width:100%;border-collapse:collapse;font-size:.8rem;}
-  table.preview th{background:var(--navy);color:#fff;padding:.5rem .5rem;text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.02em;}
-  table.preview td{padding:.5rem .5rem;border-bottom:1px solid var(--grey-200);vertical-align:top;}
-  table.preview tr:nth-child(even) td{background:var(--grey-100);}
-  .code-pill{display:inline-block;font-size:.72rem;font-weight:700;padding:.15rem .5rem;border-radius:4px;}
-  .code-AUTH{background:var(--auth-bg);color:var(--auth);}
-  .code-UNAUTH{background:var(--unauth-bg);color:var(--unauth);}
-  .code-GROOM,.code-OD,.code-SUSP{background:var(--other-bg);color:var(--other);}
-  .pc-Y{color:var(--auth);font-weight:700;}
-  .pc-N{color:var(--unauth);font-weight:700;}
-  .empty-note{font-size:.85rem;color:var(--grey-600);padding:1.2rem 0;text-align:center;}
-  .notes-row{display:flex;gap:.6rem;align-items:center;margin-bottom:.6rem;}
-  .notes-row span{font-size:.78rem;color:var(--grey-600);width:1.4rem;}
-  .notes-row input{flex:1;}
-  .signoff{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-  .footer-note{font-size:.78rem;color:var(--grey-600);margin-top:.3rem;}
+
+  .page{
+    max-width:900px;
+    margin:26px auto 60px;
+    background:#fff;
+    box-shadow:0 4px 18px rgba(0,0,0,.35);
+    padding:34px 40px 46px;
+  }
+  .title-bar{
+    background:var(--navy);
+    color:#fff;
+    text-align:center;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:.02em;
+    padding:8px 10px;
+    text-transform:uppercase;
+  }
+  .subtitle-bar{
+    background:var(--orange);
+    color:#fff;
+    text-align:center;
+    font-weight:700;
+    font-size:12.5px;
+    padding:6px 10px;
+    margin-bottom:16px;
+  }
+  h2.section{
+    color:var(--sec-blue);
+    font-weight:700;
+    font-size:13.5px;
+    letter-spacing:.02em;
+    text-transform:uppercase;
+    margin:22px 0 8px;
+  }
+  p.sub-instr{font-size:12px;color:var(--ink);margin:0 0 10px;}
+  p.legend{font-size:12px;color:var(--red);font-weight:700;margin:0 0 8px;}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  table.meta td{border:1px solid var(--line);padding:8px 10px;vertical-align:middle;}
+  table.meta td.label{background:var(--label-bg);font-weight:700;width:22%;}
+  table.meta td.value{width:28%;}
+  table.meta input{width:100%;border:none;background:transparent;font-family:inherit;font-size:12.5px;padding:2px 0;}
+  table.meta input:focus{outline:1px solid var(--sec-blue);background:#fbfdff;}
+  table.meta td.readout{font-weight:700;}
+
+  table.entries{margin-top:2px;}
+  table.entries th{
+    background:var(--navy);color:#fff;border:1px solid var(--line);
+    padding:8px 8px;font-size:11.5px;text-transform:uppercase;letter-spacing:.02em;text-align:left;
+  }
+  table.entries td{border:1px solid var(--line);padding:7px 8px;vertical-align:top;}
+  table.entries tbody tr:nth-child(even) td{background:var(--zebra);}
+  table.entries select,table.entries input{
+    width:100%;border:1px solid #b9c2cc;border-radius:3px;padding:5px 6px;font-size:12px;font-family:inherit;background:#fff;
+  }
+  table.entries select:focus,table.entries input:focus{outline:2px solid var(--sec-blue);outline-offset:0;}
+  td.auto-cell{font-size:11.5px;color:#333;}
+  .other-wrap{margin-top:5px;display:none;}
+  .other-wrap.show{display:block;}
+  .prefill-note{margin-top:4px;font-size:10.5px;color:#2E74B5;font-style:italic;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;}
+  .sno-cell{text-align:center;width:34px;font-weight:700;}
+  .rm-cell{width:26px;text-align:center;}
+  .rm-btn{border:none;background:transparent;color:var(--red);font-size:15px;cursor:pointer;font-weight:700;}
+  .rm-btn:hover{color:#7a0000;}
+  .empty-row td{text-align:center;color:var(--muted);font-style:italic;padding:14px;background:#fff !important;}
+
+  .add-row-btn{
+    margin-top:8px;
+    border:1.4px dashed var(--sec-blue);
+    color:var(--sec-blue);
+    background:#fff;
+    border-radius:5px;
+    padding:.55rem;
+    font-size:12.5px;
+    font-weight:700;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    width:100%;
+    cursor:pointer;
+  }
+  .add-row-btn:hover{background:#eaf1f9;}
+
+  table.totals th{background:var(--navy);color:#fff;border:1px solid var(--line);padding:8px;font-size:12px;}
+  table.totals td{border:1px solid var(--line);padding:8px;background:var(--zebra);font-size:12.5px;}
+
+  table.notes th{background:var(--sec-d-blue);color:#fff;border:1px solid var(--line);padding:8px;text-align:left;font-size:12px;}
+  table.notes td{border:1px solid var(--line);padding:6px 8px;}
+  table.notes td.sno{width:6%;text-align:center;}
+  table.notes input{width:100%;border:none;font-family:inherit;font-size:12.5px;background:transparent;}
+  table.notes input:focus{outline:1px solid var(--sec-d-blue);background:#fbfdff;}
+  table.notes tbody tr:nth-child(even) td{background:var(--zebra);}
+
+  table.signoff th{background:var(--navy);color:#fff;border:1px solid var(--line);padding:8px;font-size:12px;}
+  table.signoff td{border:1px solid var(--line);padding:8px;}
+  table.signoff input{width:100%;border:none;font-family:inherit;font-size:12.5px;background:transparent;}
+  table.signoff input:focus{outline:1px solid var(--navy);background:#fbfdff;}
+
+  .foot-note{text-align:center;font-size:11px;color:#eaeef3;padding:6px 0 30px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <a href="index.html#dashboard-preview" style="display:inline-flex;align-items:center;gap:.4rem;font-size:.83rem;color:var(--blue);text-decoration:none;font-weight:600;margin-bottom:1rem;">&larr; Back to dashboard</a>
-
-  <div class="topbar">
-    <div>
-      <h1>BBA Aviation — IIC Daily Attendance Audit</h1>
-      <p>MH Cockpit submission format · VELS Institute of Science, Technology &amp; Advanced Studies</p>
-    </div>
-    <div style="display:flex;gap:.6rem;">
-      <button class="btn btn-ghost" onclick="resetForm()">Clear form</button>
-      <button class="btn btn-primary" onclick="downloadDoc()">Download Word document</button>
-    </div>
+<div class="toolbar">
+  <div class="tb-title"><a href="index.html#dashboard-preview" style="color:#c7d3e0;text-decoration:none;">&larr; Back to dashboard</a> &nbsp;·&nbsp; MH Cockpit — BBA Aviation IIC Daily Attendance</div>
+  <div class="tb-btns">
+    <button class="btn btn-ghost" onclick="resetForm()">Clear form</button>
+    <button class="btn btn-primary" onclick="downloadDoc()">Download Word document</button>
   </div>
+</div>
 
-  <div class="card">
-    <h2>Section A — Submission details</h2>
-    <div class="field-row">
-      <div class="field"><label>Institution / college name</label><input id="fInstitution" value="VELS INSTITUTE OF SCIENCE TECHNOLOGY AND ADVANCED STUDIES"></div>
-      <div class="field"><label>Programme</label><input id="fProgramme" value="BBA — AVIATION"></div>
-    </div>
-    <div class="field-row">
-      <div class="field"><label>Date (DD/MM/YYYY)</label><input id="fDate" type="date"></div>
-      <div class="field"><label>Year &amp; batch</label><input id="fYearBatch" value="II &amp; 2025"></div>
-    </div>
-    <div class="field-row">
-      <div class="field"><label>Class in-charge name</label><input id="fInCharge" value="ARUN KUMAR K"></div>
-      <div class="field"><label>Submission time</label><input id="fSubTime" type="time"></div>
-    </div>
-    <div class="field-row">
-      <div class="field"><label>Total students on roll</label><input id="fTotalRoll" type="number" value="44" min="0"></div>
-      <div></div>
-    </div>
-  </div>
+<div class="page">
 
-  <div class="grid">
+  <div class="title-bar">MH Cockpit — Daily Attendance Submission Form</div>
+  <div class="subtitle-bar">For Class In-Charges &amp; CPL Instructors | Submit by 12:30 PM daily</div>
 
-    <div>
-      <div class="card">
-        <h2>Section B — Absent students (data entry)</h2>
-        <div id="rowsContainer"></div>
-        <button class="add-btn" onclick="addRow()">+ Add absent student</button>
-      </div>
+  <h2 class="section">Section A — Submission Details</h2>
+  <table class="meta">
+    <tr>
+      <td class="label">Institution / College Name:</td>
+      <td class="value"><input id="fInstitution" value="VELS INSTITUTE OF SCIENCE TECHNOLOGY AND ADVANCED STUDIES"></td>
+      <td class="label">Date (DD/MM/YYYY):</td>
+      <td class="value"><input id="fDate" type="date"></td>
+    </tr>
+    <tr>
+      <td class="label">Programme:</td>
+      <td class="value"><input id="fProgramme" value="BBA – AVIATION"></td>
+      <td class="label">Year &amp; Batch:</td>
+      <td class="value"><input id="fYearBatch" value="II &amp; 2025"></td>
+    </tr>
+    <tr>
+      <td class="label">Class In Charge Name:</td>
+      <td class="value"><input id="fInCharge" value="ARUN KUMAR K"></td>
+      <td class="label">Submission Time:</td>
+      <td class="value"><input id="fSubTime" type="time"></td>
+    </tr>
+    <tr>
+      <td class="label">Total Students on Roll:</td>
+      <td class="value"><input id="fTotalRoll" type="number" value="44" min="0" oninput="refresh()"></td>
+      <td class="label">Total Present / Total Absent:</td>
+      <td class="value readout" id="presentAbsentReadout">44 / 0</td>
+    </tr>
+  </table>
 
-      <div class="card">
-        <h2>Section D — Special notes (if any)</h2>
-        <div class="notes-row"><span>1</span><input id="note1" placeholder="Welfare concern, repeat absence, suspension confirmation..."></div>
-        <div class="notes-row"><span>2</span><input id="note2" placeholder=""></div>
-        <div class="notes-row"><span>3</span><input id="note3" placeholder=""></div>
-      </div>
+  <h2 class="section">Section B — Absent Students <span style="text-transform:none;font-weight:400;">| Fill one row per absent student</span></h2>
+  <p class="legend">Absence Type Codes: AUTH = Authorized | UNAUTH = Unauthorized | GROOM = Grooming | OD = On Duty | SUSP = Suspended</p>
+  <p class="sub-instr">Pick a student first — if they have a recent absence on file, their Absence Type and Reason pre-fill automatically (still editable). Parent Contacted and Remarks are always filled in from the Absence Type.</p>
+  <table class="entries">
+    <thead>
+      <tr>
+        <th style="width:34px">S.No</th>
+        <th style="min-width:170px">Student Full Name</th>
+        <th style="width:110px">Absence Type</th>
+        <th style="min-width:220px">Reason for Absence</th>
+        <th style="width:110px">Parent Contacted? (Y/N)</th>
+        <th style="min-width:150px">Remarks / Additional Notes</th>
+        <th style="width:26px"></th>
+      </tr>
+    </thead>
+    <tbody id="rowsBody"></tbody>
+  </table>
+  <button class="add-row-btn" onclick="addRow()">+ Add absent student</button>
 
-      <div class="card">
-        <h2>Section E — Coordinator sign-off</h2>
-        <div class="signoff">
-          <div class="field"><label>Coordinator name</label><input id="fCoordName" value="Arun Kumar K"></div>
-          <div class="field"><label>Signature (typed name)</label><input id="fSignature" value="Arun Kumar K"></div>
-        </div>
-      </div>
-    </div>
+  <h2 class="section">Section C — Totals Verification</h2>
+  <p class="sub-instr">Before submitting, check: Total Present + Total Absent = Total Students on Roll</p>
+  <table class="totals">
+    <tr><th>Total on Roll</th><th>Total Present</th><th>Total Absent</th><th>AUTH</th><th>UNAUTH</th></tr>
+    <tr><td id="tRoll">44</td><td id="tPresent">44</td><td id="tAbsent">0</td><td id="tAuth">0</td><td id="tUnauth">0</td></tr>
+  </table>
 
-    <div>
-      <div class="card">
-        <h2>Live document preview — mirrors the downloaded Word file</h2>
-        <div class="stats">
-          <div class="stat"><div class="num" id="stRoll">44</div><div class="lbl">Total on roll</div></div>
-          <div class="stat"><div class="num" id="stPresent">44</div><div class="lbl">Total present</div></div>
-          <div class="stat"><div class="num" id="stAbsent">0</div><div class="lbl">Total absent</div></div>
-          <div class="stat"><div class="num" id="stAuth">0</div><div class="lbl">AUTH / UNAUTH</div></div>
-        </div>
-        <div id="previewTableWrap" style="background:#fff;border:1px solid var(--grey-300);border-radius:6px;padding:1.1rem 1.2rem;overflow-x:auto;"></div>
-      </div>
-    </div>
+  <h2 class="section">Section D — Special Notes (If Any)</h2>
+  <p class="sub-instr">Use this section for anything that needs Quality Department attention — student welfare concerns, suspension confirmations, students who have been absent for multiple days, students who mentioned leaving the programme, etc.</p>
+  <table class="notes">
+    <tr><th style="width:8%">S. No</th><th>Note / Observation</th></tr>
+    <tr><td class="sno">1</td><td><input id="note1" placeholder=""></td></tr>
+    <tr><td class="sno">2</td><td><input id="note2" placeholder=""></td></tr>
+    <tr><td class="sno">3</td><td><input id="note3" placeholder=""></td></tr>
+  </table>
 
-  </div>
-
-  <p class="footer-note" style="text-align:center;">File downloads as <strong>BBA AVIATION -IIC &lt;date&gt;.doc</strong> — opens directly in Microsoft Word, matching the original submission form layout.</p>
+  <h2 class="section">Section E — Coordinator Sign-Off</h2>
+  <table class="signoff">
+    <tr><th>Coordinator Name</th><th>Signature</th><th>Date &amp; Time of Submission</th></tr>
+    <tr>
+      <td><input id="fCoordName" value="Arun Kumar K"></td>
+      <td><input id="fSignature" value="Arun Kumar K"></td>
+      <td id="dtReadout">—</td>
+    </tr>
+  </table>
 
 </div>
 
+<p class="foot-note">Downloads as <strong>BBA AVIATION -IIC &lt;date&gt;.doc</strong> — opens directly in Microsoft Word, matching the original submission form layout.</p>
+
 <script>
-var STUDENTS = ["ABDUL SATTAR","AKASH SELAVN","ALI AAMIR","AMBHAREEN SULTHANA R","ANKITHA","ARIF","ASIR AHAMED","ATCHAYA","BAGATH MARKS","BHARANI DHARAN","DELISH KUMAR","DHARSHINI","DHIYA","GOPIKA","HARIDEV","HARISUDHAN","HEMACHANDER KOSHIK","JASMINE","JAY SHREE","JOSHAN","KARTHIKA","KARTHIKEYAN","KISHORE G","KISHORE KUMAR","MOHAMMED AADHIL","MOHAMED ASHIFQ","MOHAMED IQBAL","MOHAMED SAMEER BASHA","SOLAI KUGANESAN","MUKESH","NAFIZA","NARMADHA","ROGITH","VISHAL R","SANTHOSHKUMAR","SHAHIL J","SHAIK MOHAMMED HAMZA","SHAIK MOHAMMED S H","TAWFEEQ MOHAMED R","THARUN KUMAR","VASUNDARA SELVAM","VISHAL G","YUSUF I"];
+var STUDENTS = ["ABDUL SATTAR","AKASH SELAVN","ALI AAMIR","AMBHAREEN SULTHANA R","ANKITHA","ARIF","ASIR AHAMED","ATCHAYA","BAGATH MARKS","BHARANI DHARAN","DELISH KUMAR","DHARSHINI","DHIYA","GPOIKA","HARIDEV","HARISUDHAN","HEMACHANDER KOSHIK","JASMINE","JAY SHREE","JOSHAN","KARTHIKA","KARTHIKEYAN","KISHORE G","KISHORE KUMAR","MOHAMMED AADHIL","MOHAMED ASHIFQ","MOHAMED IQBAL","MOHAMED SAMEER BASHA","SOLAI KUGANESAN","MUKESH","NAFIZA","NARMADHA","ROGITH","VISHAL R","SANTHOSHKUMAR","SHAHIL J","SHAIK MOHAMMED HAMZA","SHAIK MOHAMMED S H","TAWFEEQ MOHAMED R","THARUN KUMAR","VASUNDARA SELVAM","VISHAL G","YUSUF I","KEZIAHAL Y"];
 var ABS_CODES = ["AUTH","UNAUTH","GROOM","OD","SUSP"];
 var REASONS = [
   "1. Medical Reason (Self)",
@@ -171,6 +259,38 @@ var REASONS = [
   "20. Other (Please Specify)"
 ];
 var AUTO_CONTACT = { "AUTH":"Y", "UNAUTH":"N", "GROOM":"Y", "OD":"Y", "SUSP":"Y" };
+var AUTO_REMARKS = { "AUTH":"Prior notification given", "UNAUTH":"No prior notification", "GROOM":"NA", "OD":"On official duty (counted present)", "SUSP":"NA" };
+
+// Most recent absence type / reason on file per student, drawn from the last two
+// submitted attendance forms (3-Aug-2026, then 27-Jul-2026 as fallback). Used to
+// pre-fill a row the moment a student is picked from the dropdown — still editable.
+var STUDENT_HISTORY = {
+  "ABDUL SATTAR": {type:"UNAUTH", reason:""},
+  "ALI AAMIR": {type:"UNAUTH", reason:""},
+  "AMBHAREEN SULTHANA R": {type:"UNAUTH", reason:""},
+  "BHARANI DHARAN": {type:"UNAUTH", reason:""},
+  "DELISH KUMAR": {type:"UNAUTH", reason:""},
+  "GPOIKA": {type:"UNAUTH", reason:""},
+  "HEMACHANDER KOSHIK": {type:"AUTH", reason:"1. Medical Reason (Self)"},
+  "JASMINE": {type:"UNAUTH", reason:""},
+  "MOHAMED IQBAL": {type:"UNAUTH", reason:""},
+  "SHAHIL J": {type:"AUTH", reason:"3. Family Function"},
+  "SHAIK MOHAMMED HAMZA": {type:"UNAUTH", reason:""},
+  "TAWFEEQ MOHAMED R": {type:"UNAUTH", reason:""},
+  "VISHAL G": {type:"UNAUTH", reason:""},
+  "YUSUF I": {type:"UNAUTH", reason:""},
+  "ANKITHA": {type:"UNAUTH", reason:""},
+  "ASIR AHAMED": {type:"UNAUTH", reason:""},
+  "DHARSHINI": {type:"UNAUTH", reason:""},
+  "DHIYA": {type:"AUTH", reason:"13. Public Transport / Vehicle Breakdown"},
+  "HARISUDHAN": {type:"UNAUTH", reason:""},
+  "JOSHAN": {type:"AUTH", reason:"1. Medical Reason (Self)"},
+  "KARTHIKEYAN": {type:"UNAUTH", reason:""},
+  "KISHORE G": {type:"UNAUTH", reason:""},
+  "MOHAMED SAMEER BASHA": {type:"AUTH", reason:"13. Public Transport / Vehicle Breakdown"},
+  "NARMADHA": {type:"UNAUTH", reason:""},
+  "THARUN KUMAR": {type:"UNAUTH", reason:""}
+};
 var rowCount = 0;
 var rows = {};
 
@@ -219,57 +339,87 @@ function reasonOptions(selected){
 function addRow(){
   rowCount++;
   var id = rowCount;
-  rows[id] = true;
-  var container = document.getElementById("rowsContainer");
-  var div = document.createElement("div");
-  div.className = "row-entry";
-  div.id = "row-"+id;
-  div.innerHTML =
-    '<div class="row-head"><span class="sno">Entry #'+id+'</span>'+
-    '<button class="btn-danger" onclick="removeRow('+id+')">Remove</button></div>'+
-    '<div class="field-row">'+
-      '<div class="field"><label>Student full name</label><select id="name-'+id+'" onchange="refresh()">'+studentOptions("")+'</select></div>'+
-      '<div class="field"><label>Absence type</label><select id="type-'+id+'" onchange="onTypeChange('+id+')">'+codeOptions("")+'</select></div>'+
-    '</div>'+
-    '<div class="field" style="margin-bottom:.9rem;"><label>Reason for absence</label><select id="reason-'+id+'" onchange="onReasonChange('+id+')">'+reasonOptions("")+'</select></div>'+
-    '<div class="field" id="otherwrap-'+id+'" style="display:none;margin-bottom:.9rem;"><label>Please specify</label><input id="reasonother-'+id+'" placeholder="Type the reason" oninput="refresh()"></div>'+
-    '<div class="field-row">'+
-      '<div class="field"><label>Parent contacted? <span style="font-weight:400;color:var(--grey-600);">(auto-set by absence type, editable)</span></label><select id="contact-'+id+'" onchange="refresh()">'+
-        '<option value="">Select...</option><option value="Y">Y — Contacted</option><option value="N">N — Not contacted</option></select></div>'+
-      '<div class="field"><label>Remarks / additional notes</label><input id="remarks-'+id+'" placeholder="Optional" oninput="refresh()"></div>'+
-    '</div>';
-  container.appendChild(div);
+  rows[id] = {};
+  renderRows();
+}
+
+function renderRows(){
+  var body = document.getElementById("rowsBody");
+  var ids = Object.keys(rows);
+  if(ids.length === 0){
+    body.innerHTML = '<tr class="empty-row"><td colspan="7">No absent students added yet — click "+ Add absent student" below.</td></tr>';
+    refresh();
+    return;
+  }
+  var html = "";
+  ids.forEach(function(id, idx){
+    var d = rows[id];
+    html += '<tr id="row-'+id+'">'+
+      '<td class="sno-cell">'+(idx+1)+'</td>'+
+      '<td><select id="name-'+id+'" onchange="onNameChange('+id+')">'+studentOptions(d.name||"")+'</select></td>'+
+      '<td><select id="type-'+id+'" onchange="onRowChange('+id+')">'+codeOptions(d.type||"")+'</select></td>'+
+      '<td><select id="reason-'+id+'" onchange="onReasonChange('+id+')">'+reasonOptions(d.reason||"")+'</select>'+
+        '<div class="other-wrap'+(d.reason && d.reason.indexOf("20.")===0 ? ' show':'')+'" id="otherwrap-'+id+'"><input id="reasonother-'+id+'" placeholder="Type the reason" value="'+esc(d.other||"")+'" oninput="onRowChange('+id+')"></div>'+
+        (d._prefilled ? '<div class="prefill-note">Pre-filled from last record — edit if today differs</div>' : '')+
+      '</td>'+
+      '<td class="auto-cell" id="contact-'+id+'">'+(AUTO_CONTACT[d.type]||"—")+'</td>'+
+      '<td class="auto-cell" id="remarks-'+id+'">'+(AUTO_REMARKS[d.type]||"—")+'</td>'+
+      '<td class="rm-cell"><button class="rm-btn" title="Remove" onclick="removeRow('+id+')">&times;</button></td>'+
+    '</tr>';
+  });
+  body.innerHTML = html;
   refresh();
 }
 
-function onTypeChange(id){
-  var type = document.getElementById("type-"+id).value;
-  var contactSelect = document.getElementById("contact-"+id);
-  if(AUTO_CONTACT[type]){
-    contactSelect.value = AUTO_CONTACT[type];
+function onNameChange(id){
+  var name = document.getElementById("name-"+id).value;
+  rows[id] = rows[id] || {};
+  rows[id].name = name;
+  // Only pre-fill from history if the coordinator hasn't already picked a type/reason for this row
+  if(!rows[id].type && !rows[id].reason && STUDENT_HISTORY[name]){
+    rows[id].type = STUDENT_HISTORY[name].type || "";
+    rows[id].reason = STUDENT_HISTORY[name].reason || "";
+    rows[id].other = "";
+    rows[id]._prefilled = true;
+  } else {
+    rows[id]._prefilled = false;
   }
+  renderRows();
+}
+
+function onRowChange(id){
+  rows[id] = rows[id] || {};
+  rows[id]._prefilled = false;
+  rows[id].name = document.getElementById("name-"+id).value;
+  rows[id].type = document.getElementById("type-"+id).value;
+  var reasonEl = document.getElementById("reason-"+id);
+  rows[id].reason = reasonEl ? reasonEl.value : rows[id].reason;
+  var otherEl = document.getElementById("reasonother-"+id);
+  rows[id].other = otherEl ? otherEl.value : rows[id].other;
+  var contactCell = document.getElementById("contact-"+id);
+  var remarksCell = document.getElementById("remarks-"+id);
+  if(contactCell) contactCell.textContent = AUTO_CONTACT[rows[id].type] || "—";
+  if(remarksCell) remarksCell.textContent = AUTO_REMARKS[rows[id].type] || "—";
   refresh();
 }
+
 function onReasonChange(id){
+  onRowChange(id);
   var reason = document.getElementById("reason-"+id).value;
   var otherWrap = document.getElementById("otherwrap-"+id);
-  if(reason.indexOf("Other") === 0 || reason.indexOf("20.") === 0){
-    otherWrap.style.display = "flex";
+  if(reason.indexOf("20.") === 0){
+    otherWrap.classList.add("show");
   } else {
-    otherWrap.style.display = "none";
+    otherWrap.classList.remove("show");
   }
-  refresh();
 }
 
 function removeRow(id){
   delete rows[id];
-  var el = document.getElementById("row-"+id);
-  if(el) el.remove();
-  refresh();
+  renderRows();
 }
 
 function resetForm(){
-  document.getElementById("rowsContainer").innerHTML = "";
   rows = {};
   rowCount = 0;
   document.getElementById("fDate").value = todayISO();
@@ -278,31 +428,30 @@ function resetForm(){
   document.getElementById("note1").value = "";
   document.getElementById("note2").value = "";
   document.getElementById("note3").value = "";
-  refresh();
+  renderRows();
 }
 
 function collectRows(){
   var out = [];
   Object.keys(rows).forEach(function(id){
-    var name = document.getElementById("name-"+id).value;
-    var type = document.getElementById("type-"+id).value;
-    var reason = document.getElementById("reason-"+id).value;
+    var r = rows[id];
+    var name = r.name || "";
+    var type = r.type || "";
+    var reason = r.reason || "";
     if(reason.indexOf("20.") === 0){
-      var otherEl = document.getElementById("reasonother-"+id);
-      var otherText = otherEl ? otherEl.value : "";
-      reason = otherText ? "Other — " + otherText : "20. Other (Please Specify)";
+      reason = r.other ? "Other — " + r.other : "20. Other (Please Specify)";
     }
-    var contact = document.getElementById("contact-"+id).value;
-    var remarks = document.getElementById("remarks-"+id).value;
-    if(name || type || reason || contact || remarks){
-      out.push({id:id,name:name,type:type,reason:reason,contact:contact,remarks:remarks});
+    var contact = AUTO_CONTACT[type] || "";
+    var remarks = AUTO_REMARKS[type] || "";
+    if(name || type || reason){
+      out.push({name:name,type:type,reason:reason,contact:contact,remarks:remarks});
     }
   });
   return out;
 }
 
 function esc(s){
-  return (s||"").toString().replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  return (s||"").toString().replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
 
 function buildDocumentHtml(){
@@ -346,59 +495,59 @@ function buildDocumentHtml(){
   }
 
   var html =
-  '<div style="font-family:Calibri,Arial,sans-serif;font-size:11pt;">'+
-  '<p style="text-align:center;font-weight:bold;font-size:14pt;margin-bottom:2px;">MH COCKPIT — DAILY ATTENDANCE SUBMISSION FORM</p>'+
-  '<p style="text-align:center;font-size:9pt;color:#555;margin-top:0;">For Class In-Charges and CPL Instructors | Submit by 12:30 PM daily</p>'+
+  '<div style="font-family:Cambria,\'Times New Roman\',Georgia,serif;font-size:11pt;">'+
+  '<table cellspacing="0" cellpadding="6" style="width:100%;border-collapse:collapse;margin-bottom:2px;"><tr><td style="background:#1F3864;color:#ffffff;text-align:center;font-weight:bold;font-size:13pt;">MH COCKPIT — DAILY ATTENDANCE SUBMISSION FORM</td></tr></table>'+
+  '<table cellspacing="0" cellpadding="5" style="width:100%;border-collapse:collapse;margin-bottom:14px;"><tr><td style="background:#C55A11;color:#ffffff;text-align:center;font-weight:bold;font-size:10pt;">For Class In-Charges and CPL Instructors | Submit by 12:30 PM daily</td></tr></table>'+
 
-  '<p style="font-weight:bold;background:#0e2038;color:#ffffff;padding:4px 6px;margin-top:16px;">SECTION A — SUBMISSION DETAILS</p>'+
+  '<p style="font-weight:bold;color:#2E74B5;font-size:12pt;margin:16px 0 6px;">SECTION A — SUBMISSION DETAILS</p>'+
   '<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;">'+
-    '<tr><td style="width:25%;"><b>Institution / College Name:</b></td><td style="width:25%;">'+institution+'</td>'+
-        '<td style="width:25%;"><b>Date (DD/MM/YYYY):</b></td><td style="width:25%;">'+dateDisp+'</td></tr>'+
-    '<tr><td><b>Programme:</b></td><td>'+programme+'</td><td><b>Year &amp; Batch:</b></td><td>'+yearBatch+'</td></tr>'+
-    '<tr><td><b>Class In Charge Name:</b></td><td>'+inCharge+'</td><td><b>Submission Time:</b></td><td>'+subTime+'</td></tr>'+
-    '<tr><td><b>Total Students on Roll:</b></td><td>'+roll+'</td><td><b>Total Present / Absent:</b></td><td>'+present+' / '+absent+'</td></tr>'+
+    '<tr><td style="width:25%;background:#DCE6F1;"><b>Institution / College Name:</b></td><td style="width:25%;">'+institution+'</td>'+
+        '<td style="width:25%;background:#DCE6F1;"><b>Date (DD/MM/YYYY):</b></td><td style="width:25%;">'+dateDisp+'</td></tr>'+
+    '<tr><td style="background:#DCE6F1;"><b>Programme:</b></td><td>'+programme+'</td><td style="background:#DCE6F1;"><b>Year &amp; Batch:</b></td><td>'+yearBatch+'</td></tr>'+
+    '<tr><td style="background:#DCE6F1;"><b>Class In Charge Name:</b></td><td>'+inCharge+'</td><td style="background:#DCE6F1;"><b>Submission Time:</b></td><td>'+subTime+'</td></tr>'+
+    '<tr><td style="background:#DCE6F1;"><b>Total Students on Roll:</b></td><td>'+roll+'</td><td style="background:#DCE6F1;"><b>Total Present / Absent:</b></td><td>'+present+' / '+absent+'</td></tr>'+
   '</table>'+
 
-  '<p style="font-weight:bold;background:#0e2038;color:#ffffff;padding:4px 6px;margin-top:16px;">SECTION B — ABSENT STUDENTS</p>'+
-  '<p style="font-size:9pt;color:#555;">Absence Type Codes: AUTH = Authorized | UNAUTH = Unauthorized | GROOM = Grooming | OD = On Duty | SUSP = Suspended</p>'+
+  '<p style="font-weight:bold;color:#2E74B5;font-size:12pt;margin:16px 0 6px;">SECTION B — ABSENT STUDENTS</p>'+
+  '<p style="font-size:9pt;color:#C00000;font-weight:bold;">Absence Type Codes: AUTH = Authorized | UNAUTH = Unauthorized | GROOM = Grooming | OD = On Duty | SUSP = Suspended</p>'+
   '<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:10pt;">'+
-    '<tr style="background:#e7f0fa;"><th>S.No</th><th>Student Full Name</th><th>Absence Type</th><th>Reason for Absence</th><th>Parent Contacted? (Y/N)</th><th>Remarks / Additional Notes</th></tr>'+
+    '<tr style="background:#1F3864;color:#ffffff;"><th>S.No</th><th>Student Full Name</th><th>Absence Type</th><th>Reason for Absence</th><th>Parent Contacted? (Y/N)</th><th>Remarks / Additional Notes</th></tr>'+
     rowsHtml+
   '</table>'+
 
-  '<p style="font-weight:bold;background:#0e2038;color:#ffffff;padding:4px 6px;margin-top:16px;">SECTION C — TOTALS VERIFICATION</p>'+
+  '<p style="font-weight:bold;color:#2E74B5;font-size:12pt;margin:16px 0 6px;">SECTION C — TOTALS VERIFICATION</p>'+
   '<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;">'+
-    '<tr style="background:#e7f0fa;"><th>Total on Roll</th><th>Total Present</th><th>Total Absent</th><th>AUTH</th><th>UNAUTH</th></tr>'+
+    '<tr style="background:#1F3864;color:#ffffff;"><th>Total on Roll</th><th>Total Present</th><th>Total Absent</th><th>AUTH</th><th>UNAUTH</th></tr>'+
     '<tr><td>'+roll+'</td><td>'+present+'</td><td>'+absent+'</td><td>'+authCount+'</td><td>'+unauthCount+'</td></tr>'+
   '</table>'+
 
-  '<p style="font-weight:bold;background:#0e2038;color:#ffffff;padding:4px 6px;margin-top:16px;">SECTION D — SPECIAL NOTES (IF ANY)</p>'+
+  '<p style="font-weight:bold;color:#2E74B5;font-size:12pt;margin:16px 0 6px;">SECTION D — SPECIAL NOTES (IF ANY)</p>'+
   '<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;">'+
-    '<tr style="background:#e7f0fa;"><th style="width:8%;">S.No</th><th>Note / Observation</th></tr>'+
+    '<tr style="background:#2E75B6;color:#ffffff;"><th style="width:8%;">S.No</th><th>Note / Observation</th></tr>'+
     '<tr><td>1</td><td>'+(note1||"&nbsp;")+'</td></tr>'+
     '<tr><td>2</td><td>'+(note2||"&nbsp;")+'</td></tr>'+
     '<tr><td>3</td><td>'+(note3||"&nbsp;")+'</td></tr>'+
   '</table>'+
 
-  '<p style="font-weight:bold;background:#0e2038;color:#ffffff;padding:4px 6px;margin-top:16px;">SECTION E — COORDINATOR SIGN-OFF</p>'+
+  '<p style="font-weight:bold;color:#2E74B5;font-size:12pt;margin:16px 0 6px;">SECTION E — COORDINATOR SIGN-OFF</p>'+
   '<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;">'+
-    '<tr style="background:#e7f0fa;"><th>Coordinator Name</th><th>Signature</th><th>Date &amp; Time of Submission</th></tr>'+
+    '<tr style="background:#1F3864;color:#ffffff;"><th>Coordinator Name</th><th>Signature</th><th>Date &amp; Time of Submission</th></tr>'+
     '<tr><td>'+coordName+'</td><td>'+signature+'</td><td>'+dateDisp+' '+subTime+'</td></tr>'+
   '</table>'+
   '</div>';
 
-  return { html: html, roll: roll, present: present, absent: absent, authCount: authCount, unauthCount: unauthCount, dateDisp: dateDisp };
+  return { html: html, roll: roll, present: present, absent: absent, authCount: authCount, unauthCount: unauthCount, dateDisp: dateDisp, subTime: subTime };
 }
 
 function refresh(){
   var built = buildDocumentHtml();
-
-  document.getElementById("stRoll").textContent = built.roll;
-  document.getElementById("stPresent").textContent = built.present;
-  document.getElementById("stAbsent").textContent = built.absent;
-  document.getElementById("stAuth").textContent = built.authCount + " / " + built.unauthCount;
-
-  document.getElementById("previewTableWrap").innerHTML = built.html;
+  document.getElementById("tRoll").textContent = built.roll;
+  document.getElementById("tPresent").textContent = built.present;
+  document.getElementById("tAbsent").textContent = built.absent;
+  document.getElementById("tAuth").textContent = built.authCount;
+  document.getElementById("tUnauth").textContent = built.unauthCount;
+  document.getElementById("presentAbsentReadout").textContent = built.present + " / " + built.absent;
+  document.getElementById("dtReadout").textContent = built.dateDisp + " " + built.subTime;
 }
 
 function downloadDoc(){
@@ -419,8 +568,9 @@ function downloadDoc(){
   URL.revokeObjectURL(url);
 }
 
-addRow();
-refresh();
+document.getElementById("fSubTime").addEventListener("input", refresh);
+document.getElementById("fDate").addEventListener("input", refresh);
+renderRows();
 </script>
 </body>
 </html>
