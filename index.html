@@ -199,13 +199,52 @@ img{max-width:100%;display:block;}
 
 /* ---------- Big spinning globe -> Auran World ---------- */
 .big-globe-link{display:flex;flex-direction:column;align-items:center;gap:1.2rem;text-decoration:none;position:relative;z-index:1;}
-.big-globe-wrap{width:220px;height:220px;border-radius:50%;perspective:900px;transition:transform .4s ease;}
-.big-globe-link:hover .big-globe-wrap{transform:translateY(-6px) scale(1.03);}
-.big-globe-img{width:100%;height:100%;object-fit:contain;display:block;animation:globeSpin 9s linear infinite;filter:drop-shadow(0 18px 26px rgba(11,31,58,.35));}
-@keyframes globeSpin{from{transform:rotateY(0deg);}to{transform:rotateY(360deg);}}
-@media (prefers-reduced-motion:reduce){.big-globe-img{animation:none;}}
-.big-globe-label{font-size:1.15rem;font-weight:700;color:var(--navy);}
-@media (max-width:700px){.big-globe-wrap{width:150px;height:150px;}}
+
+/* ---------- Cockpit-style switch -> Auran World ---------- */
+.cockpit-switch-link{display:inline-flex;text-decoration:none;position:relative;z-index:1;}
+.cockpit-panel{
+  position:relative;
+  width:250px;
+  padding:2.2rem 1.6rem 1.9rem;
+  border-radius:16px;
+  background-image:linear-gradient(180deg, rgba(10,12,15,.55), rgba(10,12,15,.82) 60%, rgba(10,12,15,.92)), url('assets/images/cockpit-panel.jpg');
+  background-size:cover;
+  background-position:center 35%;
+  box-shadow:0 20px 50px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.08), inset 0 -2px 6px rgba(0,0,0,.5);
+  border:1px solid #050607;
+  display:flex; flex-direction:column; align-items:center; gap:.85rem;
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+.cockpit-switch-link:hover .cockpit-panel{transform:translateY(-4px);box-shadow:0 26px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.1);}
+.cockpit-lights{display:flex;gap:.5rem;position:absolute;top:14px;left:50%;transform:translateX(-50%);}
+.cl{width:7px;height:7px;border-radius:50%;box-shadow:0 0 4px 1px currentColor;}
+.cl-red{background:#ff4d4d;color:#ff4d4d;animation:cockpitBlink 2.6s ease-in-out infinite;}
+.cl-amber{background:#ffb020;color:#ffb020;animation:cockpitBlink 2.6s ease-in-out .5s infinite;}
+.cl-green{background:#3ddc84;color:#3ddc84;animation:cockpitBlink 2.6s ease-in-out 1s infinite;}
+@keyframes cockpitBlink{0%,100%{opacity:.4;}50%{opacity:1;}}
+@media (prefers-reduced-motion:reduce){.cl{animation:none;opacity:.85;}}
+.cockpit-switch{
+  width:72px; height:72px; border-radius:50%; margin-top:.5rem;
+  background:radial-gradient(circle at 35% 30%,#4b5158,#20242a 70%);
+  border:3px solid #0a0c0e;
+  box-shadow:0 6px 14px rgba(0,0,0,.5), inset 0 2px 3px rgba(255,255,255,.15), inset 0 -3px 6px rgba(0,0,0,.6);
+  display:flex; align-items:center; justify-content:center;
+}
+.cockpit-switch-toggle{
+  width:26px; height:26px; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#ffe9a8,#ffb020 60%,#a86a00);
+  box-shadow:0 0 10px 3px rgba(255,176,32,.55), inset 0 1px 2px rgba(255,255,255,.5);
+  transition:transform .2s ease, box-shadow .25s ease;
+}
+.cockpit-switch-link:hover .cockpit-switch-toggle{transform:scale(1.12);box-shadow:0 0 16px 6px rgba(255,176,32,.8), inset 0 1px 2px rgba(255,255,255,.6);}
+.cockpit-switch-link:active .cockpit-switch-toggle{transform:scale(.9);}
+.cockpit-switch-label{font-family:var(--mono);font-size:.92rem;font-weight:700;letter-spacing:.08em;color:#f2c76a;text-transform:uppercase;text-shadow:0 0 6px rgba(255,193,90,.4);}
+.cockpit-switch-sub{font-family:var(--mono);font-size:.66rem;color:#8a94a3;letter-spacing:.04em;}
+@media (max-width:700px){
+  .cockpit-panel{width:200px;padding:1.9rem 1.2rem 1.5rem;}
+  .cockpit-switch{width:58px;height:58px;}
+  .cockpit-switch-toggle{width:20px;height:20px;}
+}
 .platform-icon{
   display:flex; align-items:center; justify-content:center;
   width:60px; height:60px; margin:0 auto 1.1rem;
@@ -506,11 +545,19 @@ img{max-width:100%;display:block;}
   </div>
   <p class="eyebrow">THE PLATFORM</p>
   <h2 class="section-title">Everything you need, in one place</h2>
-  <a href="auran-world.html" class="big-globe-link">
-    <div class="big-globe-wrap">
-      <img src="assets/images/globe-world-blue.png" alt="Enter Auran World" class="big-globe-img">
+  <a href="auran-world.html" class="cockpit-switch-link" aria-label="Enter Auran World">
+    <div class="cockpit-panel">
+      <div class="cockpit-lights" aria-hidden="true">
+        <span class="cl cl-red"></span>
+        <span class="cl cl-amber"></span>
+        <span class="cl cl-green"></span>
+      </div>
+      <div class="cockpit-switch">
+        <div class="cockpit-switch-toggle"></div>
+      </div>
+      <span class="cockpit-switch-label">Auran World</span>
+      <span class="cockpit-switch-sub">Tap to enter</span>
     </div>
-    <span class="big-globe-label">Auran World</span>
   </a>
 </section>
 
@@ -593,28 +640,28 @@ img{max-width:100%;display:block;}
   <div class="aircraft-stand">
     <div class="aircraft-body aircraft-photo-wrap">
       <img src="assets/images/aircraft-photo.png" alt="AuranInspire aircraft" class="aircraft-photo-img">
-    </div>
-    <div class="aircraft-windows aircraft-windows-photo">
-      <a href="attendance-audit-tool.html" class="ac-window">
-        🗓
-        <span class="ac-label">Daily Tasks — what's due today</span>
-      </a>
-      <a href="course-file-work.html" class="ac-window">
-        📁
-        <span class="ac-label">Course File Work — semester records</span>
-      </a>
-      <span class="ac-window" tabindex="0">
-        🔐
-        <span class="ac-label">Student Access — one login for everything</span>
-      </span>
-      <span class="ac-window" tabindex="0">
-        🏆
-        <span class="ac-label">Gamification Learning Centre — points &amp; badges</span>
-      </span>
-      <span class="ac-window" tabindex="0">
-        📈
-        <span class="ac-label">Progress Tracker — scores &amp; skill growth</span>
-      </span>
+      <div class="aircraft-windows aircraft-windows-photo">
+        <a href="attendance-audit-tool.html" class="ac-window">
+          🗓
+          <span class="ac-label">Daily Tasks — what's due today</span>
+        </a>
+        <a href="course-file-work.html" class="ac-window">
+          📁
+          <span class="ac-label">Course File Work — semester records</span>
+        </a>
+        <span class="ac-window" tabindex="0">
+          🔐
+          <span class="ac-label">Student Access — one login for everything</span>
+        </span>
+        <span class="ac-window" tabindex="0">
+          🏆
+          <span class="ac-label">Gamification Learning Centre — points &amp; badges</span>
+        </span>
+        <span class="ac-window" tabindex="0">
+          📈
+          <span class="ac-label">Progress Tracker — scores &amp; skill growth</span>
+        </span>
+      </div>
     </div>
   </div>
 
