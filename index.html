@@ -137,37 +137,15 @@ img{max-width:100%;display:block;}
 .card h4{font-size:.98rem;margin:0 1.3rem .8rem;}
 .link-arrow{display:inline-flex;align-items:center;gap:.4rem;font-size:.82rem;font-weight:600;color:var(--blue-deep);margin:0 1.3rem;}
 
-/* ---------- Platform grid: macOS Launchpad style ---------- */
+/* ---------- Platform section ---------- */
 .runway-band{
-  position:relative; overflow:hidden; max-width:none;
-  background:
-    radial-gradient(circle at 12% 15%, rgba(29,95,214,.16), transparent 42%),
-    radial-gradient(circle at 88% 10%, rgba(255,176,32,.14), transparent 40%),
-    radial-gradient(circle at 50% 100%, rgba(18,58,140,.12), transparent 45%),
-    #f6f8fb;
-  padding-top:6rem; padding-bottom:6.5rem;
+  position:relative; max-width:none;
+  background:#f6f8fb;
+  padding-top:5.5rem; padding-bottom:6rem;
 }
 .runway-band>*{max-width:1280px;margin-left:auto;margin-right:auto;position:relative;z-index:1;}
 .runway-band .eyebrow{color:var(--blue-deep);}
 .runway-band .section-title{color:var(--navy);}
-.beacon{display:none;}
-.runway-lights{display:none;}
-
-/* ---------- Approach scene: plane descending toward runway ---------- */
-.approach-scene{position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none;}
-.approach-sky{position:absolute;inset:0;background:linear-gradient(180deg,#8fb6e6 0%,#c3ddf3 45%,#eaf3fb 75%,#f6f8fb 100%);opacity:.75;}
-.approach-runway{position:absolute;left:50%;bottom:0;width:34%;height:52%;transform:translateX(-50%);background:linear-gradient(180deg,#414d5e,#232b38);clip-path:polygon(47% 0%,53% 0%,80% 100%,20% 100%);}
-.approach-centerline{position:absolute;left:50%;bottom:0;width:6px;height:52%;transform:translateX(-50%);background-image:repeating-linear-gradient(180deg,#ffb020 0 10%,transparent 10% 20%);clip-path:polygon(30% 0%,70% 0%,100% 100%,0% 100%);opacity:.8;}
-.approach-plane{position:absolute;left:50%;top:16%;width:56px;transform:translate(-50%,0) scale(.12);opacity:0;animation:planeApproach 7s ease-in infinite;}
-.approach-plane svg{width:100%;display:block;}
-@keyframes planeApproach{
-  0%{transform:translate(-50%,0) scale(.1);opacity:0;top:12%;}
-  10%{opacity:1;}
-  85%{transform:translate(-50%,0) scale(1.05);top:56%;opacity:1;}
-  100%{transform:translate(-50%,0) scale(1.2);top:62%;opacity:0;}
-}
-@media (prefers-reduced-motion:reduce){.approach-plane{animation:none;opacity:.9;top:35%;transform:translate(-50%,0) scale(.5);}}
-@media (max-width:700px){.approach-runway,.approach-centerline{width:55%;}}
 
 .platform-grid{display:flex;gap:2.2rem 1.4rem;background:transparent;border:none;overflow-x:auto;padding:.5rem .2rem 1rem;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
 .platform-grid::-webkit-scrollbar{display:none;}
@@ -201,49 +179,55 @@ img{max-width:100%;display:block;}
 .big-globe-link{display:flex;flex-direction:column;align-items:center;gap:1.2rem;text-decoration:none;position:relative;z-index:1;}
 
 /* ---------- Cockpit-style switch -> Auran World ---------- */
-.cockpit-switch-link{display:inline-flex;text-decoration:none;position:relative;z-index:1;}
+.cockpit-switch-link{
+  display:block; text-decoration:none; position:relative; z-index:1;
+  width:100vw; max-width:100vw;
+  margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);
+}
 .cockpit-panel{
   position:relative;
-  width:250px;
-  padding:2.2rem 1.6rem 1.9rem;
-  border-radius:16px;
-  background-image:linear-gradient(180deg, rgba(10,12,15,.55), rgba(10,12,15,.82) 60%, rgba(10,12,15,.92)), url('assets/images/cockpit-panel.jpg');
+  width:100%;
+  aspect-ratio:3/1;
+  padding:2.2rem 1.6rem 2rem;
+  border-radius:0;
+  background-image:linear-gradient(180deg, rgba(10,12,15,.4), rgba(10,12,15,.72) 65%, rgba(10,12,15,.88)), url('assets/images/cockpit-panel.jpg');
   background-size:cover;
   background-position:center 35%;
-  box-shadow:0 20px 50px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.08), inset 0 -2px 6px rgba(0,0,0,.5);
-  border:1px solid #050607;
-  display:flex; flex-direction:column; align-items:center; gap:.85rem;
-  transition:transform .3s ease, box-shadow .3s ease;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+  border:none;
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:.85rem;
+  transition:box-shadow .3s ease;
 }
-.cockpit-switch-link:hover .cockpit-panel{transform:translateY(-4px);box-shadow:0 26px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.1);}
-.cockpit-lights{display:flex;gap:.5rem;position:absolute;top:14px;left:50%;transform:translateX(-50%);}
-.cl{width:7px;height:7px;border-radius:50%;box-shadow:0 0 4px 1px currentColor;}
+.cockpit-switch-link:hover .cockpit-panel{box-shadow:inset 0 1px 0 rgba(255,255,255,.12);}
+.cockpit-lights{display:flex;gap:.6rem;position:absolute;top:22px;left:50%;transform:translateX(-50%);}
+.cl{width:9px;height:9px;border-radius:50%;box-shadow:0 0 5px 1px currentColor;}
 .cl-red{background:#ff4d4d;color:#ff4d4d;animation:cockpitBlink 2.6s ease-in-out infinite;}
 .cl-amber{background:#ffb020;color:#ffb020;animation:cockpitBlink 2.6s ease-in-out .5s infinite;}
 .cl-green{background:#3ddc84;color:#3ddc84;animation:cockpitBlink 2.6s ease-in-out 1s infinite;}
 @keyframes cockpitBlink{0%,100%{opacity:.4;}50%{opacity:1;}}
 @media (prefers-reduced-motion:reduce){.cl{animation:none;opacity:.85;}}
 .cockpit-switch{
-  width:72px; height:72px; border-radius:50%; margin-top:.5rem;
+  width:92px; height:92px; border-radius:50%; margin-top:.5rem;
   background:radial-gradient(circle at 35% 30%,#4b5158,#20242a 70%);
-  border:3px solid #0a0c0e;
-  box-shadow:0 6px 14px rgba(0,0,0,.5), inset 0 2px 3px rgba(255,255,255,.15), inset 0 -3px 6px rgba(0,0,0,.6);
+  border:4px solid #0a0c0e;
+  box-shadow:0 8px 18px rgba(0,0,0,.5), inset 0 2px 3px rgba(255,255,255,.15), inset 0 -3px 6px rgba(0,0,0,.6);
   display:flex; align-items:center; justify-content:center;
 }
 .cockpit-switch-toggle{
-  width:26px; height:26px; border-radius:50%;
+  width:34px; height:34px; border-radius:50%;
   background:radial-gradient(circle at 35% 30%,#ffe9a8,#ffb020 60%,#a86a00);
-  box-shadow:0 0 10px 3px rgba(255,176,32,.55), inset 0 1px 2px rgba(255,255,255,.5);
+  box-shadow:0 0 14px 4px rgba(255,176,32,.55), inset 0 1px 2px rgba(255,255,255,.5);
   transition:transform .2s ease, box-shadow .25s ease;
 }
-.cockpit-switch-link:hover .cockpit-switch-toggle{transform:scale(1.12);box-shadow:0 0 16px 6px rgba(255,176,32,.8), inset 0 1px 2px rgba(255,255,255,.6);}
+.cockpit-switch-link:hover .cockpit-switch-toggle{transform:scale(1.12);box-shadow:0 0 22px 8px rgba(255,176,32,.8), inset 0 1px 2px rgba(255,255,255,.6);}
 .cockpit-switch-link:active .cockpit-switch-toggle{transform:scale(.9);}
-.cockpit-switch-label{font-family:var(--mono);font-size:.92rem;font-weight:700;letter-spacing:.08em;color:#f2c76a;text-transform:uppercase;text-shadow:0 0 6px rgba(255,193,90,.4);}
-.cockpit-switch-sub{font-family:var(--mono);font-size:.66rem;color:#8a94a3;letter-spacing:.04em;}
+.cockpit-switch-label{font-family:var(--mono);font-size:1.3rem;font-weight:700;letter-spacing:.1em;color:#f2c76a;text-transform:uppercase;text-shadow:0 0 8px rgba(255,193,90,.45);}
+.cockpit-switch-sub{font-family:var(--mono);font-size:.8rem;color:#c3cad6;letter-spacing:.05em;}
 @media (max-width:700px){
-  .cockpit-panel{width:200px;padding:1.9rem 1.2rem 1.5rem;}
-  .cockpit-switch{width:58px;height:58px;}
-  .cockpit-switch-toggle{width:20px;height:20px;}
+  .cockpit-panel{aspect-ratio:4/5;border-radius:16px;}
+  .cockpit-switch{width:64px;height:64px;}
+  .cockpit-switch-toggle{width:24px;height:24px;}
+  .cockpit-switch-label{font-size:1.05rem;}
 }
 .platform-icon{
   display:flex; align-items:center; justify-content:center;
@@ -527,22 +511,6 @@ img{max-width:100%;display:block;}
 
 <!-- ===== Platform ===== -->
 <section class="section runway-band" id="platform">
-  <div class="approach-scene" aria-hidden="true">
-    <div class="approach-sky"></div>
-    <div class="approach-runway"></div>
-    <div class="approach-centerline"></div>
-    <div class="approach-plane">
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <path d="M50 40 L5 70 L15 74 L50 55 Z" fill="#e7edf5"/>
-        <path d="M50 40 L95 70 L85 74 L50 55 Z" fill="#cfd8e3"/>
-        <ellipse cx="50" cy="45" rx="10" ry="30" fill="#f4f7fb"/>
-        <path d="M50 20 L44 5 L56 5 Z" fill="#123a8c"/>
-        <ellipse cx="50" cy="24" rx="5" ry="6" fill="#123a8c"/>
-        <circle cx="46" cy="18" r="1.6" fill="#ffb020"/>
-        <circle cx="54" cy="18" r="1.6" fill="#3ddc84"/>
-      </svg>
-    </div>
-  </div>
   <p class="eyebrow">THE PLATFORM</p>
   <h2 class="section-title">Everything you need, in one place</h2>
   <a href="auran-world.html" class="cockpit-switch-link" aria-label="Enter Auran World">
