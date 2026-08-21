@@ -175,5 +175,30 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;line-height:1.18;}
   </div>
 </section>
 
-</body>
+<div id="page-password-modal" style="display:flex; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:99999; align-items:center; justify-content:center;">
+  <div style="background:#fff; padding:32px; border-radius:12px; text-align:center; max-width:320px; width:90%;">
+    <h3 style="margin-top:0;">Enter Password</h3>
+    <input type="password" id="page-password-input" placeholder="Password"
+      style="width:100%; box-sizing:border-box; padding:10px; margin:16px 0; border:1px solid #ccc; border-radius:6px; font-size:16px;" />
+    <div id="page-password-error" style="color:red; display:none; margin-bottom:12px; font-size:14px;">Incorrect password. Try again.</div>
+    <button onclick="checkPagePassword()" style="padding:10px 20px; margin:4px; border-radius:6px; border:none; background:#1a3d7c; color:#fff; cursor:pointer;">Enter</button>
+  </div>
+</div>
+
+<script>
+function checkPagePassword() {
+  var entered = document.getElementById('page-password-input').value;
+  if (entered === '6666') {
+    document.getElementById('page-password-modal').style.display = 'none';
+  } else {
+    document.getElementById('page-password-error').style.display = 'block';
+  }
+}
+document.addEventListener('keydown', function(e) {
+  var modal = document.getElementById('page-password-modal');
+  if (modal && modal.style.display !== 'none' && e.key === 'Enter') {
+    checkPagePassword();
+  }
+});
+</script></body>
 </html>
