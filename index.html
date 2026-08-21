@@ -856,5 +856,15 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
-</body>
+</body><script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('a[href*="attendance-audit-tool.html"], a[href*="course-file-work.html"]').forEach(function(link) {
+    var destination = link.getAttribute('href');
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      openDashboardGate(destination);
+    });
+  });
+});
+</script>
 </html>
