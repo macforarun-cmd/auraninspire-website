@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auran Studio | AuranInspire</title>
+<meta name="description" content="Auran Studio — AuranInspire's content hub for aviation magazines, brochures, events, conferences and research resources.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b1f3a; --ink:#0d1420; --blue:#1d5fd6; --blue-deep:#123a8c;
+  --grey-600:#5c6675; --grey-300:#e2e6eb; --grey-100:#f6f8fa;
+  --wood:#8a5a34; --wood-dark:#6b4423;
+  --font:'Inter',sans-serif; --mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font);color:var(--ink);background:#fff;line-height:1.6;}
+a{color:inherit;text-decoration:none;}
+h1,h2,h3{font-weight:700;letter-spacing:-.015em;}
+.eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:.8rem;}
+
+/* Header (matches site) */
+.site-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.97);border-bottom:1px solid var(--grey-300);backdrop-filter:blur(6px);}
+.nav-wrap{max-width:1280px;margin:0 auto;padding:.95rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.2rem;flex-wrap:wrap;}
+.logo-block{display:flex;flex-direction:column;line-height:1.1;}
+.logo{font-weight:800;font-size:1.2rem;color:var(--navy);}
+.logo span{color:var(--blue-deep);}
+.logo-tag{font-family:var(--mono);font-size:.64rem;color:var(--grey-600);margin-top:2px;}
+.main-nav{display:flex;flex-wrap:wrap;gap:1.2rem 1.8rem;}
+.main-nav a{font-size:.87rem;font-weight:500;color:var(--grey-600);}
+.main-nav a:hover{color:var(--blue-deep);}
+.btn{display:inline-block;padding:.65rem 1.3rem;font-weight:600;font-size:.82rem;border-radius:4px;}
+.btn-primary{background:var(--navy);color:#fff;}
+.btn-primary:hover{background:var(--blue-deep);}
+
+/* Hero */
+.studio-hero{background:linear-gradient(135deg,var(--navy),var(--blue-deep));color:#fff;padding:4.5rem 2rem 3.5rem;text-align:center;}
+.studio-hero .eyebrow{color:#a9c2f2;justify-content:center;}
+.studio-hero h1{font-size:clamp(1.8rem,3.6vw,2.6rem);margin-bottom:.8rem;}
+.studio-hero p{color:#cbd7ec;max-width:560px;margin:0 auto;font-size:1.02rem;}
+
+.section{max-width:1280px;margin:0 auto;padding:4.5rem 2rem;}
+.section-title{font-size:clamp(1.4rem,2.6vw,1.9rem);max-width:640px;margin-bottom:2.6rem;}
+
+/* Folder roadmap nav */
+.folder-road{display:flex;flex-wrap:wrap;gap:1.6rem;justify-content:center;}
+.folder-card{
+  width:170px; background:#fff; border:1px solid var(--grey-300); border-radius:14px;
+  padding:1.8rem 1.2rem 1.5rem; text-align:center; transition:transform .3s cubic-bezier(.2,.9,.25,1.35), box-shadow .3s ease;
+  cursor:pointer;
+}
+.folder-card:hover{transform:translateY(-8px); box-shadow:0 20px 34px rgba(11,31,58,.14);}
+.folder-icon{
+  width:56px;height:56px;margin:0 auto 1rem;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#fff;
+  background:linear-gradient(155deg,#2f6fe0,#123a8c);
+  box-shadow:0 10px 20px rgba(18,58,140,.35);
+}
+.folder-card:nth-child(2) .folder-icon{background:linear-gradient(155deg,#ffc24d,#e08a00);box-shadow:0 8px 18px rgba(224,138,0,.3);}
+.folder-card:nth-child(3) .folder-icon{background:linear-gradient(155deg,#3ddc9e,#0f9e6e);box-shadow:0 8px 18px rgba(15,158,110,.3);}
+.folder-card:nth-child(4) .folder-icon{background:linear-gradient(155deg,#7c7ff0,#4b3fc9);box-shadow:0 8px 18px rgba(75,63,201,.3);}
+.folder-card:nth-child(5) .folder-icon{background:linear-gradient(155deg,#ff8a7a,#d8402a);box-shadow:0 8px 18px rgba(216,64,42,.3);}
+.folder-card:nth-child(6) .folder-icon{background:linear-gradient(155deg,#4dd0e1,#0092a8);box-shadow:0 8px 18px rgba(0,146,168,.3);}
+.folder-card h4{font-size:.95rem;color:var(--navy);margin-bottom:.3rem;}
+.folder-card p{font-size:.74rem;color:var(--grey-600);}
+.folder-soon{display:inline-block;margin-top:.7rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);border:1px solid var(--grey-300);border-radius:20px;padding:.2rem .6rem;}
+
+/* Upload notice */
+.upload-notice{max-width:1280px;margin:0 auto;padding:0 2rem 2.5rem;}
+.upload-notice-inner{background:var(--grey-100);border:1px dashed var(--grey-300);border-radius:12px;padding:1.4rem 1.6rem;font-size:.86rem;color:var(--grey-600);}
+.upload-notice-inner b{color:var(--navy);}
+
+/* ---------- Resource Rack ---------- */
+.rack-section{background:var(--grey-100);}
+.rack-wrap{position:relative;max-width:1280px;margin:0 auto;padding:0 2rem;}
+.rack-shelf-row{
+  display:flex; gap:1.4rem; overflow-x:auto; padding:1.5rem .2rem 1.2rem;
+  scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+}
+.rack-shelf-row::-webkit-scrollbar{display:none;}
+.rack-item{
+  flex:0 0 170px; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center;
+  text-align:center; text-decoration:none;
+}
+.rack-book{
+  width:100%; height:150px; border-radius:6px 6px 3px 3px;
+  display:flex; align-items:center; justify-content:center; flex-direction:column; gap:.5rem;
+  color:#fff; padding:1rem .8rem; position:relative;
+  box-shadow:0 10px 18px rgba(11,31,58,.22), inset 0 -4px 0 rgba(0,0,0,.15);
+  transition:transform .28s cubic-bezier(.2,.9,.25,1.35), box-shadow .28s ease;
+}
+.rack-item:hover .rack-book{transform:translateY(-10px) rotate(-1deg);box-shadow:0 20px 28px rgba(11,31,58,.3), inset 0 -4px 0 rgba(0,0,0,.15);}
+.rack-book-num{font-family:var(--mono);font-size:.68rem;opacity:.75;position:absolute;top:.6rem;left:.7rem;}
+.rack-book-icon{font-size:1.6rem;}
+.rack-book-name{font-size:.86rem;font-weight:700;line-height:1.25;}
+.rack-item-desc{font-size:.72rem;color:var(--grey-600);margin-top:.7rem;line-height:1.4;}
+
+.rack-item:nth-child(1) .rack-book{background:linear-gradient(160deg,#1d5fd6,#0b1f3a);}
+.rack-item:nth-child(2) .rack-book{background:linear-gradient(160deg,#0f9e6e,#0b5c40);}
+.rack-item:nth-child(3) .rack-book{background:linear-gradient(160deg,#e08a00,#8a5300);}
+.rack-item:nth-child(4) .rack-book{background:linear-gradient(160deg,#d8402a,#7c2115);}
+.rack-item:nth-child(5) .rack-book{background:linear-gradient(160deg,#123a8c,#081228);}
+.rack-item:nth-child(6) .rack-book{background:linear-gradient(160deg,#4b3fc9,#241d63);}
+.rack-item:nth-child(7) .rack-book{background:linear-gradient(160deg,#0092a8,#004a54);}
+.rack-item:nth-child(8) .rack-book{background:linear-gradient(160deg,#5c86b8,#1b2b45);}
+.rack-item:nth-child(9) .rack-book{background:linear-gradient(160deg,#e0507a,#7c1d3a);}
+.rack-item:nth-child(10) .rack-book{background:linear-gradient(160deg,#0f4f9e,#062544);}
+
+.rack-shelf-bar{
+  height:22px; margin:0 .2rem 3rem;
+  background:linear-gradient(180deg,var(--wood) 0%,var(--wood-dark) 100%);
+  border-radius:4px;
+  box-shadow:0 14px 20px rgba(0,0,0,.18);
+  position:relative;
+}
+.rack-shelf-bar::before{
+  content:''; position:absolute; left:0; right:0; top:0; height:5px;
+  background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0));
+  border-radius:4px 4px 0 0;
+}
+
+@media (max-width:700px){
+  .rack-item{flex:0 0 130px;}
+  .rack-book{height:120px;}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <div class="logo-block">
+      <a href="index.html" class="logo">Auran<span>Inspire</span></a>
+      <span class="logo-tag">Designed by AK</span>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html#about">Briefing</a>
+      <a href="auran-world.html">Hangar</a>
+      <a href="index.html#insights">Radar</a>
+      <a href="index.html#contact">Tower</a>
+    </nav>
+    <a href="auran-world.html" class="btn btn-primary">Back to Auran World</a>
+  </div>
+</header>
+
+<section class="studio-hero">
+  <p class="eyebrow">AURAN STUDIO</p>
+  <h1>Welcome on board</h1>
+  <p>Aviation magazines, brochures, events, conference material and research — organized in one place, month by month.</p>
+</section>
+
+<!-- ===== 6-folder roadmap ===== -->
+<section class="section">
+  <p class="eyebrow">CONTENT LIBRARY</p>
+  <h2 class="section-title">Browse by folder</h2>
+  <div class="folder-road">
+    <div class="folder-card">
+      <div class="folder-icon">📰</div>
+      <h4>Magazine</h4>
+      <p>Monthly aviation magazine issues</p>
+      <span class="folder-soon">Coming soon</span>
+    </div>
+    <div class="folder-card">
+      <div class="folder-icon">🎬</div>
+      <h4>Digital Content</h4>
+      <p>Videos, reels &amp; digital assets</p>
+      <span class="folder-soon">Coming soon</span>
+    </div>
+    <div class="folder-card">
+      <div class="folder-icon">📄</div>
+      <h4>Brochure</h4>
+      <p>Program &amp; course brochures</p>
+      <span class="folder-soon">Coming soon</span>
+    </div>
+    <div class="folder-card">
+      <div class="folder-icon">🎟️</div>
+      <h4>Events</h4>
+      <p>Upcoming &amp; past AuranInspire events</p>
+      <span class="folder-soon">Coming soon</span>
+    </div>
+    <div class="folder-card">
+      <div class="folder-icon">🎤</div>
+      <h4>Conference</h4>
+      <p>Conference papers &amp; recordings</p>
+      <span class="folder-soon">Coming soon</span>
+    </div>
+    <div class="folder-card">
+      <div class="folder-icon">🌐</div>
+      <h4>Conclave</h4>
+      <p>Industry conclave highlights</p>
+      <span class="folder-soon">Coming soon</span>
+    </div>
+  </div>
+</section>
+
+<div class="upload-notice">
+  <div class="upload-notice-inner">
+    <b>Note:</b> the upload system for these folders (so you can add files and visitors can view &amp; like them) connects to your Supabase database — same one powering Course File Work. Send over your Supabase Project URL and key and this goes live next.
+  </div>
+</div>
+
+<!-- ===== Resource Rack ===== -->
+<section class="section rack-section">
+  <p class="eyebrow">RESEARCH &amp; REFERENCE</p>
+  <h2 class="section-title">The Resource Rack — aviation sites worth exploring</h2>
+  <div class="rack-wrap">
+    <div class="rack-shelf-row">
+      <a href="https://www.iata.org/" target="_blank" rel="noopener" class="rack-item">
+        <div class="rack-book"><span class="rack-book-num">01</span><span class="rack-book-icon">✈️</span><span class="rack-book-name">IATA</span></div>
+        <p class="rack-item-desc">Airlines, ticketing, airport ops, cargo, safety &amp; sustainability</p>
+      </a>
+      <a href="https://www.icao.int/" target="_blank" rel="noopener" class="rack-item">
+        <div class="rack-book"><span class="rack-book-num">02</span><span class="rack-book-icon">🌍</span><span class="rack-book-name">ICAO</span></div>
+        <p class="rack-item-desc">International regulations, safety, security &amp; standards</p>
+      </a>
+      <a href="https://aci.aero/" target="_blank" rel="noopener" class="rack-item">
+        <div class="rack-book"><span class="rack-book-num">03</span><span class="rack-book-icon">🏢</span><span class="rack-book-name">ACI</span></div>
+        <p class="rack-item-desc">Airport management, passenger experience &amp; economics</p>
+      </a>
+      <a href="https://www.airindia.com/" target="_blank" rel="noopener" class="rack-item">
+        <div class="rack-book"><span class="rack-book-num">04</span><span class="rack-book-icon">🛫</span><span class="rack-book-name">Air India</span></div>
+        <p class="rack-item-desc">Airline business, routes, fleet, cargo &amp; loyalty</p>
+      </a>
+      <a href="https://www.goindigo.in/" target="_blank" rel="noopener" class="rack-item">
+        <div class="rack-book"><span class="rack-book-num">05</span><span class="rack-book-icon">🎫</span><span class="rack-book-name">IndiGo</span></div>
+        <p class="rack-item-desc">Low-cost model, network planning, fares &amp; service</p>
+      </a>
+      <a href="https://www.aai.aero/" target="_blank" rel="noopener" class="rack-item">
+        <div class="rack-book"><span class="rack-book-num">06</span><span class="rack-book-icon">🗼</span><span class="rack-book-name">AAI</span></div>
+        <p class="rack-item-desc">Indian airport ops, CNS/ATM &amp; infrastructure</p>
+      </a>
+      <a href="https://www.boeing.com/" target="_blank" rel="noopener" class="rack-item">
+        <div class="rack-book"><span class="rack-book-num">07</span><span class="rack-book-icon">🛩️</span><span class="rack-book-name">Boeing</span></div>
+        <p class="rack-item-desc">Aircraft manufacturing &amp; aviation technology</p>
+      </a>
+      <a href="https://www.airbus.com/" target="_blank" rel="noopener" class="rack-item">
+        <div class="rack-book"><span class="rack-book-num">08</span><span class="rack-book-icon">✈️</span><span class="rack-book-name">Airbus</span></div>
+        <p class="rack-item-desc">Fleet planning, aerospace tech &amp; sustainability</p>
+      </a>
+      <a href="https://www.sita.aero/" target="_blank" rel="noopener" class="rack-item">
+        <div class="rack-book"><span class="rack-book-num">09</span><span class="rack-book-icon">💳</span><span class="rack-book-name">SITA</span></div>
+        <p class="rack-item-desc">Passenger processing, baggage &amp; biometrics</p>
+      </a>
+      <a href="https://amadeus.com/" target="_blank" rel="noopener" class="rack-item">
+        <div class="rack-book"><span class="rack-book-num">10</span><span class="rack-book-icon">🖥️</span><span class="rack-book-name">Amadeus</span></div>
+        <p class="rack-item-desc">Reservation systems &amp; travel technology</p>
+      </a>
+    </div>
+    <div class="rack-shelf-bar"></div>
+  </div>
+</section>
+
+</body>
+</html>
