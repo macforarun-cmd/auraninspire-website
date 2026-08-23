@@ -137,6 +137,27 @@ img{max-width:100%;display:block;}
 .card h4{font-size:.98rem;margin:0 1.3rem .8rem;}
 .link-arrow{display:inline-flex;align-items:center;gap:.4rem;font-size:.82rem;font-weight:600;color:var(--blue-deep);margin:0 1.3rem;}
 
+/* ---------- Email capture gate (replaces old billboard) ---------- */
+.email-gate{
+  background:linear-gradient(135deg,var(--navy),var(--blue-deep));
+  border-radius:12px;
+  padding:3rem 2rem;
+  text-align:center;
+  color:#fff;
+  margin-bottom:3rem;
+}
+.email-gate h3{font-size:1.5rem;margin-bottom:.6rem;color:#fff;}
+.email-gate p{color:#c7d3e8;max-width:480px;margin:0 auto 1.6rem;}
+.email-gate-form{display:flex;gap:0;max-width:420px;margin:0 auto;flex-wrap:wrap;}
+.email-gate-form input{flex:1;min-width:200px;padding:.8rem 1rem;border:none;font-family:inherit;font-size:.9rem;border-radius:4px 0 0 4px;}
+.email-gate-form button{padding:.8rem 1.6rem;border:none;background:#fff;color:var(--navy);font-weight:700;font-size:.86rem;cursor:pointer;border-radius:0 4px 4px 0;}
+.email-gate-form button:hover{background:#e5eaf2;}
+.email-gate-note{font-size:.72rem;color:#9fb0cc;margin-top:1rem;}
+.email-gate-success{display:none;color:#9dffc0;font-size:.85rem;margin-top:1rem;font-weight:600;}
+@media (max-width:480px){
+  .email-gate-form input,.email-gate-form button{border-radius:4px;width:100%;}
+}
+
 /* ---------- Platform section ---------- */
 .runway-band{
   position:relative; max-width:none;
@@ -281,29 +302,6 @@ img{max-width:100%;display:block;}
 @media (max-width:900px){.card-grid-about{grid-template-columns:1fr 1fr;}}
 @media (max-width:600px){.card-grid-about{grid-template-columns:1fr;}}
 
-/* ---------- About billboard slideshow ---------- */
-.billboard-slideshow{position:relative;border-radius:0;overflow:hidden;aspect-ratio:11/5;background:#0d1420;box-shadow:0 24px 50px rgba(11,31,58,.28);margin-bottom:1.4rem;width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);}
-.bb-slide{position:absolute;inset:0;opacity:0;transition:opacity 1s ease;z-index:1;}
-.bb-slide.active{opacity:1;z-index:2;}
-.bb-slide img{width:100%;height:100%;object-fit:contain;display:block;}
-.bb-lights{position:absolute;top:5%;left:0;width:100%;display:flex;justify-content:space-evenly;z-index:3;pointer-events:none;}
-.bb-lights span{width:9px;height:9px;border-radius:50%;background:#fff6d8;box-shadow:0 0 10px 4px rgba(255,246,216,.85);opacity:.35;animation:bbBlink 2.6s ease-in-out infinite;}
-.bb-lights span:nth-child(3n+1){animation-delay:0s;}
-.bb-lights span:nth-child(3n+2){animation-delay:.7s;}
-.bb-lights span:nth-child(3n){animation-delay:1.4s;}
-@keyframes bbBlink{0%,100%{opacity:.25;transform:scale(.8);}50%{opacity:1;transform:scale(1.2);}}
-@media (prefers-reduced-motion:reduce){.bb-lights span{animation:none;opacity:.8;}}
-.bb-arrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:none;background:rgba(13,20,32,.55);color:#fff;cursor:pointer;z-index:4;font-size:1rem;backdrop-filter:blur(4px);}
-.bb-arrow:hover{background:rgba(13,20,32,.8);}
-.bb-prev{left:14px;}
-.bb-next{right:14px;}
-.bb-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:.5rem;z-index:4;}
-.bb-dots button{width:24px;height:3px;border:none;background:rgba(255,255,255,.35);cursor:pointer;padding:0;}
-.bb-dots button.active{background:#ffb020;}
-@media (max-width:800px){
-  .billboard-slideshow{aspect-ratio:16/13;}
-}
-
 /* ---------- Founder ---------- */
 .founder-grid{display:grid;grid-template-columns:.75fr 1.25fr;gap:3rem;align-items:center;}
 .founder-photo{aspect-ratio:4/5;background:var(--grey-100);border:1px solid var(--grey-300);display:flex;align-items:center;justify-content:center;}
@@ -345,16 +343,12 @@ img{max-width:100%;display:block;}
   box-shadow:0 20px 46px rgba(0,0,0,.4);
   animation:none;
 }
-/* nth-child (not nth-of-type) so the count includes both <a> and <span> windows in order */
 .ac-window:nth-child(1){left:16%;}
 .ac-window:nth-child(2){left:31%;}
 .ac-window:nth-child(3){left:46%;}
 .ac-window:nth-child(4){left:61%;}
 .ac-window:nth-child(5){left:76%;}
 
-/* Precise override measured directly from the real aircraft-photo.png pixels.
-   Resting size (0.75%) matches the real window on the photo so it blends in;
-   hover/tap size (7%) is the enlarged, clickable state. */
 .aircraft-windows-photo .ac-window{top:62.91%; width:0.75%;}
 .aircraft-windows-photo .ac-window:hover,.aircraft-windows-photo .ac-window:focus-visible,.aircraft-windows-photo .ac-window.active{width:7%;}
 .aircraft-windows-photo .ac-window:nth-child(1){left:20.36%;}
@@ -466,23 +460,16 @@ img{max-width:100%;display:block;}
   <p class="eyebrow">ABOUT AURANINSPIRE</p>
   <h2 class="section-title">What AuranInspire is, and who it's for</h2>
 
-  <div class="billboard-slideshow" id="billboardSlideshow">
-    <div class="bb-slide active">
-      <img src="assets/images/billboard-corporate-consulting.png" alt="AuranInspire Corporate & Consulting billboard">
-    </div>
-    <div class="bb-slide">
-      <img src="assets/images/billboard-education-training.png" alt="AuranInspire Aviation Education & Training billboard">
-    </div>
-    <div class="bb-slide">
-      <img src="assets/images/billboard-research-innovation.png" alt="AuranInspire Research & Innovation billboard">
-    </div>
-    <div class="bb-lights" aria-hidden="true">
-      <span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-    <button class="bb-arrow bb-prev" id="bbPrev" aria-label="Previous">←</button>
-    <button class="bb-arrow bb-next" id="bbNext" aria-label="Next">→</button>
-    <div class="bb-dots" id="bbDots"></div>
+  <!-- Email capture gate (replaces old billboard slideshow) -->
+  <div class="email-gate" id="emailGate">
+    <h3>Get exclusive AuranInspire updates</h3>
+    <p>Enter your email to receive aviation insights, program updates, and early access to new AuranInspire features.</p>
+    <form class="email-gate-form" id="emailGateForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <input type="email" name="email" placeholder="you@example.com" required>
+      <button type="submit">Notify Me</button>
+    </form>
+    <p class="email-gate-success" id="emailGateSuccess">Thanks — you're on the list!</p>
+    <p class="email-gate-note">We'll never share your email. Unsubscribe anytime.</p>
   </div>
 
   <div class="path-grid" style="margin-bottom:4rem;">
@@ -656,40 +643,6 @@ img{max-width:100%;display:block;}
 
 <script>
 (function(){
-  var container = document.getElementById('billboardSlideshow');
-  if(!container) return;
-  var slides = container.querySelectorAll('.bb-slide');
-  var dotsWrap = document.getElementById('bbDots');
-  var current = 0;
-  var timer;
-
-  slides.forEach(function(_, i){
-    var dot = document.createElement('button');
-    if(i === 0) dot.classList.add('active');
-    dot.addEventListener('click', function(){ goTo(i); resetTimer(); });
-    dotsWrap.appendChild(dot);
-  });
-
-  function goTo(i){
-    slides[current].classList.remove('active');
-    dotsWrap.children[current].classList.remove('active');
-    current = ((i % slides.length) + slides.length) % slides.length;
-    slides[current].classList.add('active');
-    dotsWrap.children[current].classList.add('active');
-  }
-  function next(){ goTo(current + 1); }
-  function prev(){ goTo(current - 1); }
-  function resetTimer(){ clearInterval(timer); timer = setInterval(next, 4500); }
-
-  document.getElementById('bbNext').addEventListener('click', function(){ next(); resetTimer(); });
-  document.getElementById('bbPrev').addEventListener('click', function(){ prev(); resetTimer(); });
-
-  resetTimer();
-  container.addEventListener('mouseenter', function(){ clearInterval(timer); });
-  container.addEventListener('mouseleave', resetTimer);
-})();
-
-(function(){
   var root = document.documentElement;
   var toggle = document.getElementById('themeToggle');
   var sunIcon = document.getElementById('themeIconSun');
@@ -777,6 +730,31 @@ img{max-width:100%;display:block;}
   });
   document.addEventListener('click', function(){
     document.querySelectorAll('.ac-window.active').forEach(function(o){ o.classList.remove('active'); });
+  });
+})();
+
+(function(){
+  // Email gate form — submits to Formspree (or any form backend) without leaving the page.
+  var form = document.getElementById('emailGateForm');
+  var success = document.getElementById('emailGateSuccess');
+  if(!form) return;
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var data = new FormData(form);
+    fetch(form.action, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    }).then(function(response){
+      if(response.ok){
+        form.style.display = 'none';
+        success.style.display = 'block';
+      } else {
+        alert('Something went wrong — please try again in a moment.');
+      }
+    }).catch(function(){
+      alert('Something went wrong — please check your connection and try again.');
+    });
   });
 })();
 </script>
