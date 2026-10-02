@@ -312,7 +312,10 @@ img{max-width:100%;display:block;}
 .aircraft-stand{position:relative;max-width:1100px;margin:0 auto;padding:2rem 0 2.5rem;}
 .aircraft-body{position:relative;width:100%;}
 .aircraft-body svg{width:100%;height:auto;display:block;}
-.aircraft-photo-wrap{aspect-ratio:2048/736;}
+.aircraft-photo-wrap{aspect-ratio:2000/678;}
+.enter-world-switch{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);z-index:5;padding:.55rem .9rem;border-radius:999px;border:1px solid rgba(255,255,255,.7);background:rgba(15,30,55,.82);color:#fff;font:600 .72rem/1.2 var(--mono,monospace);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;box-shadow:0 0 10px 2px rgba(255,224,130,.55);animation:acWinPulse 3.4s ease-in-out infinite;transition:background .25s ease,transform .25s ease;}
+.enter-world-switch:hover,.enter-world-switch:focus-visible{background:rgba(30,60,110,.95);transform:translate(-50%,-50%) scale(1.06);}
+@media (max-width:600px){.enter-world-switch{padding:.3rem .5rem;font-size:.5rem;}}
 .aircraft-photo-img{width:100%;height:100%;object-fit:contain;display:block;}
 .aircraft-windows{position:absolute;top:0;left:0;width:100%;height:100%;}
 .ac-window{
@@ -595,6 +598,7 @@ img{max-width:100%;display:block;}
   <div class="aircraft-stand">
     <div class="aircraft-body aircraft-photo-wrap">
       <img src="assets/images/aircraft-photo.png" alt="AuranInspire aircraft" class="aircraft-photo-img">
+      <button type="button" class="enter-world-switch" onclick="openDashboardGate('auran-world.html')">Enter Auran World</button>
       <div class="aircraft-windows aircraft-windows-photo">
         <a href="attendance-audit-tool.html" class="ac-window">
           🗓
