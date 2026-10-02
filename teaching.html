@@ -55,6 +55,18 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;}
 .gate-err{color:#c0392b;font-size:.82rem;margin-bottom:.6rem;display:none;}
 .gate-note{font-size:.72rem;color:var(--grey-600);margin-top:.8rem;}
 .unlocked-bar{display:none;background:#e9f7ef;color:#1b6b3a;text-align:center;padding:.6rem 1rem;font-size:.84rem;font-weight:600;}
+.viewer{display:none;margin-bottom:2.2rem;border-radius:16px;overflow:hidden;background:#0d1420;box-shadow:0 30px 70px -30px rgba(11,31,58,.7);}
+.viewer.open{display:block;}
+.viewer-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.7rem 1.1rem;background:linear-gradient(135deg,var(--navy),var(--blue-deep));color:#fff;}
+.viewer-bar h3{font-size:.98rem;font-weight:600;}
+.viewer-bar div{display:flex;gap:.5rem;}
+.viewer-bar button{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);color:#fff;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;padding:.4rem .8rem;border-radius:999px;cursor:pointer;}
+.viewer-bar button:hover{background:rgba(255,255,255,.28);}
+.viewer-stage{position:relative;aspect-ratio:16/9;background:#000;}
+.viewer-stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.viewer-shield{position:absolute;top:0;right:0;width:64px;height:56px;z-index:2;}
+.viewer:fullscreen{border-radius:0;display:flex;flex-direction:column;}
+.viewer:fullscreen .viewer-stage{flex:1;aspect-ratio:auto;}
 .footer{background:var(--ink);color:#8b96a8;text-align:center;padding:1.8rem 1rem;font-size:.8rem;}
 </style>
 </head>
@@ -101,6 +113,10 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;}
     <button data-f="ppt">Presentations</button>
     <button data-f="book">Reference books</button>
   </div>
+  <div class="viewer" id="viewer">
+    <div class="viewer-bar"><h3 id="vTitle"></h3><div><button type="button" id="vFull">Full screen</button><button type="button" id="vClose">Close</button></div></div>
+    <div class="viewer-stage" id="vStage"></div>
+  </div>
   <div class="grid" id="grid"></div>
   <p class="empty" id="empty" style="display:none;">Nothing here yet — check back soon.</p>
   </div>
@@ -135,18 +151,39 @@ var RESOURCES = [
       n++;
       var el = document.createElement('div');
       el.className = 'res ' + r.type;
-      el.innerHTML = '<div class="res-cover">' + (r.type === 'book' ? '📚' : '📊') + '</div><div class="res-body"><span class="res-tag"></span><h3></h3><p></p><button class="btn btn-primary">Open</button></div>';
+      el.innerHTML = '<div class="res-cover">' + (r.type === 'book' ? '📚' : '📊') + '</div><div class="res-body"><span class="res-tag"></span><h3></h3><p></p><button class="btn btn-primary">View</button></div>';
       el.querySelector('.res-tag').textContent = r.type === 'book' ? 'Reference book' : 'Presentation';
       el.querySelector('h3').textContent = r.title;
       el.querySelector('p').textContent = r.desc;
-      el.querySelector('button').addEventListener('click', function() {
-        if (r.file) window.open(r.file, '_blank', 'noopener');
-        else alert('This resource is coming soon. Thank you for your interest!');
-      });
+      el.querySelector('button').addEventListener('click', function() { openViewer(r); });
       grid.appendChild(el);
     });
     empty.style.display = n ? 'none' : 'block';
   }
+  var viewer = document.getElementById('viewer'), stage = document.getElementById('vStage');
+  function embedUrl(f) {
+    var m = f.match(/drive\.google\.com\/file\/d\/([^\/?#]+)/);
+    if (m) return 'https://drive.google.com/file/d/' + m[1] + '/preview';
+    return f;
+  }
+  function openViewer(r) {
+    if (!r.file) { alert('This resource is coming soon. Thank you for your interest!'); return; }
+    document.getElementById('vTitle').textContent = r.title;
+    stage.innerHTML = '';
+    var f = document.createElement('iframe');
+    f.src = embedUrl(r.file); f.allow = 'fullscreen'; f.setAttribute('referrerpolicy', 'no-referrer'); f.title = r.title;
+    stage.appendChild(f);
+    var sh = document.createElement('div'); sh.className = 'viewer-shield'; stage.appendChild(sh);
+    viewer.classList.add('open');
+    viewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  document.getElementById('vClose').addEventListener('click', function() {
+    if (document.fullscreenElement) document.exitFullscreen();
+    viewer.classList.remove('open'); stage.innerHTML = '';
+  });
+  document.getElementById('vFull').addEventListener('click', function() {
+    if (document.fullscreenElement) document.exitFullscreen(); else if (viewer.requestFullscreen) viewer.requestFullscreen();
+  });
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     var v = document.getElementById('gInput').value.trim(), err = document.getElementById('gErr'), btn = document.getElementById('gBtn');
