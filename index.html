@@ -58,6 +58,17 @@ img{max-width:100%;display:block;}
 .fc-row{display:flex;justify-content:space-between;gap:1rem;padding:.5rem 1rem;font-family:var(--mono);font-size:.78rem;}
 .fc-row .fc-zone{color:#8b9bb5;}
 .fc-row .fc-t{color:#fff;font-weight:600;}
+.daily-quote{display:flex;align-items:center;justify-content:center;gap:.9rem;background:#0a111d;border-top:1px solid #1d2a40;padding:.45rem 1rem;color:#dbe6f7;min-height:2.3rem;}
+.dq-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#f2c76a;white-space:nowrap;}
+.dq-lang{font-family:var(--font),'Noto Sans',sans-serif;font-size:.74rem;font-weight:600;color:#9fc2ff;background:transparent;border:1px solid #2a4a7a;border-radius:20px;padding:.15rem .6rem;cursor:pointer;white-space:nowrap;}
+.dq-lang:hover{border-color:#5b8fd6;color:#fff;}
+.dq-text{font-family:'Noto Sans','Noto Sans Devanagari','Noto Sans Tamil','Noto Sans Telugu','Noto Sans Kannada','Noto Sans Malayalam','Noto Sans Bengali','Noto Sans Gujarati','Noto Sans Gurmukhi','Noto Sans Oriya',var(--font),sans-serif;font-size:.86rem;font-style:italic;transition:opacity .35s ease;}
+.dq-text:not([lang="en"]){font-style:normal;}
+.dq-text.fade{opacity:0;}
+.dq-dots{display:flex;gap:4px;}
+.dq-dots i{width:5px;height:5px;border-radius:50%;background:#2a3a56;cursor:pointer;transition:background .2s;}
+.dq-dots i.on{background:#f2c76a;}
+@media (max-width:760px){.daily-quote{flex-wrap:wrap;gap:.4rem .7rem;padding:.5rem .8rem;}.dq-label,.dq-dots{display:none;}.dq-text{flex:1 1 100%;text-align:center;}}
 @media (max-width:600px){.fc-badge{display:none;}}
 .btn{display:inline-block;padding:.7rem 1.4rem;font-weight:600;font-size:.84rem;border-radius:4px;transition:background .2s,color .2s,border-color .2s;}
 .btn-primary{background:var(--navy);color:#fff;border:1px solid var(--navy);}
@@ -479,6 +490,12 @@ img{max-width:100%;display:block;}
       <div class="fc-row"><span class="fc-zone">Singapore</span><span class="fc-t" id="wc-Asia/Singapore">--:--:--</span></div>
       <div class="fc-row"><span class="fc-zone">Tokyo</span><span class="fc-t" id="wc-Asia/Tokyo">--:--:--</span></div>
     </div>
+  </div>
+  <div class="daily-quote" id="daily-quote" aria-live="off">
+    <span class="dq-label">Quote of the day</span>
+    <button type="button" class="dq-lang" id="dq-lang" aria-label="Change language"></button>
+    <span class="dq-text" id="dq-text"></span>
+    <span class="dq-dots" id="dq-dots"></span>
   </div>
 </header>
 
@@ -922,6 +939,43 @@ document.addEventListener('DOMContentLoaded', function() {
     btn.style.removeProperty('--rx'); btn.style.removeProperty('--ry');
   });
 });
+</script>
+<script>
+(function() {
+  var LANGS = [["en", "English"], ["hi", "हिन्दी"], ["ta", "தமிழ்"], ["te", "తెలుగు"], ["kn", "ಕನ್ನಡ"], ["ml", "മലയാളം"], ["bn", "বাংলা"], ["mr", "मराठी"], ["gu", "ગુજરાતી"], ["pa", "ਪੰਜਾਬੀ"], ["or", "ଓଡ଼ିଆ"]];
+  var QUOTES = [["The sky is not the limit, it’s the beginning of inspiration.", "आसमान सीमा नहीं है, यह प्रेरणा की शुरुआत है।", "வானம் எல்லை அல்ல, அது உத்வேகத்தின் தொடக்கம்.", "ఆకాశం హద్దు కాదు, అది స్ఫూర్తికి ఆరంభం.", "ಆಕಾಶ ಮಿತಿಯಲ್ಲ, ಅದು ಸ್ಫೂರ್ತಿಯ ಆರಂಭ.", "ആകാശം പരിധിയല്ല, അത് പ്രചോദനത്തിന്റെ തുടക്കമാണ്.", "আকাশ সীমা নয়, এটি অনুপ্রেরণার সূচনা।", "आकाश ही मर्यादा नाही, ती प्रेरणेची सुरुवात आहे.", "આકાશ મર્યાદા નથી, તે પ્રેરણાની શરૂઆત છે.", "ਅਸਮਾਨ ਹੱਦ ਨਹੀਂ ਹੈ, ਇਹ ਪ੍ਰੇਰਣਾ ਦੀ ਸ਼ੁਰੂਆਤ ਹੈ।", "ଆକାଶ ସୀମା ନୁହେଁ, ଏହା ପ୍ରେରଣାର ଆରମ୍ଭ।"], ["Small steps every day lead to big journeys.", "हर दिन के छोटे कदम बड़े सफ़र तक ले जाते हैं।", "தினமும் எடுக்கும் சிறிய அடிகள் பெரிய பயணங்களுக்கு வழிவகுக்கும்.", "ప్రతిరోజూ వేసే చిన్న అడుగులు పెద్ద ప్రయాణాలకు దారితీస్తాయి.", "ಪ್ರತಿದಿನದ ಸಣ್ಣ ಹೆಜ್ಜೆಗಳು ದೊಡ್ಡ ಪ್ರಯಾಣಕ್ಕೆ ದಾರಿ ಮಾಡುತ್ತವೆ.", "ദിവസവുമുള്ള ചെറിയ ചുവടുകൾ വലിയ യാത്രകളിലേക്ക് നയിക്കുന്നു.", "প্রতিদিনের ছোট পদক্ষেপই বড় যাত্রার পথ তৈরি করে।", "रोजची छोटी पावले मोठ्या प्रवासाकडे नेतात.", "દરરોજના નાના પગલાં મોટી સફર સુધી લઈ જાય છે.", "ਹਰ ਰੋਜ਼ ਦੇ ਛੋਟੇ ਕਦਮ ਵੱਡੇ ਸਫ਼ਰ ਤੱਕ ਲੈ ਜਾਂਦੇ ਹਨ।", "ପ୍ରତିଦିନର ଛୋଟ ପାଦ ବଡ଼ ଯାତ୍ରାକୁ ନେଇଯାଏ।"], ["Learn today, lead tomorrow.", "आज सीखो, कल नेतृत्व करो।", "இன்று கற்றுக்கொள், நாளை வழிநடத்து.", "ఈరోజు నేర్చుకో, రేపు నడిపించు.", "ಇಂದು ಕಲಿ, ನಾಳೆ ಮುನ್ನಡೆಸು.", "ഇന്ന് പഠിക്കൂ, നാളെ നയിക്കൂ.", "আজ শেখো, কাল নেতৃত্ব দাও।", "आज शिका, उद्या नेतृत्व करा.", "આજે શીખો, કાલે નેતૃત્વ કરો.", "ਅੱਜ ਸਿੱਖੋ, ਕੱਲ੍ਹ ਅਗਵਾਈ ਕਰੋ।", "ଆଜି ଶିଖ, କାଲି ନେତୃତ୍ୱ ନିଅ।"], ["Dream big, work hard, stay humble.", "बड़े सपने देखो, कड़ी मेहनत करो, विनम्र रहो।", "பெரிதாகக் கனவு காண், கடினமாக உழை, பணிவுடன் இரு.", "పెద్ద కలలు కను, కష్టపడి పని చెయ్, వినయంగా ఉండు.", "ದೊಡ್ಡ ಕನಸು ಕಾಣು, ಕಠಿಣ ಪರಿಶ್ರಮ ಪಡು, ವಿನಮ್ರನಾಗಿರು.", "വലിയ സ്വപ്നം കാണൂ, കഠിനാധ്വാനം ചെയ്യൂ, വിനയത്തോടെ ഇരിക്കൂ.", "বড় স্বপ্ন দেখো, কঠোর পরিশ্রম করো, বিনয়ী থাকো।", "मोठी स्वप्ने पहा, कष्ट करा, नम्र रहा.", "મોટા સપના જુઓ, સખત મહેનત કરો, નમ્ર રહો.", "ਵੱਡੇ ਸੁਪਨੇ ਦੇਖੋ, ਸਖ਼ਤ ਮਿਹਨਤ ਕਰੋ, ਨਿਮਰ ਰਹੋ।", "ବଡ଼ ସ୍ୱପ୍ନ ଦେଖ, କଠିନ ପରିଶ୍ରମ କର, ନମ୍ର ରୁହ।"], ["Courage is taking off even when you cannot see the destination.", "साहस वही है जो मंज़िल न दिखने पर भी उड़ान भर ले।", "இலக்கு தெரியாவிட்டாலும் பறக்கத் தொடங்குவதே துணிச்சல்.", "గమ్యం కనిపించకపోయినా ఎగరడమే ధైర్యం.", "ಗುರಿ ಕಾಣಿಸದಿದ್ದರೂ ಹಾರಾಟ ಆರಂಭಿಸುವುದೇ ಧೈರ್ಯ.", "ലക്ഷ്യം കാണാനാകാത്തപ്പോഴും പറന്നുയരുന്നതാണ് ധൈര്യം.", "গন্তব্য না দেখেও উড়াল দেওয়াই সাহস।", "ध्येय दिसत नसतानाही उड्डाण करणे म्हणजे धैर्य.", "મંજિલ ન દેખાય છતાં ઉડાન ભરવી એ જ હિંમત છે.", "ਮੰਜ਼ਿਲ ਨਾ ਦਿਸਣ 'ਤੇ ਵੀ ਉਡਾਣ ਭਰਨਾ ਹੀ ਹੌਸਲਾ ਹੈ।", "ଲକ୍ଷ୍ୟ ଦେଖାଯାଉନଥିଲେ ମଧ୍ୟ ଉଡ଼ାଣ ଭରିବା ହିଁ ସାହସ।"], ["Knowledge grows when it is shared.", "ज्ञान बाँटने से बढ़ता है।", "அறிவு பகிரும்போது வளரும்.", "జ్ఞానం పంచుకుంటే పెరుగుతుంది.", "ಜ್ಞಾನ ಹಂಚಿದಾಗ ಬೆಳೆಯುತ್ತದೆ.", "അറിവ് പങ്കുവെക്കുമ്പോൾ വളരുന്നു.", "জ্ঞান ভাগ করলে বাড়ে।", "ज्ञान वाटल्याने वाढते.", "જ્ઞાન વહેંચવાથી વધે છે.", "ਗਿਆਨ ਵੰਡਣ ਨਾਲ ਵਧਦਾ ਹੈ।", "ଜ୍ଞାନ ବାଣ୍ଟିଲେ ବଢ଼େ।"], ["Believe in yourself and you are halfway there.", "खुद पर विश्वास रखो, आधा सफ़र तय हो गया।", "உன்மேல் நம்பிக்கை வை, பாதி தூரம் கடந்துவிட்டாய்.", "నీపై నమ్మకం ఉంచు, సగం దూరం చేరినట్లే.", "ನಿನ್ನ ಮೇಲೆ ನಂಬಿಕೆ ಇಡು, ಅರ್ಧ ದಾರಿ ಕ್ರಮಿಸಿದಂತೆ.", "നിന്നിൽ വിശ്വസിക്കൂ, പാതി ദൂരം പിന്നിട്ടുകഴിഞ്ഞു.", "নিজেকে বিশ্বাস করো, অর্ধেক পথ পেরিয়ে গেছ।", "स्वतःवर विश्वास ठेवा, अर्धा प्रवास पूर्ण झाला.", "પોતાનામાં વિશ્વાસ રાખો, અડધી સફર પૂરી થઈ ગઈ.", "ਆਪਣੇ ਆਪ 'ਤੇ ਵਿਸ਼ਵਾਸ ਰੱਖੋ, ਅੱਧਾ ਸਫ਼ਰ ਤੈਅ ਹੋ ਗਿਆ।", "ନିଜ ଉପରେ ବିଶ୍ୱାସ ରଖ, ଅଧା ଯାତ୍ରା ସରିଗଲା।"]];
+  var box = document.getElementById('daily-quote');
+  if (!box) return;
+  var textEl = document.getElementById('dq-text'), langEl = document.getElementById('dq-lang'), dotsEl = document.getElementById('dq-dots');
+  var now = new Date();
+  var day = Math.floor(new Date(now.getFullYear(), now.getMonth(), now.getDate()) / 86400000);
+  var quote = QUOTES[day % QUOTES.length];
+  var idx = 0, timer = null;
+  LANGS.forEach(function(l, i) {
+    var d = document.createElement('i'); d.title = l[1];
+    d.addEventListener('click', function() { show(i, true); });
+    dotsEl.appendChild(d);
+  });
+  function show(i, restart) {
+    idx = i;
+    textEl.classList.add('fade');
+    setTimeout(function() {
+      textEl.textContent = quote[i];
+      textEl.setAttribute('lang', LANGS[i][0]);
+      langEl.textContent = LANGS[i][1];
+      Array.prototype.forEach.call(dotsEl.children, function(d, k) { d.className = k === i ? 'on' : ''; });
+      textEl.classList.remove('fade');
+    }, 250);
+    if (restart) start();
+  }
+  function start() { clearInterval(timer); timer = setInterval(function() { show((idx + 1) % LANGS.length); }, 6000); }
+  langEl.addEventListener('click', function() { show((idx + 1) % LANGS.length, true); });
+  box.addEventListener('mouseenter', function() { clearInterval(timer); });
+  box.addEventListener('mouseleave', start);
+  textEl.textContent = quote[0]; textEl.setAttribute('lang', 'en'); langEl.textContent = LANGS[0][1];
+  dotsEl.children[0].className = 'on';
+  start();
+})();
 </script>
 </body><script>
 document.addEventListener('DOMContentLoaded', function() {
