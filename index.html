@@ -308,6 +308,19 @@ img{max-width:100%;display:block;}
 .photo-placeholder{text-align:center;color:var(--grey-600);font-family:var(--mono);font-size:.78rem;padding:1rem;}
 .founder-text p{color:var(--grey-600);margin-bottom:1.4rem;max-width:520px;}
 
+.founder-card{display:grid;grid-template-columns:1.15fr .85fr;gap:3.5rem;align-items:center;background:linear-gradient(135deg,#0b1f3a 0%,#123a8c 100%);color:#fff;border-radius:28px;padding:3.2rem 3.2rem 3.2rem 3.6rem;box-shadow:0 24px 60px -24px rgba(11,31,58,.55);}
+.founder-card .founder-text p.founder-eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.16em;color:#f2c76a;margin-bottom:.7rem;}
+.founder-name{font-size:clamp(2.2rem,4vw,3.2rem);font-weight:800;letter-spacing:-.02em;color:#fff;margin-bottom:1.2rem;}
+.founder-quote{font-size:1.15rem;font-style:italic;color:#f2c76a;border-left:3px solid #f2c76a;padding-left:1rem;margin-bottom:1.4rem;max-width:480px;}
+.founder-card .founder-text p:not(.founder-eyebrow){color:rgba(255,255,255,.82);margin-bottom:1.4rem;max-width:520px;}
+.founder-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.8rem;}
+.founder-tags span{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;padding:.4rem .8rem;border:1px solid rgba(255,255,255,.35);border-radius:999px;color:#fff;}
+.founder-cta{display:inline-block;background:#f2c76a;color:#0b1f3a;font-weight:700;padding:.85rem 1.6rem;border-radius:999px;text-decoration:none;transition:transform .2s,box-shadow .2s;}
+.founder-cta:hover{transform:translateY(-2px);box-shadow:0 8px 20px -6px rgba(242,199,106,.6);}
+.founder-card .founder-photo{aspect-ratio:4/5;border:none;background:none;border-radius:22px;overflow:hidden;transform:rotate(2deg);box-shadow:0 0 0 6px rgba(242,199,106,.9),0 20px 40px -12px rgba(0,0,0,.5);}
+.founder-card .founder-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+@media (max-width:900px){.founder-card{grid-template-columns:1fr;padding:2rem 1.6rem;gap:2.2rem;}.founder-card .founder-photo{order:-1;max-width:340px;margin:0 auto;transform:none;}}
+
 /* ---------- Dashboard preview: aircraft window design ---------- */
 .aircraft-stand{position:relative;max-width:1100px;margin:0 auto;padding:2rem 0 2.5rem;}
 .aircraft-body{position:relative;width:100%;}
@@ -483,15 +496,17 @@ img{max-width:100%;display:block;}
     </div>
   </div>
 
-  <p class="eyebrow">FOUNDER &amp; AVIATION EDUCATOR</p>
-  <h2 class="section-title">Arun Kumar</h2>
-  <div class="founder-grid">
-    <div class="founder-photo">
-      <img src="assets/images/founder-arun-kumar.jpg" alt="Arun Kumar — Founder & Mentor, AuranInspire" style="width:100%;height:100%;object-fit:cover;">
-    </div>
+  <div class="founder-card">
     <div class="founder-text">
+      <p class="founder-eyebrow">FOUNDER &amp; AVIATION EDUCATOR</p>
+      <h2 class="founder-name">Arun Kumar</h2>
+      <blockquote class="founder-quote">&ldquo;The sky is not the limit, it&rsquo;s the beginning of inspiration.&rdquo;</blockquote>
       <p>With years of academic and industry experience across aviation management education, Arun Kumar founded AuranInspire to close the gap between classroom aviation theory and real industry practice — combining teaching, research, and innovation under one roof.</p>
-      <a href="#contact" class="btn btn-ghost">Get in Touch →</a>
+      <div class="founder-tags"><span>Aviation Educator</span><span>Industry Mentor</span><span>Innovation Leader</span></div>
+      <a href="#contact" class="founder-cta">Get in Touch →</a>
+    </div>
+    <div class="founder-photo">
+      <img src="assets/images/founder-arun-kumar.jpg" alt="Arun Kumar — Founder & Mentor, AuranInspire">
     </div>
   </div>
 </section>
