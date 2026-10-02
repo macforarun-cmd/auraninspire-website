@@ -31,9 +31,6 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;}
 .hero h1{font-size:clamp(1.8rem,3.6vw,2.6rem);margin-bottom:.8rem;}
 .hero p{color:#cbd7ec;max-width:580px;margin:0 auto;font-size:1.02rem;}
 .section{max-width:1280px;margin:0 auto;padding:3.5rem 2rem 5rem;}
-.filters{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2rem;}
-.filters button{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:.45rem 1rem;border:1px solid var(--grey-300);background:#fff;border-radius:999px;cursor:pointer;color:var(--grey-600);}
-.filters button.on{background:var(--navy);border-color:var(--navy);color:#fff;}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.4rem;}
 .res{display:flex;flex-direction:column;border:1px solid var(--grey-300);border-radius:14px;overflow:hidden;background:#fff;transition:transform .2s,box-shadow .2s;}
 .res:hover{transform:translateY(-3px);box-shadow:0 14px 30px -18px rgba(11,31,58,.5);}
@@ -76,6 +73,27 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;}
 .pdf-prev{left:14px;}.pdf-next{right:14px;}
 .pdf-count{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:3;font-family:var(--mono);font-size:.74rem;color:#fff;background:rgba(11,31,58,.75);padding:.3rem .8rem;border-radius:999px;}
 .pdf-msg{color:#cbd7ec;font-size:.9rem;padding:2rem;text-align:center;}
+.back-link{background:none;border:none;font-family:var(--mono);font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-deep);cursor:pointer;margin-bottom:1.2rem;padding:0;}
+.back-link:hover{text-decoration:underline;}
+.course-head{margin-bottom:1.8rem;}
+.course-eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;color:var(--blue);margin-bottom:.4rem;}
+.course-head h2{font-size:clamp(1.5rem,3vw,2.1rem);margin-bottom:.4rem;}
+.course-head p#cDesc{color:var(--grey-600);max-width:640px;}
+.course-card{cursor:pointer;}
+.course-card .res-cover{height:170px;font-size:3rem;background:linear-gradient(135deg,#0b1f3a,#1d5fd6);}
+.unit{margin-bottom:2.4rem;}
+.unit-title{display:flex;align-items:baseline;gap:.8rem;font-size:1.25rem;margin-bottom:.3rem;}
+.unit-title span{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;color:#fff;background:var(--navy);padding:.2rem .6rem;border-radius:999px;}
+.unit-desc{color:var(--grey-600);font-size:.88rem;margin-bottom:1.1rem;}
+.topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.8rem;}
+.topic{display:flex;align-items:center;gap:.9rem;text-align:left;width:100%;padding:.9rem 1rem;border:1px solid var(--grey-300);border-radius:12px;background:#fff;cursor:pointer;font-family:inherit;transition:border-color .2s,box-shadow .2s,transform .2s;}
+.topic:hover{border-color:var(--blue);box-shadow:0 10px 24px -16px rgba(29,95,214,.6);transform:translateY(-2px);}
+.topic.active{border-color:var(--blue);background:#eef4ff;}
+.topic-no{flex:none;min-width:2.8rem;text-align:center;font-family:var(--mono);font-size:.74rem;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--navy),var(--blue-deep));border-radius:8px;padding:.45rem .3rem;}
+.topic.video .topic-no{background:linear-gradient(135deg,#7a1f3d,#b3363f);}
+.topic-name{font-size:.92rem;font-weight:600;color:var(--ink);line-height:1.35;}
+.topic-meta{display:block;font-size:.72rem;font-weight:400;color:var(--grey-600);margin-top:.15rem;}
+.viewer-stage video{position:absolute;inset:0;width:100%;height:100%;background:#000;}
 .footer{background:var(--ink);color:#8b96a8;text-align:center;padding:1.8rem 1rem;font-size:.8rem;}
 </style>
 </head>
@@ -101,8 +119,8 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;}
 
 <section class="hero">
   <p class="eyebrow">MY TEACHING</p>
-  <h1>Presentations &amp; Reference Books</h1>
-  <p>Teaching material by Arun Kumar for aviation management students and professionals. Enter your email once to open any resource.</p>
+  <h1>Courses &amp; Teaching Material</h1>
+  <p>Course slides and videos by Arun Kumar for aviation management students and professionals. Enter your email once to view.</p>
 </section>
 
 <section class="section">
@@ -117,58 +135,114 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;}
     <p class="gate-note">We'll never share your email.</p>
   </div>
   <div id="content" style="display:none;">
-  <div class="filters" id="filters">
-    <button class="on" data-f="all">All</button>
-    <button data-f="ppt">Presentations</button>
-    <button data-f="book">Reference books</button>
-  </div>
-  <div class="viewer" id="viewer">
-    <div class="viewer-bar"><h3 id="vTitle"></h3><div><button type="button" id="vFull">Full screen</button><button type="button" id="vClose">Close</button></div></div>
-    <div class="viewer-stage" id="vStage"></div>
-  </div>
-  <div class="grid" id="grid"></div>
-  <p class="empty" id="empty" style="display:none;">Nothing here yet — check back soon.</p>
+    <div id="courseList" class="grid"></div>
+    <div id="courseView" style="display:none;">
+      <button type="button" class="back-link" id="backBtn">← All courses</button>
+      <div class="course-head">
+        <p class="course-eyebrow">COURSE</p>
+        <h2 id="cTitle"></h2>
+        <p id="cDesc"></p>
+      </div>
+      <div class="viewer" id="viewer">
+        <div class="viewer-bar"><h3 id="vTitle"></h3><div><button type="button" id="vFull">Full screen</button><button type="button" id="vClose">Close</button></div></div>
+        <div class="viewer-stage" id="vStage"></div>
+      </div>
+      <div id="units"></div>
+    </div>
   </div>
 </section>
 
 <footer class="footer">© AuranInspire · Designed by AK</footer>
 
 <script>
-// ===== Add your resources here =====
-// type: "ppt" or "book"   file: path to the file (e.g. "assets/teaching/airline-ops.pdf"); leave "" for "coming soon"
-var RESOURCES = [
-  { type: "ppt",  title: "Teaching Presentation", desc: "Lecture presentation by Arun Kumar. Opens in Google Drive — view or download.", file: "https://drive.google.com/file/d/1xM__6_OC1Qei5FwMBDzKb8wU4yYoQ8Wr/view?usp=sharing" },
-  { type: "ppt",  title: "Airport Management — Lecture Deck", desc: "Core concepts in airport planning and management.", file: "" },
-  { type: "book", title: "Aviation Management — Reference Book", desc: "Reference reading for aviation management courses.", file: "" },
-  { type: "book", title: "Airline Fare & Revenue — Reference Notes", desc: "Notes on airline fare structures and revenue basics.", file: "" }
+// ===== Courses: add new courses, units and topics here =====
+// Each topic: { no: "1.1", title: "...", file: "path/to/file.pdf", type: "pdf" | "video" }
+var U1 = "assets/teaching/air-ticketing/unit-1/";
+var COURSES = [
+  {
+    title: "Air Ticketing & Fare Construction",
+    desc: "Arun's PPT — complete lecture slides for the Air Ticketing & Fare Construction course.",
+    trailer: { no: "▶", title: "Course Trailer", file: "assets/teaching/air-ticketing/course-trailer.mp4", type: "video", meta: "Video · 49 sec" },
+    units: [
+      {
+        title: "Unit 1", name: "Overview of the Airline Industry",
+        desc: "Airline industry basics, tickets, alliances, reservation systems, PNR, e-ticketing, agencies and schedules.",
+        topics: [
+          { no: "1.1",  title: "Overview of the Airline Industry", file: U1 + "01_Topic_1.1_Overview_of_the_Airline_Industry.pdf" },
+          { no: "1.2",  title: "Types of Air Tickets", file: U1 + "02_Topic_1.2_Types_of_Air_Tickets.pdf" },
+          { no: "1.3",  title: "Airline Alliances and Codeshares", file: U1 + "03_Topic_1.3_Airline_Alliances_and_Codeshares.pdf" },
+          { no: "1.4",  title: "Booking Classes and Fare Types", file: U1 + "04_Topic_1.4_Booking_Classes_and_Fare_Types.pdf" },
+          { no: "1.5",  title: "Reservation Systems", file: U1 + "05_Topic_1.5_Reservation_Systems.pdf" },
+          { no: "1.6",  title: "Passenger Name Record (PNR)", file: U1 + "06_Topic_1.6_Passenger_Name_Record_PNR.pdf" },
+          { no: "1.7",  title: "E-ticketing and IATA E-Ticketing Standards", file: U1 + "07_Topic_1.7_E_ticketing_and_IATA_E_Ticketing_Standards.pdf" },
+          { no: "1.8",  title: "Travel Agencies and OTAs", file: U1 + "08_Topic_1.8_Travel_Agencies_and_OTAs.pdf" },
+          { no: "1.9",  title: "Understanding Airline Schedules", file: U1 + "09_Topic_1.9_Understanding_Airline_Schedules.pdf" },
+          { no: "1.11", title: "Booking Process in the Airline Industry", file: U1 + "11_Topic_1.11_Booking_Process_in_the_Airline_Industry.pdf" },
+          { no: "1.12", title: "Wrap-Up: Case-Based Learning — Technology in Ticketing", file: U1 + "12_Topic_1.12_Wrap_Up_Case_Based_Learning_Technology_in_Ticketing.pdf" }
+        ]
+      }
+    ]
+  }
 ];
 
 (function() {
   var OWNER_PIN = '6666';
   var KEY = 'ai_teaching_access';
-  var grid = document.getElementById('grid'), empty = document.getElementById('empty');
   var gate = document.getElementById('gate'), content = document.getElementById('content'), form = document.getElementById('gForm');
-  var filter = 'all';
+  var list = document.getElementById('courseList'), courseView = document.getElementById('courseView'), unitsEl = document.getElementById('units');
   function role() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
   function setRole(r) { try { localStorage.setItem(KEY, r); } catch (e) {} }
-  function show() { gate.style.display = 'none'; content.style.display = 'block'; render(); }
-  function render() {
-    grid.innerHTML = '';
-    var n = 0;
-    RESOURCES.forEach(function(r) {
-      if (filter !== 'all' && r.type !== filter) return;
-      n++;
+  function show() { gate.style.display = 'none'; content.style.display = 'block'; renderCourses(); }
+  function count(c) { return c.units.reduce(function(n, u) { return n + u.topics.length; }, 0); }
+  function renderCourses() {
+    list.innerHTML = '';
+    COURSES.forEach(function(c, i) {
       var el = document.createElement('div');
-      el.className = 'res ' + r.type;
-      el.innerHTML = '<div class="res-cover">' + (r.type === 'book' ? '📚' : '📊') + '</div><div class="res-body"><span class="res-tag"></span><h3></h3><p></p><button class="btn btn-primary">View</button></div>';
-      el.querySelector('.res-tag').textContent = r.type === 'book' ? 'Reference book' : 'Presentation';
-      el.querySelector('h3').textContent = r.title;
-      el.querySelector('p').textContent = r.desc;
-      el.querySelector('button').addEventListener('click', function() { openViewer(r); });
-      grid.appendChild(el);
+      el.className = 'res course-card';
+      el.innerHTML = '<div class="res-cover">✈️</div><div class="res-body"><span class="res-tag">Course</span><h3></h3><p></p><button class="btn btn-primary">Open course</button></div>';
+      el.querySelector('h3').textContent = c.title;
+      el.querySelector('p').textContent = c.desc + ' ' + c.units.length + ' unit · ' + count(c) + ' topics.';
+      el.addEventListener('click', function() { openCourse(i); });
+      list.appendChild(el);
     });
-    empty.style.display = n ? 'none' : 'block';
+    list.style.display = 'grid'; courseView.style.display = 'none';
   }
+  function topicBtn(t, meta) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'topic' + (t.type === 'video' ? ' video' : '');
+    b.innerHTML = '<span class="topic-no"></span><span class="topic-name"><span class="tn"></span><span class="topic-meta"></span></span>';
+    b.querySelector('.topic-no').textContent = t.no;
+    b.querySelector('.tn').textContent = t.title;
+    b.querySelector('.topic-meta').textContent = meta;
+    b.addEventListener('click', function() {
+      Array.prototype.forEach.call(document.querySelectorAll('.topic.active'), function(x) { x.classList.remove('active'); });
+      b.classList.add('active'); openViewer(t);
+    });
+    return b;
+  }
+  function openCourse(i) {
+    var c = COURSES[i];
+    document.getElementById('cTitle').textContent = c.title;
+    document.getElementById('cDesc').textContent = c.desc;
+    unitsEl.innerHTML = '';
+    if (c.trailer) {
+      var tw = document.createElement('div'); tw.className = 'unit';
+      var tt = document.createElement('div'); tt.className = 'topics';
+      tt.appendChild(topicBtn(c.trailer, c.trailer.meta)); tw.appendChild(tt); unitsEl.appendChild(tw);
+    }
+    c.units.forEach(function(u) {
+      var w = document.createElement('div'); w.className = 'unit';
+      var h = document.createElement('h3'); h.className = 'unit-title';
+      var sp = document.createElement('span'); sp.textContent = u.title; h.appendChild(sp); h.appendChild(document.createTextNode(u.name));
+      var d = document.createElement('p'); d.className = 'unit-desc'; d.textContent = u.desc;
+      var g = document.createElement('div'); g.className = 'topics';
+      u.topics.forEach(function(t) { g.appendChild(topicBtn(t, 'Slides · view online')); });
+      w.appendChild(h); w.appendChild(d); w.appendChild(g); unitsEl.appendChild(w);
+    });
+    list.style.display = 'none'; courseView.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  document.getElementById('backBtn').addEventListener('click', function() { closeViewer(); renderCourses(); });
   var viewer = document.getElementById('viewer'), stage = document.getElementById('vStage');
   function embedUrl(f) {
     var m = f.match(/drive\.google\.com\/file\/d\/([^\/?#]+)/);
@@ -220,10 +294,14 @@ var RESOURCES = [
   });
   window.addEventListener('resize', function() { if (pdfDoc && stage.querySelector('#pdfCanvas')) renderPdf(); });
   function openViewer(r) {
-    if (!r.file) { alert('This resource is coming soon. Thank you for your interest!'); return; }
+    if (!r.file) { alert('This topic is coming soon.'); return; }
     document.getElementById('vTitle').textContent = r.title;
     stage.innerHTML = ''; stage.className = 'viewer-stage'; pdfDoc = null;
     if (/\.pdf($|\?)/i.test(r.file) && !/drive\.google\.com/.test(r.file)) { viewer.classList.add('open'); viewer.scrollIntoView({ behavior: 'smooth', block: 'start' }); showPdf(r.file); return; }
+    if (r.type === 'video') {
+      var v = document.createElement('video'); v.src = r.file; v.controls = true; v.autoplay = true; v.setAttribute('controlsList', 'nodownload'); v.setAttribute('playsinline', '');
+      stage.appendChild(v); viewer.classList.add('open'); viewer.scrollIntoView({ behavior: 'smooth', block: 'start' }); return;
+    }
     var f = document.createElement('iframe');
     f.src = embedUrl(r.file); f.allow = 'fullscreen'; f.setAttribute('referrerpolicy', 'no-referrer'); f.title = r.title;
     stage.appendChild(f);
@@ -231,10 +309,11 @@ var RESOURCES = [
     viewer.classList.add('open');
     viewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
-  document.getElementById('vClose').addEventListener('click', function() {
+  function closeViewer() {
     if (document.fullscreenElement) document.exitFullscreen();
     viewer.classList.remove('open'); stage.innerHTML = ''; pdfDoc = null;
-  });
+  }
+  document.getElementById('vClose').addEventListener('click', closeViewer);
   document.getElementById('vFull').addEventListener('click', function() {
     if (document.fullscreenElement) document.exitFullscreen(); else if (viewer.requestFullscreen) viewer.requestFullscreen();
   });
@@ -250,12 +329,6 @@ var RESOURCES = [
       .then(function(res) { if (!res.ok) throw new Error('bad'); setRole('visitor'); show(); })
       .catch(function() { err.textContent = 'Something went wrong — please check your connection and try again.'; err.style.display = 'block'; })
       .then(function() { btn.disabled = false; btn.textContent = 'Enter'; });
-  });
-  document.getElementById('filters').addEventListener('click', function(e) {
-    var b = e.target.closest('button'); if (!b) return;
-    filter = b.dataset.f;
-    Array.prototype.forEach.call(this.children, function(c) { c.classList.toggle('on', c === b); });
-    render();
   });
   if (role()) show();
 })();
