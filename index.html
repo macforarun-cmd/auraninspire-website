@@ -308,48 +308,45 @@ img{max-width:100%;display:block;}
 .photo-placeholder{text-align:center;color:var(--grey-600);font-family:var(--mono);font-size:.78rem;padding:1rem;}
 .founder-text p{color:var(--grey-600);margin-bottom:1.4rem;max-width:520px;}
 
-.founder-card{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;border-radius:28px;padding:3rem 1.5rem 3.2rem;overflow:hidden;color:#0b1f3a;
-  background:radial-gradient(ellipse 60% 30% at 20% 95%,rgba(255,255,255,.95),transparent 70%),radial-gradient(ellipse 50% 25% at 75% 100%,rgba(255,255,255,.9),transparent 70%),radial-gradient(ellipse 35% 15% at 55% 80%,rgba(255,255,255,.55),transparent 70%),linear-gradient(180deg,#3f86e8 0%,#7db4f2 55%,#cfe4fb 100%);
-  box-shadow:0 24px 60px -28px rgba(18,58,140,.6);}
-.founder-eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.16em;color:#0b1f3a;margin-bottom:.6rem;}
-.founder-name{font-size:clamp(2.2rem,4vw,3.2rem);font-weight:800;letter-spacing:-.02em;color:#fff;text-shadow:0 2px 14px rgba(11,31,58,.45);margin-bottom:1.8rem;}
-.flip{perspective:1400px;width:min(440px,100%);aspect-ratio:4/5.3;}
+.founder-card{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;border-radius:28px;padding:3rem 2rem 3.4rem;overflow:hidden;color:#0b1f3a;
+  background:radial-gradient(ellipse 55% 35% at 12% 100%,rgba(230,57,70,.6),transparent 70%),radial-gradient(ellipse 50% 35% at 88% 100%,rgba(255,255,255,.55),transparent 70%),linear-gradient(160deg,#0b1f3a 0%,#123a8c 50%,#1d5fd6 100%);
+  box-shadow:0 24px 60px -28px rgba(11,31,58,.7);}
+.founder-eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.16em;color:#fff;margin-bottom:.6rem;}
+.founder-name{font-size:clamp(2.2rem,4vw,3.2rem);font-weight:800;letter-spacing:-.02em;color:#fff;text-shadow:0 2px 14px rgba(5,15,40,.5);margin-bottom:2rem;}
+.founder-stage{display:grid;grid-template-columns:1fr minmax(300px,460px) 1fr;gap:2.4rem;align-items:center;width:100%;max-width:1180px;}
+.founder-side{display:flex;flex-direction:column;gap:1.2rem;}
+.fs-chip{position:relative;text-align:left;padding:1.2rem 1.3rem;border-radius:18px;background:rgba(255,255,255,.12);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);border:1px solid rgba(255,255,255,.3);box-shadow:0 12px 30px -16px rgba(5,15,40,.6), inset 0 1px 0 rgba(255,255,255,.25);animation:fsFloat 6s ease-in-out infinite;}
+.founder-side-r .fs-chip{animation-delay:-3s;}
+.fs-chip:nth-child(2){animation-delay:-1.5s;}.founder-side-r .fs-chip:nth-child(2){animation-delay:-4.5s;}
+@keyframes fsFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.fs-chip b{display:block;font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;color:#ff6b78;margin-bottom:.3rem;}
+.fs-chip span{display:block;font-size:1.1rem;font-weight:800;color:#fff;}
+.fs-chip i{display:block;font-style:normal;font-size:.82rem;line-height:1.45;color:rgba(255,255,255,.82);margin-top:.3rem;}
+.fs-chip-accent{background:#e63946;border-color:#e63946;}
+.fs-chip-accent span{color:#fff;}.fs-chip-accent i{color:#fff;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;}
+.flip{perspective:1400px;width:100%;aspect-ratio:4/5;}
 .flip-inner{position:relative;display:block;width:100%;height:100%;padding:0;border:none;background:none;cursor:pointer;text-align:center;font:inherit;color:inherit;transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(calc(var(--ry,0deg) + var(--fl,0deg)));transition:transform .9s cubic-bezier(.2,.8,.2,1);}
 .flip.tilting .flip-inner{transition:transform .12s linear;}
 .flip.is-flipped .flip-inner{--fl:180deg;}
 .flip-face{position:absolute;inset:0;display:flex;flex-direction:column;border-radius:22px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;}
-.flip-front{box-shadow:0 0 0 4px rgba(255,255,255,.85),0 20px 40px -14px rgba(11,31,58,.55);}
+.flip-front{box-shadow:0 0 0 4px rgba(255,255,255,.85),0 20px 40px -14px rgba(5,15,40,.6);}
 .flip-front img{width:100%;height:100%;object-fit:cover;display:block;}
-.flip-hint{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:#0b1f3a;}
-.flip-front .flip-hint{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);background:rgba(255,255,255,.85);padding:.35rem .8rem;border-radius:999px;white-space:nowrap;}
 .flip-shine{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at var(--mx,50%) var(--my,30%),rgba(255,255,255,.45),transparent 45%);mix-blend-mode:overlay;opacity:0;transition:opacity .3s;}
 .flip.tilting .flip-shine{opacity:1;}
-.flip-back{transform:rotateY(180deg);background:#fdfcf8;color:#0b1f3a;text-align:left;box-shadow:0 0 0 4px rgba(255,255,255,.6),0 20px 40px -14px rgba(11,31,58,.5);}
-.bp-head{display:flex;justify-content:space-between;background:#0b1f3a;color:#f2c76a;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;padding:.7rem 1rem;}
-.bp-route{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1rem .4rem;}
-.bp-route b{display:block;font-size:1.15rem;font-weight:800;letter-spacing:.02em;}
-.bp-route i{font-family:var(--mono);font-size:.6rem;font-style:normal;letter-spacing:.1em;text-transform:uppercase;color:#5c6675;}
-.bp-route span:last-child{text-align:right;}
-.bp-plane{font-size:1.4rem;color:#1d5fd6;}
-.bp-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1rem;padding:.4rem 1rem;}
-.bp-grid i,.bp-grid b{display:block;}
-.bp-grid i{font-family:var(--mono);font-size:.55rem;font-style:normal;letter-spacing:.12em;text-transform:uppercase;color:#5c6675;}
-.bp-grid b{font-size:.9rem;}
-.bp-classes{display:flex;flex-wrap:wrap;gap:.3rem;padding:.3rem 1rem .6rem;}
-.bp-classes span{font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;text-transform:uppercase;border:1px solid #0b1f3a;border-radius:999px;padding:.25rem .55rem;}
-.bp-perf{display:block;border-top:2px dashed #b8c2d0;margin:.2rem 0 .6rem;position:relative;}
-.bp-perf::before,.bp-perf::after{content:"";position:absolute;top:-11px;width:20px;height:20px;border-radius:50%;background:#7db4f2;}
-.bp-perf::before{left:-10px;}.bp-perf::after{right:-10px;}
-.flip-text{display:block;font-size:.78rem;line-height:1.5;padding:0 1rem;color:#0d2342;}
-.founder-quote{padding:.6rem 1rem 0;}
-.bp-bottom{display:flex;align-items:center;justify-content:space-between;gap:.8rem;margin-top:auto;padding:.6rem 1rem 1rem;}
-.bp-barcode{flex:1;height:38px;background:repeating-linear-gradient(90deg,#0b1f3a 0 2px,transparent 2px 4px,#0b1f3a 4px 5px,transparent 5px 8px,#0b1f3a 8px 11px,transparent 11px 12px);}
-.founder-quote{display:block;font-size:.8rem;font-style:italic;color:#0b1f3a;}
-.flip-text{display:block;font-size:.88rem;line-height:1.55;color:#0d2342;}
-.founder-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem;}
-.founder-tags span{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:.35rem .65rem;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.85);border-radius:999px;color:#0b1f3a;}
-.founder-cta{display:inline-block;background:#0b1f3a;color:#fff;font-weight:700;font-size:.8rem;white-space:nowrap;padding:.6rem 1.1rem;border-radius:999px;text-decoration:none;}
-@media (prefers-reduced-motion:reduce){.flip-inner{transition:none;}}
+.flip-hint{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:#0b1f3a;}
+.flip-front .flip-hint{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);background:rgba(255,255,255,.85);padding:.35rem .8rem;border-radius:999px;white-space:nowrap;}
+.flip-back{transform:rotateY(180deg);box-shadow:0 0 0 4px rgba(255,255,255,.6),0 20px 40px -14px rgba(5,15,40,.6);background:#0b1f3a;}
+.flip-back-bg{position:absolute;inset:-8%;width:116%;height:116%;object-fit:cover;filter:blur(14px) saturate(1.2);transform:scale(1.05);}
+.flip-back::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(18,58,140,.72),rgba(11,31,58,.93));}
+.flip-back-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;height:100%;padding:1.8rem 1.6rem;color:#fff;}
+.fb-mark{font-family:Georgia,serif;font-size:4rem;line-height:.6;color:#e63946;}
+.fb-quote{font-family:Georgia,serif;font-size:1.3rem;font-style:italic;line-height:1.35;color:#fff;}
+.fb-line{width:56px;height:3px;border-radius:3px;background:#e63946;}
+.fb-text{font-size:.86rem;line-height:1.6;color:rgba(255,255,255,.88);}
+.flip-back .flip-hint{color:rgba(255,255,255,.7);}
+.founder-cta{display:inline-block;background:#e63946;color:#fff;font-weight:700;font-size:.85rem;white-space:nowrap;padding:.7rem 1.3rem;border-radius:999px;text-decoration:none;}
+@media (max-width:980px){.founder-stage{grid-template-columns:1fr;max-width:460px;}.flip{order:-1;}.founder-side{flex-direction:row;flex-wrap:wrap;}.fs-chip{flex:1 1 200px;}}
+@media (prefers-reduced-motion:reduce){.flip-inner{transition:none;}.fs-chip{animation:none;}}
 
 /* ---------- Dashboard preview: aircraft window design ---------- */
 .aircraft-stand{position:relative;max-width:1100px;margin:0 auto;padding:2rem 0 2.5rem;}
@@ -529,29 +526,35 @@ img{max-width:100%;display:block;}
   <div class="founder-card">
     <p class="founder-eyebrow">FOUNDER &amp; AVIATION EDUCATOR</p>
     <h2 class="founder-name">Arun Kumar</h2>
-    <div class="flip" id="founder-flip">
-      <button type="button" class="flip-inner" aria-pressed="false" aria-label="Flip card to read about Arun Kumar">
-        <span class="flip-face flip-front">
-          <img src="assets/images/founder-arun-kumar.jpg" alt="Arun Kumar — Founder & Mentor, AuranInspire">
-          <span class="flip-shine"></span>
-          <span class="flip-hint">Tap to board ✈</span>
-        </span>
-        <span class="flip-face flip-back">
-          <span class="bp-head"><span>AuranInspire Airlines</span><span>Boarding Pass</span></span>
-          <span class="bp-route"><span><b>CLASSROOM</b><i>Theory</i></span><span class="bp-plane">✈</span><span><b>INDUSTRY</b><i>Practice</i></span></span>
-          <span class="bp-grid">
-            <span><i>Passenger</i><b>Arun Kumar</b></span>
-            <span><i>Role</i><b>Founder &amp; Mentor</b></span>
-            <span><i>Flight</i><b>AI 001</b></span>
-            <span><i>Gate</i><b>Inspire</b></span>
+    <div class="founder-stage">
+      <div class="founder-side founder-side-l">
+        <div class="fs-chip"><b>01</b><span>Aviation Educator</span><i>Teaching airline, airport &amp; aviation management</i></div>
+        <div class="fs-chip"><b>02</b><span>Industry Mentor</span><i>Bridging classroom theory and real practice</i></div>
+      </div>
+      <div class="flip" id="founder-flip">
+        <button type="button" class="flip-inner" aria-pressed="false" aria-label="Flip card to read about Arun Kumar">
+          <span class="flip-face flip-front">
+            <img src="assets/images/founder-arun-kumar.jpg" alt="Arun Kumar — Founder & Mentor, AuranInspire">
+            <span class="flip-shine"></span>
+            <span class="flip-hint">Tap to know me ↻</span>
           </span>
-          <span class="bp-classes"><span>Aviation Educator</span><span>Industry Mentor</span><span>Innovation Leader</span></span>
-          <span class="bp-perf"></span>
-          <span class="flip-text">With years of academic and industry experience across aviation management education, Arun Kumar founded AuranInspire to close the gap between classroom aviation theory and real industry practice — combining teaching, research, and innovation under one roof.</span>
-          <span class="founder-quote">&ldquo;The sky is not the limit, it&rsquo;s the beginning of inspiration.&rdquo;</span>
-          <span class="bp-bottom"><span class="bp-barcode"></span><a href="#contact" class="founder-cta">Get in Touch →</a></span>
-        </span>
-      </button>
+          <span class="flip-face flip-back">
+            <img class="flip-back-bg" src="assets/images/founder-arun-kumar.jpg" alt="">
+            <span class="flip-back-inner">
+              <span class="fb-mark">&ldquo;</span>
+              <span class="fb-quote">The sky is not the limit, it&rsquo;s the beginning of inspiration.</span>
+              <span class="fb-line"></span>
+              <span class="fb-text">With years of academic and industry experience across aviation management education, Arun Kumar founded AuranInspire to close the gap between classroom aviation theory and real industry practice — combining teaching, research, and innovation under one roof.</span>
+              <a href="#contact" class="founder-cta">Get in Touch →</a>
+              <span class="flip-hint">Tap to flip back ↻</span>
+            </span>
+          </span>
+        </button>
+      </div>
+      <div class="founder-side founder-side-r">
+        <div class="fs-chip"><b>03</b><span>Innovation Leader</span><i>Teaching, research and innovation under one roof</i></div>
+        <div class="fs-chip fs-chip-accent"><span>AuranInspire</span><i>Inspire. Innovate. Elevate.</i></div>
+      </div>
     </div>
   </div>
 </section>
