@@ -313,20 +313,42 @@ img{max-width:100%;display:block;}
   box-shadow:0 24px 60px -28px rgba(18,58,140,.6);}
 .founder-eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.16em;color:#0b1f3a;margin-bottom:.6rem;}
 .founder-name{font-size:clamp(2.2rem,4vw,3.2rem);font-weight:800;letter-spacing:-.02em;color:#fff;text-shadow:0 2px 14px rgba(11,31,58,.45);margin-bottom:1.8rem;}
-.flip{perspective:1400px;width:min(440px,100%);aspect-ratio:4/5;}
-.flip-inner{position:relative;display:block;width:100%;height:100%;padding:0;border:none;background:none;cursor:pointer;text-align:center;font:inherit;color:inherit;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.2,.8,.2,1);}
-.flip.is-flipped .flip-inner{transform:rotateY(180deg);}
+.flip{perspective:1400px;width:min(440px,100%);aspect-ratio:4/5.3;}
+.flip-inner{position:relative;display:block;width:100%;height:100%;padding:0;border:none;background:none;cursor:pointer;text-align:center;font:inherit;color:inherit;transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(calc(var(--ry,0deg) + var(--fl,0deg)));transition:transform .9s cubic-bezier(.2,.8,.2,1);}
+.flip.tilting .flip-inner{transition:transform .12s linear;}
+.flip.is-flipped .flip-inner{--fl:180deg;}
 .flip-face{position:absolute;inset:0;display:flex;flex-direction:column;border-radius:22px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;}
 .flip-front{box-shadow:0 0 0 4px rgba(255,255,255,.85),0 20px 40px -14px rgba(11,31,58,.55);}
 .flip-front img{width:100%;height:100%;object-fit:cover;display:block;}
 .flip-hint{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:#0b1f3a;}
 .flip-front .flip-hint{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);background:rgba(255,255,255,.85);padding:.35rem .8rem;border-radius:999px;white-space:nowrap;}
-.flip-back{transform:rotateY(180deg);justify-content:center;align-items:center;gap:.9rem;padding:1.6rem 1.5rem;background:rgba(255,255,255,.3);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);border:1px solid rgba(255,255,255,.75);box-shadow:0 0 0 4px rgba(255,255,255,.5),0 20px 40px -14px rgba(11,31,58,.45), inset 0 1px 0 rgba(255,255,255,.7);}
-.founder-quote{display:block;font-size:1rem;font-style:italic;color:#0b1f3a;}
+.flip-shine{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at var(--mx,50%) var(--my,30%),rgba(255,255,255,.45),transparent 45%);mix-blend-mode:overlay;opacity:0;transition:opacity .3s;}
+.flip.tilting .flip-shine{opacity:1;}
+.flip-back{transform:rotateY(180deg);background:#fdfcf8;color:#0b1f3a;text-align:left;box-shadow:0 0 0 4px rgba(255,255,255,.6),0 20px 40px -14px rgba(11,31,58,.5);}
+.bp-head{display:flex;justify-content:space-between;background:#0b1f3a;color:#f2c76a;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;padding:.7rem 1rem;}
+.bp-route{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1rem .4rem;}
+.bp-route b{display:block;font-size:1.15rem;font-weight:800;letter-spacing:.02em;}
+.bp-route i{font-family:var(--mono);font-size:.6rem;font-style:normal;letter-spacing:.1em;text-transform:uppercase;color:#5c6675;}
+.bp-route span:last-child{text-align:right;}
+.bp-plane{font-size:1.4rem;color:#1d5fd6;}
+.bp-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1rem;padding:.4rem 1rem;}
+.bp-grid i,.bp-grid b{display:block;}
+.bp-grid i{font-family:var(--mono);font-size:.55rem;font-style:normal;letter-spacing:.12em;text-transform:uppercase;color:#5c6675;}
+.bp-grid b{font-size:.9rem;}
+.bp-classes{display:flex;flex-wrap:wrap;gap:.3rem;padding:.3rem 1rem .6rem;}
+.bp-classes span{font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;text-transform:uppercase;border:1px solid #0b1f3a;border-radius:999px;padding:.25rem .55rem;}
+.bp-perf{display:block;border-top:2px dashed #b8c2d0;margin:.2rem 0 .6rem;position:relative;}
+.bp-perf::before,.bp-perf::after{content:"";position:absolute;top:-11px;width:20px;height:20px;border-radius:50%;background:#7db4f2;}
+.bp-perf::before{left:-10px;}.bp-perf::after{right:-10px;}
+.flip-text{display:block;font-size:.78rem;line-height:1.5;padding:0 1rem;color:#0d2342;}
+.founder-quote{padding:.6rem 1rem 0;}
+.bp-bottom{display:flex;align-items:center;justify-content:space-between;gap:.8rem;margin-top:auto;padding:.6rem 1rem 1rem;}
+.bp-barcode{flex:1;height:38px;background:repeating-linear-gradient(90deg,#0b1f3a 0 2px,transparent 2px 4px,#0b1f3a 4px 5px,transparent 5px 8px,#0b1f3a 8px 11px,transparent 11px 12px);}
+.founder-quote{display:block;font-size:.8rem;font-style:italic;color:#0b1f3a;}
 .flip-text{display:block;font-size:.88rem;line-height:1.55;color:#0d2342;}
 .founder-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem;}
 .founder-tags span{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:.35rem .65rem;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.85);border-radius:999px;color:#0b1f3a;}
-.founder-cta{display:inline-block;background:#0b1f3a;color:#fff;font-weight:700;padding:.7rem 1.4rem;border-radius:999px;text-decoration:none;}
+.founder-cta{display:inline-block;background:#0b1f3a;color:#fff;font-weight:700;font-size:.8rem;white-space:nowrap;padding:.6rem 1.1rem;border-radius:999px;text-decoration:none;}
 @media (prefers-reduced-motion:reduce){.flip-inner{transition:none;}}
 
 /* ---------- Dashboard preview: aircraft window design ---------- */
@@ -511,14 +533,23 @@ img{max-width:100%;display:block;}
       <button type="button" class="flip-inner" aria-pressed="false" aria-label="Flip card to read about Arun Kumar">
         <span class="flip-face flip-front">
           <img src="assets/images/founder-arun-kumar.jpg" alt="Arun Kumar — Founder & Mentor, AuranInspire">
-          <span class="flip-hint">Tap to know me ↻</span>
+          <span class="flip-shine"></span>
+          <span class="flip-hint">Tap to board ✈</span>
         </span>
         <span class="flip-face flip-back">
-          <span class="founder-quote">&ldquo;The sky is not the limit, it&rsquo;s the beginning of inspiration.&rdquo;</span>
+          <span class="bp-head"><span>AuranInspire Airlines</span><span>Boarding Pass</span></span>
+          <span class="bp-route"><span><b>CLASSROOM</b><i>Theory</i></span><span class="bp-plane">✈</span><span><b>INDUSTRY</b><i>Practice</i></span></span>
+          <span class="bp-grid">
+            <span><i>Passenger</i><b>Arun Kumar</b></span>
+            <span><i>Role</i><b>Founder &amp; Mentor</b></span>
+            <span><i>Flight</i><b>AI 001</b></span>
+            <span><i>Gate</i><b>Inspire</b></span>
+          </span>
+          <span class="bp-classes"><span>Aviation Educator</span><span>Industry Mentor</span><span>Innovation Leader</span></span>
+          <span class="bp-perf"></span>
           <span class="flip-text">With years of academic and industry experience across aviation management education, Arun Kumar founded AuranInspire to close the gap between classroom aviation theory and real industry practice — combining teaching, research, and innovation under one roof.</span>
-          <span class="founder-tags"><span>Aviation Educator</span><span>Industry Mentor</span><span>Innovation Leader</span></span>
-          <a href="#contact" class="founder-cta">Get in Touch →</a>
-          <span class="flip-hint">Tap to flip back ↻</span>
+          <span class="founder-quote">&ldquo;The sky is not the limit, it&rsquo;s the beginning of inspiration.&rdquo;</span>
+          <span class="bp-bottom"><span class="bp-barcode"></span><a href="#contact" class="founder-cta">Get in Touch →</a></span>
         </span>
       </button>
     </div>
@@ -870,6 +901,22 @@ document.addEventListener('DOMContentLoaded', function() {
     if (e.target.closest('a')) return;
     var on = flip.classList.toggle('is-flipped');
     btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    flip.classList.remove('tilting');
+    flip.style.removeProperty('--rx'); flip.style.removeProperty('--ry');
+  });
+  var fine = window.matchMedia('(hover:hover) and (prefers-reduced-motion:no-preference)').matches;
+  if (!fine) return;
+  flip.addEventListener('mousemove', function(e) {
+    if (flip.classList.contains('is-flipped')) return;
+    var r = flip.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    flip.classList.add('tilting');
+    btn.style.setProperty('--ry', ((x - .5) * 14) + 'deg');
+    btn.style.setProperty('--rx', ((.5 - y) * 14) + 'deg');
+    flip.style.setProperty('--mx', (x * 100) + '%'); flip.style.setProperty('--my', (y * 100) + '%');
+  });
+  flip.addEventListener('mouseleave', function() {
+    flip.classList.remove('tilting');
+    btn.style.removeProperty('--rx'); btn.style.removeProperty('--ry');
   });
 });
 </script>
