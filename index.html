@@ -398,6 +398,29 @@ img{max-width:100%;display:block;}
 .board-photo .flip-front .flip-hint{background:#ffb000;color:#0b0e14;font-weight:700;}
 @media (max-width:980px){.founder-card{padding:1rem 1rem 2rem;}.bt-dest{font-size:.72rem;}.bt-dest .fl{min-width:.68em;padding:0 .04em;}.bt-dest .fw{gap:1px;}.bt-st{font-size:.6rem;padding:.35rem .4rem;letter-spacing:.05em;}.board-body{grid-template-columns:minmax(0,1fr);}.board-photo{max-width:360px;margin:0 auto;}.bt-headrow{display:none;}.bt-row{grid-template-columns:2.2rem minmax(0,1fr) auto;grid-template-areas:"no dest st" "rem rem rem";row-gap:.5rem;}.bt-no{grid-area:no;}.bt-dest{grid-area:dest;}.bt-st{grid-area:st;}.bt-rem{grid-area:rem;}.bh-clock{margin-left:0;}}
 @media (prefers-reduced-motion:reduce){.bt-st.boarding{animation:none;}.flap .fl.turn{animation:none;}}
+
+/* Compact board */
+.founder-card{width:min(1080px,calc(100vw - 2rem));margin-left:auto;margin-right:auto;padding:.6rem 1.4rem 1.5rem;border-radius:18px;}
+.board-head{padding:.5rem .1rem .7rem;}
+.bh-title{font-size:.78rem;}.bh-sub{font-size:.6rem;}.bh-clock{font-size:1rem;}
+.founder-name{font-size:clamp(1.4rem,2.6vw,2.1rem);margin:.9rem 0 1.1rem;}
+.board-body{grid-template-columns:minmax(210px,250px) 1fr;gap:1.8rem;}
+.board-photo{position:relative;}
+.board-photo .flip{border-radius:18px;}
+.bt-headrow{display:none;}
+.board-table{gap:.5rem;}
+.bt-row{grid-template-columns:2rem minmax(0,1.5fr) minmax(0,1.5fr) 7rem;gap:.7rem;padding:.55rem .8rem;border-radius:8px;}
+.bt-no{font-size:.7rem;}
+.bt-dest{font-size:clamp(.66rem,1.05vw,.88rem);}
+.bt-rem{font-size:.76rem;line-height:1.35;}
+.bt-st{font-size:.6rem;padding:.3rem .4rem;}
+.orbit{display:none;}
+@supports (offset-path:inset(0 round 18px)){
+  .orbit{display:block;position:absolute;z-index:3;left:0;top:0;font-size:1rem;color:#ffb000;text-shadow:0 0 10px rgba(255,176,0,.9);offset-path:inset(-9px round 24px);offset-rotate:auto 90deg;animation:orbitGo 9s linear infinite;pointer-events:none;}
+}
+@keyframes orbitGo{from{offset-distance:0%;}to{offset-distance:100%;}}
+@media (prefers-reduced-motion:reduce){.orbit{display:none!important;}}
+@media (max-width:980px){.board-body{grid-template-columns:minmax(0,1fr);}.board-photo{max-width:250px;margin:0 auto;}.bt-row{grid-template-columns:2rem minmax(0,1fr) auto;grid-template-areas:"no dest st" "rem rem rem";row-gap:.35rem;}.bt-no{grid-area:no;}.bt-dest{grid-area:dest;font-size:.72rem;}.bt-st{grid-area:st;}.bt-rem{grid-area:rem;}}
 @media (max-width:980px){.founder-stage{grid-template-columns:1fr;max-width:460px;}.flip{order:-1;}.founder-side{flex-direction:row;flex-wrap:wrap;}.fs-chip{flex:1 1 200px;}}
 @media (prefers-reduced-motion:reduce){.flip-inner{transition:none;}.fs-chip{animation:none;}}
 
@@ -599,6 +622,7 @@ img{max-width:100%;display:block;}
     <h2 class="founder-name flap" data-flap="ARUN KUMAR">Arun Kumar</h2>
     <div class="board-body">
       <div class="board-photo">
+        <span class="orbit" aria-hidden="true">✈</span>
     <div class="flip" id="founder-flip">
       <button type="button" class="flip-inner" aria-pressed="false" aria-label="Flip card to read about Arun Kumar">
         <span class="flip-face flip-front">
