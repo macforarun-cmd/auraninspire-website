@@ -300,14 +300,23 @@ img{max-width:100%;display:block;}
   aspect-ratio:3/1;
   padding:2.2rem 1.6rem 2rem;
   border-radius:0;
-  background-image:linear-gradient(180deg, rgba(10,12,15,.05), rgba(10,12,15,.15) 65%, rgba(10,12,15,.3)), url('assets/images/cockpit-panel.jpg');
-  background-size:cover;
-  background-position:center 35%;
+  background:#0b1f3a;
+  overflow:hidden;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
   border:none;
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.85rem;
   transition:box-shadow .3s ease;
 }
+
+/* Cockpit window: drifting clouds behind the window frame */
+.ck-stage{position:absolute;left:50%;top:35%;transform:translate(-50%,-35%);height:100%;min-width:100%;aspect-ratio:2000/678;pointer-events:none;}
+.ck-base,.ck-frame{position:absolute;inset:0;width:100%;height:100%;display:block;}
+.ck-band{position:absolute;left:0;top:56.8%;height:19.2%;aspect-ratio:5720/130;background:url('assets/images/cockpit-clouds.png') repeat-x 0 0/25% 100%;animation:ckDrift 60s linear infinite;will-change:transform;}
+@keyframes ckDrift{to{transform:translateX(-25%);}}
+.cockpit-panel::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(10,12,15,.05),rgba(10,12,15,.15) 65%,rgba(10,12,15,.3));}
+.cockpit-lights,.cockpit-switch{z-index:3;}
+.cockpit-switch{position:relative;}
+@media (prefers-reduced-motion:reduce){.ck-band{animation:none;}}
 .cockpit-switch-link:hover .cockpit-panel{box-shadow:inset 0 1px 0 rgba(255,255,255,.12);}
 .cockpit-lights{display:flex;gap:.6rem;position:absolute;top:22px;left:50%;transform:translateX(-50%);}
 .cl{width:9px;height:9px;border-radius:50%;box-shadow:0 0 5px 1px currentColor;}
@@ -756,6 +765,7 @@ img{max-width:100%;display:block;}
   <h2 class="section-title">Everything you need, in one place</h2>
   <a href="auran-world.html" class="cockpit-switch-link" aria-label="Enter Auran World">
     <div class="cockpit-panel">
+      <div class="ck-stage" aria-hidden="true"><img class="ck-base" src="assets/images/cockpit-panel.jpg" alt=""><div class="ck-band"></div><img class="ck-frame" src="assets/images/cockpit-frame.png" alt=""></div>
       <div class="cockpit-lights" aria-hidden="true">
         <span class="cl cl-red"></span>
         <span class="cl cl-amber"></span>
