@@ -168,6 +168,16 @@ img{max-width:100%;display:block;}
 @media (max-width:480px){
   .email-gate-form input,.email-gate-form button{border-radius:4px;width:100%;}
 }
+/* Email gate as full-width aircraft-engine banner */
+.email-gate{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);border-radius:0;padding:0;min-height:clamp(440px,40vw,640px);display:flex;align-items:center;text-align:left;
+  background:#fff url('assets/images/engine-wing.jpg') center 52%/cover no-repeat;overflow:hidden;}
+.email-gate-card{position:relative;z-index:1;margin:2rem max(2rem,calc((100vw - 1280px)/2 + 2rem));max-width:520px;padding:2rem 2.2rem;border-radius:20px;color:#fff;
+  background:linear-gradient(135deg,rgba(11,31,58,.9),rgba(18,58,140,.82));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);box-shadow:0 24px 60px -24px rgba(11,31,58,.7);}
+.email-gate-card p{margin:0 0 1.4rem;max-width:none;}
+.email-gate-card .email-gate-form{margin:0;max-width:none;}
+.email-gate-card .email-gate-form input{border-radius:6px 0 0 6px;}
+@media (max-width:700px){.email-gate{align-items:flex-end;background-position:68% 30%;min-height:520px;}.email-gate-card{margin:1rem;padding:1.4rem;}}
+
 
 /* ---------- Platform section ---------- */
 .runway-band{
@@ -520,6 +530,7 @@ img{max-width:100%;display:block;}
 
   <!-- Email capture gate (replaces old billboard slideshow) -->
   <div class="email-gate" id="emailGate">
+    <div class="email-gate-card">
     <h3>Get exclusive AuranInspire updates</h3>
     <p>Enter your email to receive aviation insights, program updates, and early access to new AuranInspire features.</p>
     <form class="email-gate-form" id="emailGateForm" action="https://formspree.io/f/meajwjeo" method="POST">
@@ -528,6 +539,7 @@ img{max-width:100%;display:block;}
     </form>
     <p class="email-gate-success" id="emailGateSuccess">Thanks — you're on the list!</p>
     <p class="email-gate-note">We'll never share your email. Unsubscribe anytime.</p>
+    </div>
   </div>
 
   <div class="path-grid" style="margin-bottom:4rem;">
