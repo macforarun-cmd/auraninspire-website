@@ -424,6 +424,30 @@ img{max-width:100%;display:block;}
 @media (max-width:980px){.founder-stage{grid-template-columns:1fr;max-width:460px;}.flip{order:-1;}.founder-side{flex-direction:row;flex-wrap:wrap;}.fs-chip{flex:1 1 200px;}}
 @media (prefers-reduced-motion:reduce){.flip-inner{transition:none;}.fs-chip{animation:none;}}
 
+/* Full-width horizontal board */
+.founder-card.board{width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);border-radius:0;border-left:none;border-right:none;
+  padding:1rem max(1.4rem,calc((100vw - 1500px) / 2 + 1.4rem)) 1.4rem;
+  display:grid;grid-template-columns:270px minmax(0,1fr);column-gap:1.8rem;grid-template-rows:auto auto 1fr;grid-template-areas:"photo head" "photo name" "photo table";}
+.board-head{grid-area:head;}
+.founder-name{grid-area:name;margin:.7rem 0 .9rem;font-size:clamp(1.3rem,2.2vw,1.9rem);}
+.board-body{display:contents;}
+.board-photo{grid-area:photo;align-self:center;max-width:none;margin:0;}
+.board-table{grid-area:table;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem;align-content:start;}
+.board-table .bt-row{grid-template-columns:auto 1fr;grid-template-areas:"no st" "dest dest" "rem rem";row-gap:.5rem;align-content:start;padding:.8rem .9rem;}
+.bt-no{grid-area:no;}.bt-st{grid-area:st;justify-self:end;}.bt-dest{grid-area:dest;font-size:clamp(.6rem,.8vw,.8rem);}.bt-rem{grid-area:rem;}
+.board-photo .flip-back-inner{gap:.4rem;padding:.9rem .8rem;}
+.board-photo .fb-mark{font-size:1.8rem;}.board-photo .fb-quote{font-size:.86rem;}.board-photo .fb-text{font-size:.62rem;line-height:1.4;}
+.board-photo .founder-cta{font-size:.68rem;padding:.45rem .9rem;}.board-photo .flip-back .flip-hint{display:none;}
+@media (max-width:1180px){.board-table{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media (max-width:760px){
+  .founder-card.board{display:block;padding:1rem 1rem 1.6rem;}
+  .board-body{display:grid;grid-template-columns:minmax(0,1fr);gap:1.2rem;}
+  .board-photo{grid-area:auto;max-width:270px;margin:0 auto;}
+  .board-table{grid-area:auto;grid-template-columns:minmax(0,1fr);}
+  .board-head,.founder-name{grid-area:auto;}
+  .board-table .bt-row{grid-template-columns:2rem minmax(0,1fr) auto;grid-template-areas:"no dest st" "rem rem rem";row-gap:.35rem;}
+  .bt-dest{font-size:.72rem;}
+}
 /* ---------- Dashboard preview: aircraft window design ---------- */
 .aircraft-stand{position:relative;max-width:1100px;margin:0 auto;padding:2rem 0 2.5rem;}
 .aircraft-body{position:relative;width:100%;}
