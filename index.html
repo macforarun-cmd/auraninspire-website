@@ -348,15 +348,7 @@ img{max-width:100%;display:block;}
 .ck-stage[data-wx="storm"] .fx-rain{opacity:.7;}
 .ck-stage[data-wx="storm"] .ck-band{animation-duration:14s;}
 .ck-stage[data-wx="rain"] .ck-band{animation-duration:22s;}
-section:has(> .cockpit-switch-link){position:relative;}
-.wx-toggle{position:absolute;right:max(12px,2vw);bottom:12px;z-index:6;display:flex;gap:.25rem;padding:.3rem;border-radius:999px;background:rgba(11,31,58,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25);}
-.wx-toggle button{display:inline-flex;align-items:center;gap:.3rem;border:none;background:transparent;color:#fff;font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;padding:.4rem .65rem;border-radius:999px;cursor:pointer;line-height:1;}
-.wx-toggle button span{display:inline;}
-.wx-toggle button[aria-pressed="true"]{background:#fff;color:#0b1f3a;}
-.wx-toggle button:hover{background:rgba(255,255,255,.25);}
-.wx-toggle button[aria-pressed="true"]:hover{background:#fff;}
-@media (max-width:700px){.wx-toggle button span{display:none;}.wx-toggle button{padding:.45rem .55rem;font-size:.85rem;}.wx-toggle{right:50%;transform:translateX(50%);}}
-@media (prefers-reduced-motion:reduce){.fx-rain,.fx-flash,.fx-stars,.fx-drops,.ck-band2{animation:none;}}
+@media (max-width:700px){@media (prefers-reduced-motion:reduce){.fx-rain,.fx-flash,.fx-stars,.fx-drops,.ck-band2{animation:none;}}
 .cockpit-switch-link:hover .cockpit-panel{box-shadow:inset 0 1px 0 rgba(255,255,255,.12);}
 .cockpit-lights{display:flex;gap:.6rem;position:absolute;top:22px;left:50%;transform:translateX(-50%);}
 .cl{width:9px;height:9px;border-radius:50%;box-shadow:0 0 5px 1px currentColor;}
@@ -817,14 +809,6 @@ section:has(> .cockpit-switch-link){position:relative;}
       </div>
     </div>
   </a>
-  <div class="wx-toggle" id="wxToggle" role="group" aria-label="Cockpit weather">
-    <button type="button" data-wx="auto" aria-pressed="true" title="Weather changes automatically">⟳<span>Auto</span></button>
-    <button type="button" data-wx="day" aria-pressed="false" title="Clear day">☀<span>Day</span></button>
-    <button type="button" data-wx="sunset" aria-pressed="false" title="Sunset">🌇<span>Sunset</span></button>
-    <button type="button" data-wx="night" aria-pressed="false" title="Night">🌙<span>Night</span></button>
-    <button type="button" data-wx="rain" aria-pressed="false" title="Rain">🌧<span>Rain</span></button>
-    <button type="button" data-wx="storm" aria-pressed="false" title="Storm">⛈<span>Storm</span></button>
-  </div>
 </section>
 
 <!-- ===== Insights (CAPA-style headline feed) ===== -->
@@ -1387,30 +1371,11 @@ var PRODUCTS = [
 </script>
 <script>
 (function() {
-  var stage = document.getElementById('ckStage'), tg = document.getElementById('wxToggle');
-  if (!stage || !tg) return;
-  var ORDER = ['day', 'sunset', 'night', 'rain', 'storm'], STEP = 10000, mode = 'auto', idx = 0, timer = null;
-  var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  function paint(w, pressed) {
-    stage.setAttribute('data-wx', w);
-    Array.prototype.forEach.call(tg.querySelectorAll('button'), function(b) { b.setAttribute('aria-pressed', b.getAttribute('data-wx') === pressed ? 'true' : 'false'); });
-  }
-  function stop() { if (timer) { clearInterval(timer); timer = null; } }
-  function start() {
-    stop();
-    if (reduce) { paint('day', 'auto'); return; }
-    paint(ORDER[idx], 'auto');
-    timer = setInterval(function() { idx = (idx + 1) % ORDER.length; paint(ORDER[idx], 'auto'); }, STEP);
-  }
-  function set(m, save) {
-    mode = m;
-    if (m === 'auto') start(); else { stop(); paint(m, m); }
-    if (save) { try { localStorage.setItem('ai_cockpit_wx2', m); } catch (e) {} }
-  }
-  tg.addEventListener('click', function(e) { var b = e.target.closest('button'); if (b) set(b.getAttribute('data-wx'), true); });
-  var saved = null;
-  try { saved = localStorage.getItem('ai_cockpit_wx2'); } catch (e) {}
-  set(saved && tg.querySelector('[data-wx="' + saved + '"]') ? saved : 'auto');
+  var stage = document.getElementById('ckStage');
+  if (!stage || window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var ORDER = ['day', 'sunset', 'night', 'rain', 'storm'], i = 0;
+  stage.setAttribute('data-wx', ORDER[0]);
+  setInterval(function() { i = (i + 1) % ORDER.length; stage.setAttribute('data-wx', ORDER[i]); }, 10000);
 })();
 </script>
 </body><script>
