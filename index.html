@@ -69,6 +69,27 @@ img{max-width:100%;display:block;}
 .dq-dots i{width:5px;height:5px;border-radius:50%;background:#2a3a56;cursor:pointer;transition:background .2s;}
 .dq-dots i.on{background:#f2c76a;}
 @media (max-width:760px){.daily-quote{flex-wrap:wrap;gap:.4rem .7rem;padding:.5rem .8rem;}.dq-label,.dq-dots{display:none;}.dq-text{flex:1 1 100%;text-align:center;}}
+
+/* Top bar side items: news ticker (left) and aircraft navigation lights (right) */
+.topbar{position:relative;}
+.tb-side{position:absolute;top:0;bottom:0;display:flex;align-items:center;z-index:1;}
+.tb-news{left:1.2rem;width:calc((100% - 780px) / 2 - 2rem);min-width:0;flex-direction:column;align-items:flex-start;justify-content:center;gap:.25rem;overflow:hidden;}
+.tb-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;color:#f2c76a;white-space:nowrap;}
+.tb-marquee{width:100%;overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
+.tb-track{display:inline-block;padding-left:100%;animation:tbScroll 38s linear infinite;font-size:.8rem;color:#dbe6f7;}
+.tb-track span{margin-right:2.4rem;}
+.tb-track span::before{content:"✈";color:#9fc2ff;margin-right:.5rem;}
+.tb-news:hover .tb-track{animation-play-state:paused;}
+@keyframes tbScroll{to{transform:translateX(-100%);}}
+.tb-lights{right:1.6rem;}
+.tb-lights svg{display:block;}
+.lt-red{fill:#ff2a2a;filter:drop-shadow(0 0 5px #ff2a2a);animation:ltBlink 1.2s ease-in-out infinite;}
+.lt-green{fill:#22e06b;filter:drop-shadow(0 0 5px #22e06b);animation:ltBlink 1.2s ease-in-out infinite .6s;}
+.lt-white{fill:#fff;filter:drop-shadow(0 0 6px #fff);animation:ltStrobe 2.4s linear infinite;}
+@keyframes ltBlink{0%,100%{opacity:1;}50%{opacity:.15;}}
+@keyframes ltStrobe{0%,8%,16%,100%{opacity:0;}4%,12%{opacity:1;}}
+@media (max-width:1180px){.tb-side{display:none;}}
+@media (prefers-reduced-motion:reduce){.tb-track{animation:none;padding-left:0;}.lt{animation:none;}}
 @media (max-width:600px){.fc-badge{display:none;}}
 .btn{display:inline-block;padding:.7rem 1.4rem;font-weight:600;font-size:.84rem;border-radius:4px;transition:background .2s,color .2s,border-color .2s;}
 .btn-primary{background:var(--navy);color:#fff;border:1px solid var(--navy);}
@@ -565,6 +586,19 @@ img{max-width:100%;display:block;}
       </a>
     </div>
   </div>
+  <div class="topbar">
+    <div class="tb-side tb-news" id="tbNews" aria-label="AuranInspire news">
+      <span class="tb-label">AURAN NEWS</span>
+      <div class="tb-marquee"><div class="tb-track" id="tbTrack"></div></div>
+    </div>
+    <div class="tb-side tb-lights" aria-hidden="true">
+      <svg viewBox="0 0 120 70" width="78" height="46">
+        <path d="M60 4c3 0 5 3 5 8v18l46 18c3 1 4 3 4 5v3l-50-8v14l12 8v4l-17-4-17 4v-4l12-8V48l-50 8v-3c0-2 1-4 4-5l46-18V12c0-5 2-8 5-8z" fill="#c9d4e8"/>
+        <circle class="lt lt-red" cx="9" cy="54" r="5"/>
+        <circle class="lt lt-green" cx="111" cy="54" r="5"/>
+        <circle class="lt lt-white" cx="60" cy="64" r="3"/>
+      </svg>
+    </div>
   <div class="flight-clock">
     <span class="fc-badge">IST</span>
     <span class="fc-display" id="fc-india">--:--:--</span>
@@ -586,6 +620,7 @@ img{max-width:100%;display:block;}
     <button type="button" class="dq-lang" id="dq-lang" aria-label="Change language"></button>
     <span class="dq-text" id="dq-text"></span>
     <span class="dq-dots" id="dq-dots"></span>
+  </div>
   </div>
 </header>
 
@@ -1140,6 +1175,20 @@ document.addEventListener('DOMContentLoaded', function() {
     try { clock.textContent = new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }) + ' IST'; } catch (e) {}
   }
   if (clock) { tick(); setInterval(tick, 20000); }
+})();
+</script>
+<script>
+(function() {
+  // Edit these lines to change the news ticker in the top bar.
+  var NEWS = [
+    "New: Air Ticketing & Fare Construction course — 5 units and 59 topics now online in the Teaching tab",
+    "Quote of the day now shown in 11 Indian languages",
+    "Subscribe for exclusive AuranInspire aviation insights and program updates — tap the red light on the wing",
+    "AuranInspire: Inspire. Innovate. Elevate."
+  ];
+  var track = document.getElementById('tbTrack');
+  if (!track) return;
+  NEWS.concat(NEWS).forEach(function(t) { var s = document.createElement('span'); s.textContent = t; track.appendChild(s); });
 })();
 </script>
 </body><script>
