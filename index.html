@@ -817,7 +817,8 @@ section:has(> .cockpit-switch-link){position:relative;}
     </div>
   </a>
   <div class="wx-toggle" id="wxToggle" role="group" aria-label="Cockpit weather">
-    <button type="button" data-wx="day" aria-pressed="true" title="Clear day">☀<span>Day</span></button>
+    <button type="button" data-wx="auto" aria-pressed="true" title="Weather changes automatically">⟳<span>Auto</span></button>
+    <button type="button" data-wx="day" aria-pressed="false" title="Clear day">☀<span>Day</span></button>
     <button type="button" data-wx="sunset" aria-pressed="false" title="Sunset">🌇<span>Sunset</span></button>
     <button type="button" data-wx="night" aria-pressed="false" title="Night">🌙<span>Night</span></button>
     <button type="button" data-wx="rain" aria-pressed="false" title="Rain">🌧<span>Rain</span></button>
@@ -1387,13 +1388,28 @@ var PRODUCTS = [
 (function() {
   var stage = document.getElementById('ckStage'), tg = document.getElementById('wxToggle');
   if (!stage || !tg) return;
+  var ORDER = ['day', 'sunset', 'night', 'rain', 'storm'], STEP = 10000, mode = 'auto', idx = 0, timer = null;
+  var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function paint(w, pressed) {
+    stage.setAttribute('data-wx', w);
+    Array.prototype.forEach.call(tg.querySelectorAll('button'), function(b) { b.setAttribute('aria-pressed', b.getAttribute('data-wx') === pressed ? 'true' : 'false'); });
+  }
+  function stop() { if (timer) { clearInterval(timer); timer = null; } }
+  function start() {
+    stop();
+    if (reduce) { paint('day', 'auto'); return; }
+    paint(ORDER[idx], 'auto');
+    timer = setInterval(function() { idx = (idx + 1) % ORDER.length; paint(ORDER[idx], 'auto'); }, STEP);
+  }
   function set(m, save) {
-    stage.setAttribute('data-wx', m);
-    Array.prototype.forEach.call(tg.querySelectorAll('button'), function(b) { b.setAttribute('aria-pressed', b.getAttribute('data-wx') === m ? 'true' : 'false'); });
-    if (save) { try { localStorage.setItem('ai_cockpit_wx', m); } catch (e) {} }
+    mode = m;
+    if (m === 'auto') start(); else { stop(); paint(m, m); }
+    if (save) { try { localStorage.setItem('ai_cockpit_wx2', m); } catch (e) {} }
   }
   tg.addEventListener('click', function(e) { var b = e.target.closest('button'); if (b) set(b.getAttribute('data-wx'), true); });
-  try { var m = localStorage.getItem('ai_cockpit_wx'); if (m && tg.querySelector('[data-wx="' + m + '"]')) set(m); } catch (e) {}
+  var saved = null;
+  try { saved = localStorage.getItem('ai_cockpit_wx2'); } catch (e) {}
+  set(saved && tg.querySelector('[data-wx="' + saved + '"]') ? saved : 'auto');
 })();
 </script>
 </body><script>
