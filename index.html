@@ -317,6 +317,46 @@ img{max-width:100%;display:block;}
 .cockpit-lights,.cockpit-switch{z-index:3;}
 .cockpit-switch{position:relative;}
 @media (prefers-reduced-motion:reduce){.ck-band{animation:none;}}
+
+/* Cockpit weather modes */
+.ck-sky{position:absolute;inset:0;transition:filter 1s ease;}
+.ck-fx{position:absolute;inset:0;overflow:hidden;}
+.ck-fx span{position:absolute;pointer-events:none;opacity:0;transition:opacity 1s ease;}
+.fx-glow{inset:0;background:linear-gradient(to top,rgba(255,110,30,.75) 0%,rgba(255,150,60,.35) 38%,rgba(255,200,120,0) 62%);mix-blend-mode:soft-light;}
+.fx-stars{inset:0 0 40% 0;background-image:radial-gradient(1.5px 1.5px at 8% 14%,#fff,transparent),radial-gradient(1px 1px at 17% 40%,#fff,transparent),radial-gradient(1.5px 1.5px at 27% 22%,#fff,transparent),radial-gradient(1px 1px at 35% 55%,#fff,transparent),radial-gradient(1.5px 1.5px at 44% 12%,#fff,transparent),radial-gradient(1px 1px at 53% 35%,#fff,transparent),radial-gradient(1.5px 1.5px at 61% 18%,#fff,transparent),radial-gradient(1px 1px at 70% 48%,#fff,transparent),radial-gradient(1.5px 1.5px at 78% 10%,#fff,transparent),radial-gradient(1px 1px at 86% 30%,#fff,transparent),radial-gradient(1.5px 1.5px at 92% 52%,#fff,transparent),radial-gradient(1px 1px at 23% 8%,#fff,transparent),radial-gradient(1px 1px at 66% 60%,#fff,transparent),radial-gradient(1px 1px at 12% 62%,#fff,transparent);animation:fxTwinkle 4s ease-in-out infinite;}
+.fx-moon{left:19%;top:14%;width:5.2%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fffdf0,#e8e4c8 60%,#cfc9a0);box-shadow:0 0 40px 12px rgba(255,250,210,.45);}
+.fx-rain{left:-10%;top:-20%;width:120%;height:140%;background-image:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,.55));background-size:2px 46px;background-repeat:repeat;-webkit-mask-image:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 23px);mask-image:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 23px);transform:skewX(-14deg);animation:fxRain .55s linear infinite;}
+.fx-rain2{background-size:2px 70px;-webkit-mask-image:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 41px);mask-image:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 41px);animation-duration:.8s;animation-delay:-.3s;}
+.fx-flash{inset:0;background:#fff;mix-blend-mode:screen;animation:fxFlash 7s linear infinite;}
+@keyframes fxTwinkle{0%,100%{filter:brightness(1);}50%{filter:brightness(.55);}}
+@keyframes fxRain{to{background-position:0 46px;}}
+@keyframes fxFlash{0%,90%,94%,100%{opacity:0;}91%{opacity:.8;}92%{opacity:.1;}93%{opacity:.65;}}
+.fx-drops{inset:0;background:radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 33.4% 15.2%/18px 21px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 7.5% 64.8%/6px 7px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 37.4% 8.3%/14px 16px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 23.2% 10.4%/12px 14px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 9.6% 10.7%/12px 14px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 8.6% 45.8%/8px 9px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 62.3% 47.1%/6px 7px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 57.2% 33.4%/8px 9px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 7.4% 67.5%/10px 12px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 42.4% 44.0%/14px 16px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 32.0% 64.4%/8px 9px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 12.7% 46.3%/8px 9px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 38.0% 44.5%/6px 7px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 56.1% 49.8%/12px 14px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 67.0% 35.6%/10px 12px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 46.8% 72.3%/10px 12px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 31.2% 62.8%/18px 21px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 76.3% 10.1%/10px 12px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 52.4% 68.8%/18px 21px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 45.2% 49.1%/6px 7px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 14.1% 34.9%/10px 12px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 17.3% 40.2%/6px 7px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 93.4% 9.7%/14px 16px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 56.9% 68.8%/10px 12px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 35.0% 29.9%/12px 14px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 57.5% 37.8%/6px 7px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 91.8% 39.1%/18px 21px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 9.1% 58.1%/10px 12px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 63.8% 77.5%/12px 14px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 29.8% 32.5%/18px 21px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 35.6% 73.6%/10px 12px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 18.8% 12.7%/6px 7px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 23.5% 25.3%/18px 21px no-repeat,radial-gradient(circle at 34% 30%,rgba(255,255,255,.95) 0,rgba(255,255,255,.35) 22%,rgba(255,255,255,.06) 55%,transparent 70%) 26.3% 32.9%/12px 14px no-repeat;filter:drop-shadow(0 1px 1px rgba(0,0,0,.35));animation:fxDrops 6s ease-in-out infinite;}
+@keyframes fxDrops{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
+.ck-band2{position:absolute;left:0;top:30%;height:40%;aspect-ratio:5720/130;background:url('assets/images/cockpit-clouds.png') repeat-x 0 0/25% 100%;animation:ckDrift 55s linear infinite;opacity:0;transition:opacity 1.2s ease,filter 1s;will-change:transform;}
+.ck-stage[data-wx="rain"] .ck-band2{opacity:.9;filter:grayscale(1) brightness(.55) contrast(1.1);}
+.ck-stage[data-wx="storm"] .ck-band2{opacity:1;filter:grayscale(1) brightness(.3) contrast(1.2);animation-duration:25s;}
+.ck-stage[data-wx="rain"] .fx-drops,.ck-stage[data-wx="storm"] .fx-drops{opacity:1;}
+.ck-stage[data-wx="sunset"] .ck-sky{filter:sepia(.5) hue-rotate(-18deg) saturate(1.9) brightness(.95);}
+.ck-stage[data-wx="sunset"] .fx-glow{opacity:1;}
+.ck-stage[data-wx="night"] .ck-sky{filter:brightness(.22) saturate(.9) hue-rotate(8deg);}
+.ck-stage[data-wx="night"] .fx-stars,.ck-stage[data-wx="night"] .fx-moon{opacity:1;}
+.ck-stage[data-wx="rain"] .ck-sky{filter:brightness(.68) saturate(.4) contrast(.95);}
+.ck-stage[data-wx="rain"] .fx-rain,.ck-stage[data-wx="storm"] .fx-rain{opacity:.55;}
+.ck-stage[data-wx="storm"] .ck-sky{filter:brightness(.36) saturate(.3) contrast(1.05);}
+.ck-stage[data-wx="storm"] .fx-flash{opacity:1;}
+.ck-stage[data-wx="storm"] .fx-rain{opacity:.7;}
+.ck-stage[data-wx="storm"] .ck-band{animation-duration:14s;}
+.ck-stage[data-wx="rain"] .ck-band{animation-duration:22s;}
+section:has(> .cockpit-switch-link){position:relative;}
+.wx-toggle{position:absolute;right:max(12px,2vw);bottom:12px;z-index:6;display:flex;gap:.25rem;padding:.3rem;border-radius:999px;background:rgba(11,31,58,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25);}
+.wx-toggle button{display:inline-flex;align-items:center;gap:.3rem;border:none;background:transparent;color:#fff;font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;padding:.4rem .65rem;border-radius:999px;cursor:pointer;line-height:1;}
+.wx-toggle button span{display:inline;}
+.wx-toggle button[aria-pressed="true"]{background:#fff;color:#0b1f3a;}
+.wx-toggle button:hover{background:rgba(255,255,255,.25);}
+.wx-toggle button[aria-pressed="true"]:hover{background:#fff;}
+@media (max-width:700px){.wx-toggle button span{display:none;}.wx-toggle button{padding:.45rem .55rem;font-size:.85rem;}.wx-toggle{right:50%;transform:translateX(50%);}}
+@media (prefers-reduced-motion:reduce){.fx-rain,.fx-flash,.fx-stars,.fx-drops,.ck-band2{animation:none;}}
 .cockpit-switch-link:hover .cockpit-panel{box-shadow:inset 0 1px 0 rgba(255,255,255,.12);}
 .cockpit-lights{display:flex;gap:.6rem;position:absolute;top:22px;left:50%;transform:translateX(-50%);}
 .cl{width:9px;height:9px;border-radius:50%;box-shadow:0 0 5px 1px currentColor;}
@@ -765,7 +805,7 @@ img{max-width:100%;display:block;}
   <h2 class="section-title">Everything you need, in one place</h2>
   <a href="auran-world.html" class="cockpit-switch-link" aria-label="Enter Auran World">
     <div class="cockpit-panel">
-      <div class="ck-stage" aria-hidden="true"><img class="ck-base" src="assets/images/cockpit-panel.jpg" alt=""><div class="ck-band"></div><img class="ck-frame" src="assets/images/cockpit-frame.png" alt=""></div>
+      <div class="ck-stage" id="ckStage" data-wx="day" aria-hidden="true"><div class="ck-sky"><img class="ck-base" src="assets/images/cockpit-panel.jpg" alt=""><div class="ck-band"></div><div class="ck-band2"></div></div><div class="ck-fx"><span class="fx-glow"></span><span class="fx-stars"></span><span class="fx-moon"></span><span class="fx-rain"></span><span class="fx-rain fx-rain2"></span><span class="fx-flash"></span><span class="fx-drops"></span></div><img class="ck-frame" src="assets/images/cockpit-frame.png" alt=""></div>
       <div class="cockpit-lights" aria-hidden="true">
         <span class="cl cl-red"></span>
         <span class="cl cl-amber"></span>
@@ -776,6 +816,13 @@ img{max-width:100%;display:block;}
       </div>
     </div>
   </a>
+  <div class="wx-toggle" id="wxToggle" role="group" aria-label="Cockpit weather">
+    <button type="button" data-wx="day" aria-pressed="true" title="Clear day">☀<span>Day</span></button>
+    <button type="button" data-wx="sunset" aria-pressed="false" title="Sunset">🌇<span>Sunset</span></button>
+    <button type="button" data-wx="night" aria-pressed="false" title="Night">🌙<span>Night</span></button>
+    <button type="button" data-wx="rain" aria-pressed="false" title="Rain">🌧<span>Rain</span></button>
+    <button type="button" data-wx="storm" aria-pressed="false" title="Storm">⛈<span>Storm</span></button>
+  </div>
 </section>
 
 <!-- ===== Insights (CAPA-style headline feed) ===== -->
@@ -1334,6 +1381,19 @@ var PRODUCTS = [
   }
   window.renderShop = render;
   render(preview ? SAMPLE : PRODUCTS);
+})();
+</script>
+<script>
+(function() {
+  var stage = document.getElementById('ckStage'), tg = document.getElementById('wxToggle');
+  if (!stage || !tg) return;
+  function set(m, save) {
+    stage.setAttribute('data-wx', m);
+    Array.prototype.forEach.call(tg.querySelectorAll('button'), function(b) { b.setAttribute('aria-pressed', b.getAttribute('data-wx') === m ? 'true' : 'false'); });
+    if (save) { try { localStorage.setItem('ai_cockpit_wx', m); } catch (e) {} }
+  }
+  tg.addEventListener('click', function(e) { var b = e.target.closest('button'); if (b) set(b.getAttribute('data-wx'), true); });
+  try { var m = localStorage.getItem('ai_cockpit_wx'); if (m && tg.querySelector('[data-wx="' + m + '"]')) set(m); } catch (e) {}
 })();
 </script>
 </body><script>
