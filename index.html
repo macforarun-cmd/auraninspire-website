@@ -341,22 +341,34 @@ img{max-width:100%;display:block;}
 .photo-placeholder{text-align:center;color:var(--grey-600);font-family:var(--mono);font-size:.78rem;padding:1rem;}
 .founder-text p{color:var(--grey-600);margin-bottom:1.4rem;max-width:520px;}
 
-.founder-card{width:min(1560px,calc(100vw - 2rem));margin-left:calc(50% - min(780px,(100vw - 2rem) / 2));position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;border-radius:28px;padding:3rem 2rem 3.4rem;overflow:hidden;color:#0b1f3a;
-  background:radial-gradient(ellipse 55% 35% at 12% 100%,rgba(230,57,70,.6),transparent 70%),radial-gradient(ellipse 50% 35% at 88% 100%,rgba(255,255,255,.55),transparent 70%),linear-gradient(160deg,#0b1f3a 0%,#123a8c 50%,#1d5fd6 100%);
-  box-shadow:0 24px 60px -28px rgba(11,31,58,.7);}
-.founder-eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.16em;color:#fff;margin-bottom:.6rem;}
-.founder-name{font-size:clamp(2.2rem,4vw,3.2rem);font-weight:800;letter-spacing:-.02em;color:#fff;text-shadow:0 2px 14px rgba(5,15,40,.5);margin-bottom:2rem;}
-.founder-stage{display:grid;grid-template-columns:1fr minmax(300px,460px) 1fr;gap:2.4rem;align-items:center;width:100%;max-width:1440px;}
-.founder-side{display:flex;flex-direction:column;gap:1.2rem;}
-.fs-chip{position:relative;text-align:left;padding:1.2rem 1.3rem;border-radius:18px;background:rgba(255,255,255,.12);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);border:1px solid rgba(255,255,255,.3);box-shadow:0 12px 30px -16px rgba(5,15,40,.6), inset 0 1px 0 rgba(255,255,255,.25);animation:fsFloat 6s ease-in-out infinite;}
-.founder-side-r .fs-chip{animation-delay:-3s;}
-.fs-chip:nth-child(2){animation-delay:-1.5s;}.founder-side-r .fs-chip:nth-child(2){animation-delay:-4.5s;}
-@keyframes fsFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
-.fs-chip b{display:block;font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;color:#ff6b78;margin-bottom:.3rem;}
-.fs-chip span{display:block;font-size:1.1rem;font-weight:800;color:#fff;}
-.fs-chip i{display:block;font-style:normal;font-size:.82rem;line-height:1.45;color:rgba(255,255,255,.82);margin-top:.3rem;}
-.fs-chip-accent{background:#e63946;border-color:#e63946;}
-.fs-chip-accent span{color:#fff;}.fs-chip-accent i{color:#fff;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;}
+.founder-card{width:min(1560px,calc(100vw - 2rem));margin-left:calc(50% - min(780px,(100vw - 2rem) / 2));position:relative;border-radius:22px;padding:1.4rem 2rem 3rem;overflow:hidden;color:#fff;
+  background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(255,176,0,.10),transparent 70%),linear-gradient(180deg,#0b0e14,#06080c);border:1px solid #232a36;box-shadow:0 30px 70px -30px rgba(0,0,0,.8);}
+.board-head{display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;padding:.7rem .2rem 1rem;border-bottom:1px solid #232a36;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;}
+.bh-title{color:#ffb000;font-weight:700;font-size:.95rem;}
+.bh-sub{color:#8d99ad;font-size:.72rem;}
+.bh-clock{margin-left:auto;color:#ffb000;font-size:1.3rem;font-weight:700;letter-spacing:.1em;text-shadow:0 0 12px rgba(255,176,0,.55);}
+.founder-name{font-size:clamp(2rem,4.4vw,3.4rem);font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#ffb000;text-shadow:0 0 18px rgba(255,176,0,.35);margin:1.4rem 0 1.6rem;text-align:left;}
+.flap{display:flex;flex-wrap:wrap;gap:.2em .55em;}
+.flap .fw{display:inline-flex;gap:3px;}
+.flap .fl{position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:.78em;height:1.25em;padding:0 .12em;border-radius:4px;background:linear-gradient(180deg,#1a202c 0%,#1a202c 49%,#0b0e14 50%,#141a25 100%);box-shadow:inset 0 0 0 1px #262e3d;font-family:var(--mono);font-weight:700;line-height:1;text-shadow:none;overflow:hidden;}
+.flap .fl::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.7);}
+.flap .fl.turn{animation:flapTurn .09s linear;}
+@keyframes flapTurn{0%{transform:rotateX(0);}50%{transform:rotateX(80deg);}100%{transform:rotateX(0);}}
+.board-body{display:grid;grid-template-columns:minmax(280px,420px) 1fr;gap:2.4rem;align-items:center;}
+.board-photo{width:100%;}
+.board-table{display:flex;flex-direction:column;gap:.7rem;font-family:var(--mono);}
+.bt-row{display:grid;grid-template-columns:3rem minmax(0,1.5fr) minmax(0,1.6fr) 8.5rem;gap:1rem;align-items:center;padding:.9rem 1rem;border-radius:10px;background:#0f141d;border:1px solid #1d2531;}
+.bt-headrow{background:none;border:none;padding:0 1rem;font-size:.66rem;letter-spacing:.16em;color:#5f6b80;}
+.bt-no{color:#5f6b80;font-size:.8rem;}
+.bt-dest{font-size:clamp(.78rem,1.35vw,1.12rem);color:#ffb000;}
+.bt-dest.flap{gap:.2em .5em;}.bt-dest .fw{gap:2px;}
+.bt-dest .fl{color:#ffb000;font-size:inherit;}
+.bt-rem{font-family:var(--font);font-size:.86rem;line-height:1.4;color:#c3cad6;}
+.bt-st{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-align:center;padding:.4rem .5rem;border-radius:6px;border:1px solid currentColor;white-space:nowrap;}
+.bt-st.ok{color:#3ddc84;}
+.bt-st.boarding{color:#ffb000;animation:boardBlink 1.3s steps(2,jump-none) infinite;}
+@keyframes boardBlink{0%{opacity:1;}100%{opacity:.35;}}
+.bt-brand{background:linear-gradient(90deg,rgba(255,176,0,.14),#0f141d);border-color:#3a2d0a;}
 .flip{perspective:1400px;width:100%;aspect-ratio:4/5;}
 .flip-inner{position:relative;display:block;width:100%;height:100%;padding:0;border:none;background:none;cursor:pointer;text-align:center;font:inherit;color:inherit;transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(calc(var(--ry,0deg) + var(--fl,0deg)));transition:transform .9s cubic-bezier(.2,.8,.2,1);}
 .flip.tilting .flip-inner{transition:transform .12s linear;}
@@ -378,6 +390,14 @@ img{max-width:100%;display:block;}
 .fb-text{font-size:.86rem;line-height:1.6;color:rgba(255,255,255,.88);}
 .flip-back .flip-hint{color:rgba(255,255,255,.7);}
 .founder-cta{display:inline-block;background:#e63946;color:#fff;font-weight:700;font-size:.85rem;white-space:nowrap;padding:.7rem 1.3rem;border-radius:999px;text-decoration:none;}
+.board-photo .flip-front{box-shadow:0 0 0 3px #ffb000,0 20px 40px -14px rgba(0,0,0,.8);}
+.board-photo .flip-back{box-shadow:0 0 0 3px #ffb000,0 20px 40px -14px rgba(0,0,0,.8);}
+.board-photo .fb-mark,.board-photo .fb-quote{color:#ffb000;}
+.board-photo .fb-line{background:#ffb000;}
+.board-photo .founder-cta{background:#ffb000;color:#0b0e14;}
+.board-photo .flip-front .flip-hint{background:#ffb000;color:#0b0e14;font-weight:700;}
+@media (max-width:980px){.founder-card{padding:1rem 1rem 2rem;}.bt-dest{font-size:.72rem;}.bt-dest .fl{min-width:.68em;padding:0 .04em;}.bt-dest .fw{gap:1px;}.bt-st{font-size:.6rem;padding:.35rem .4rem;letter-spacing:.05em;}.board-body{grid-template-columns:minmax(0,1fr);}.board-photo{max-width:360px;margin:0 auto;}.bt-headrow{display:none;}.bt-row{grid-template-columns:2.2rem minmax(0,1fr) auto;grid-template-areas:"no dest st" "rem rem rem";row-gap:.5rem;}.bt-no{grid-area:no;}.bt-dest{grid-area:dest;}.bt-st{grid-area:st;}.bt-rem{grid-area:rem;}.bh-clock{margin-left:0;}}
+@media (prefers-reduced-motion:reduce){.bt-st.boarding{animation:none;}.flap .fl.turn{animation:none;}}
 @media (max-width:980px){.founder-stage{grid-template-columns:1fr;max-width:460px;}.flip{order:-1;}.founder-side{flex-direction:row;flex-wrap:wrap;}.fs-chip{flex:1 1 200px;}}
 @media (prefers-reduced-motion:reduce){.flip-inner{transition:none;}.fs-chip{animation:none;}}
 
@@ -574,37 +594,38 @@ img{max-width:100%;display:block;}
     </div>
   </div>
 
-  <div class="founder-card">
-    <p class="founder-eyebrow">FOUNDER &amp; AVIATION EDUCATOR</p>
-    <h2 class="founder-name">Arun Kumar</h2>
-    <div class="founder-stage">
-      <div class="founder-side founder-side-l">
-        <div class="fs-chip"><b>01</b><span>Aviation Educator</span><i>Teaching airline, airport &amp; aviation management</i></div>
-        <div class="fs-chip"><b>02</b><span>Industry Mentor</span><i>Bridging classroom theory and real practice</i></div>
-      </div>
-      <div class="flip" id="founder-flip">
-        <button type="button" class="flip-inner" aria-pressed="false" aria-label="Flip card to read about Arun Kumar">
-          <span class="flip-face flip-front">
-            <img src="assets/images/founder-arun-kumar.jpg" alt="Arun Kumar — Founder & Mentor, AuranInspire">
-            <span class="flip-shine"></span>
-            <span class="flip-hint">Tap to know me ↻</span>
+  <div class="founder-card board">
+    <div class="board-head"><span class="bh-title">✈ DEPARTURES</span><span class="bh-sub">FOUNDER &amp; AVIATION EDUCATOR</span><span class="bh-clock" id="boardClock" aria-hidden="true">--:--</span></div>
+    <h2 class="founder-name flap" data-flap="ARUN KUMAR">Arun Kumar</h2>
+    <div class="board-body">
+      <div class="board-photo">
+    <div class="flip" id="founder-flip">
+      <button type="button" class="flip-inner" aria-pressed="false" aria-label="Flip card to read about Arun Kumar">
+        <span class="flip-face flip-front">
+          <img src="assets/images/founder-arun-kumar.jpg" alt="Arun Kumar — Founder & Mentor, AuranInspire">
+          <span class="flip-shine"></span>
+          <span class="flip-hint">Tap to know me ↻</span>
+        </span>
+        <span class="flip-face flip-back">
+          <img class="flip-back-bg" src="assets/images/founder-arun-kumar.jpg" alt="">
+          <span class="flip-back-inner">
+            <span class="fb-mark">&ldquo;</span>
+            <span class="fb-quote">The sky is not the limit, it&rsquo;s the beginning of inspiration.</span>
+            <span class="fb-line"></span>
+            <span class="fb-text">With years of academic and industry experience across aviation management education, Arun Kumar founded AuranInspire to close the gap between classroom aviation theory and real industry practice — combining teaching, research, and innovation under one roof.</span>
+            <a href="#contact" class="founder-cta">Get in Touch →</a>
+            <span class="flip-hint">Tap to flip back ↻</span>
           </span>
-          <span class="flip-face flip-back">
-            <img class="flip-back-bg" src="assets/images/founder-arun-kumar.jpg" alt="">
-            <span class="flip-back-inner">
-              <span class="fb-mark">&ldquo;</span>
-              <span class="fb-quote">The sky is not the limit, it&rsquo;s the beginning of inspiration.</span>
-              <span class="fb-line"></span>
-              <span class="fb-text">With years of academic and industry experience across aviation management education, Arun Kumar founded AuranInspire to close the gap between classroom aviation theory and real industry practice — combining teaching, research, and innovation under one roof.</span>
-              <a href="#contact" class="founder-cta">Get in Touch →</a>
-              <span class="flip-hint">Tap to flip back ↻</span>
-            </span>
-          </span>
-        </button>
+        </span>
+      </button>
+    </div>
       </div>
-      <div class="founder-side founder-side-r">
-        <div class="fs-chip"><b>03</b><span>Innovation Leader</span><i>Teaching, research and innovation under one roof</i></div>
-        <div class="fs-chip fs-chip-accent"><span>AuranInspire</span><i>Inspire. Innovate. Elevate.</i></div>
+      <div class="board-table" role="table" aria-label="Arun Kumar roles">
+        <div class="bt-row bt-headrow" role="row"><span>NO</span><span>DESTINATION</span><span>REMARKS</span><span>STATUS</span></div>
+        <div class="bt-row" role="row"><span class="bt-no">01</span><span class="bt-dest flap" data-flap="AVIATION EDUCATOR">Aviation Educator</span><span class="bt-rem">Teaching airline, airport &amp; aviation management</span><span class="bt-st ok">ON TIME</span></div>
+        <div class="bt-row" role="row"><span class="bt-no">02</span><span class="bt-dest flap" data-flap="INDUSTRY MENTOR">Industry Mentor</span><span class="bt-rem">Bridging classroom theory and real practice</span><span class="bt-st boarding">BOARDING</span></div>
+        <div class="bt-row" role="row"><span class="bt-no">03</span><span class="bt-dest flap" data-flap="INNOVATION LEADER">Innovation Leader</span><span class="bt-rem">Teaching, research and innovation under one roof</span><span class="bt-st ok">GATE OPEN</span></div>
+        <div class="bt-row bt-brand" role="row"><span class="bt-no">AI</span><span class="bt-dest flap" data-flap="AURANINSPIRE">AuranInspire</span><span class="bt-rem">Inspire. Innovate. Elevate.</span><span class="bt-st boarding">NOW BOARDING</span></div>
       </div>
     </div>
   </div>
@@ -1016,6 +1037,61 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('egClose').addEventListener('click', close);
   modal.addEventListener('click', function(e) { if (e.target === modal) close(); });
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape') close(); });
+})();
+</script>
+<script>
+(function() {
+  var els = document.querySelectorAll('.flap');
+  if (!els.length) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var CH = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  function build(el) {
+    var text = el.getAttribute('data-flap');
+    el.setAttribute('aria-label', el.textContent.trim());
+    el.innerHTML = '';
+    var tiles = [];
+    text.split(' ').forEach(function(word) {
+      var w = document.createElement('span'); w.className = 'fw';
+      for (var i = 0; i < word.length; i++) {
+        var t = document.createElement('span');
+        t.className = 'fl'; t.setAttribute('aria-hidden', 'true');
+        t.textContent = reduce ? word[i] : ' ';
+        w.appendChild(t); tiles.push([t, word[i]]);
+      }
+      el.appendChild(w);
+    });
+    return tiles;
+  }
+  function run(el, tiles) {
+    if (reduce) return;
+    tiles.forEach(function(p, i) {
+      var t = p[0], ch = p[1];
+      var n = 0, max = 6 + (i % 5) * 2;
+      setTimeout(function() {
+        var iv = setInterval(function() {
+          n++;
+          t.classList.remove('turn'); void t.offsetWidth; t.classList.add('turn');
+          t.textContent = n >= max ? ch : CH[Math.floor(Math.random() * CH.length)];
+          if (n >= max) clearInterval(iv);
+        }, 90);
+      }, i * 70);
+    });
+  }
+  var items = Array.prototype.map.call(els, function(el) { return { el: el, tiles: build(el), done: false }; });
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (!e.isIntersecting) return;
+      items.forEach(function(it) { if (it.el === e.target && !it.done) { it.done = true; run(it.el, it.tiles); } });
+    });
+  }, { threshold: .4 }) : null;
+  items.forEach(function(it) {
+    if (io) io.observe(it.el); else { it.tiles.forEach(function(p) { p[0].textContent = p[1]; }); }
+  });
+  var clock = document.getElementById('boardClock');
+  function tick() {
+    try { clock.textContent = new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }) + ' IST'; } catch (e) {}
+  }
+  if (clock) { tick(); setInterval(tick, 20000); }
 })();
 </script>
 </body><script>
