@@ -125,6 +125,26 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;}
   .rack-item{flex:0 0 130px;}
   .rack-book{height:120px;}
 }
+
+.mag-folder{padding-top:1rem;}
+.mag-cover{display:block;width:96px;margin:0 auto .8rem;padding:0;border:none;background:none;cursor:pointer;border-radius:8px;transition:transform .25s ease;}
+.mag-cover img{display:block;width:100%;border-radius:6px;box-shadow:0 10px 22px rgba(11,31,58,.38);}
+.mag-cover:hover{transform:scale(1.07) rotate(-2deg);}
+.mag-actions{display:flex;gap:.4rem;justify-content:center;margin-top:.7rem;flex-wrap:wrap;}
+.mag-actions button,.mag-actions a{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;padding:.35rem .7rem;border-radius:999px;border:1px solid var(--blue);cursor:pointer;text-decoration:none;}
+.mag-actions button{background:var(--blue);color:#fff;}
+.mag-actions a{background:#fff;color:var(--blue);}
+.mag-modal{position:fixed;inset:0;z-index:999;background:rgba(8,16,30,.9);display:none;flex-direction:column;align-items:center;justify-content:center;padding:1rem;}
+.mag-modal.open{display:flex;}
+.mag-bar{display:flex;gap:10px;align-items:center;justify-content:space-between;width:min(760px,100%);color:#fff;margin-bottom:10px;font-size:14px;}
+.mag-bar button{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:6px;padding:8px 14px;cursor:pointer;font-family:inherit;}
+.mag-stage{position:relative;width:min(760px,100%);flex:1;min-height:0;display:flex;align-items:center;justify-content:center;}
+.mag-stage canvas{max-width:100%;max-height:100%;background:#fff;box-shadow:0 12px 40px rgba(0,0,0,.6);border-radius:4px;}
+.mag-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;padding:0;font-size:24px;background:rgba(12,35,64,.85);border:1px solid rgba(255,255,255,.4);color:#fff;cursor:pointer;}
+.mag-prev{left:-6px;}.mag-next{right:-6px;}
+.mag-nav:disabled{opacity:.3;}
+.mag-msg{color:#cbd7ec;font-size:14px;}
+@media (max-width:600px){.mag-prev{left:2px;}.mag-next{right:2px;}}
 </style>
 </head>
 <body>
@@ -156,12 +176,12 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;}
   <p class="eyebrow">CONTENT LIBRARY</p>
   <h2 class="section-title">Browse by folder</h2>
   <div class="folder-road">
-    <a href="studio-magazine.html" class="folder-card" style="text-decoration:none;color:inherit;">
-      <div class="folder-icon">📰</div>
+    <div class="folder-card mag-folder">
+      <button type="button" class="mag-cover" id="magCover" aria-label="Open Aviation Chronicle"><img src="assets/studio/chronicle-cover-01.jpg" alt="MH Cockpit Aviation Chronicle cover"></button>
       <h4>Magazine</h4>
-      <p>Aviation Chronicle &amp; magazine issues</p>
-      <span class="folder-soon" style="background:#1d5fd6;color:#fff;">Read now →</span>
-    </a>
+      <p>MH Cockpit — Aviation Chronicle<br>Special Edition · Vol 01 · 2026</p>
+      <div class="mag-actions"><button type="button" id="magRead">Read</button><a href="assets/studio/aviation-chronicle.pdf" target="_blank" rel="noopener">View PDF</a></div>
+    </div>
     <div class="folder-card">
       <div class="folder-icon">🎬</div>
       <h4>Digital Content</h4>
@@ -252,5 +272,56 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;}
   </div>
 </section>
 
+<div class="mag-modal" id="magModal" role="dialog" aria-modal="true" aria-label="Aviation Chronicle">
+<div class="mag-bar"><span id="magCount"></span><span><button id="magFull" type="button">Full screen</button> <button id="magClose" type="button">Close</button></span></div>
+<div class="mag-stage" id="magStage"></div>
+</div>
+<script>
+(function() {
+  var URL_PDF = 'assets/studio/aviation-chronicle.pdf';
+  var modal = document.getElementById('magModal'), stage = document.getElementById('magStage'), count = document.getElementById('magCount');
+  var doc = null, page = 1, busy = false;
+  function loadLib(cb, fail) {
+    if (window.pdfjsLib) { cb(); return; }
+    var sc = document.createElement('script'); sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    sc.onload = function() { window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; cb(); };
+    sc.onerror = fail; document.head.appendChild(sc);
+  }
+  function render() {
+    busy = true;
+    doc.getPage(page).then(function(pg) {
+      var c = document.getElementById('magCanvas'), base = pg.getViewport({ scale: 1 }), dpr = window.devicePixelRatio || 1;
+      var sc = Math.min(stage.clientWidth / base.width, stage.clientHeight / base.height) * dpr, vp = pg.getViewport({ scale: sc });
+      c.width = vp.width; c.height = vp.height; c.style.width = (vp.width / dpr) + 'px'; c.style.height = (vp.height / dpr) + 'px';
+      return pg.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise;
+    }).then(function() {
+      busy = false; count.textContent = 'Page ' + page + ' / ' + doc.numPages;
+      stage.querySelector('.mag-prev').disabled = page <= 1; stage.querySelector('.mag-next').disabled = page >= doc.numPages;
+    }).catch(function() { busy = false; });
+  }
+  function go(n) { if (doc && !busy && n >= 1 && n <= doc.numPages) { page = n; render(); } }
+  function open() {
+    modal.classList.add('open'); stage.innerHTML = '<span class="mag-msg">Loading magazine…</span>';
+    loadLib(function() {
+      window.pdfjsLib.getDocument(URL_PDF).promise.then(function(d) {
+        doc = d; page = 1;
+        stage.innerHTML = '<canvas id="magCanvas"></canvas><button class="mag-nav mag-prev" type="button" aria-label="Previous page">‹</button><button class="mag-nav mag-next" type="button" aria-label="Next page">›</button>';
+        stage.querySelector('.mag-prev').onclick = function() { go(page - 1); };
+        stage.querySelector('.mag-next').onclick = function() { go(page + 1); };
+        render();
+      }).catch(function() { stage.innerHTML = '<span class="mag-msg">Could not load the magazine. Please try again.</span>'; });
+    }, function() { stage.innerHTML = '<span class="mag-msg">Could not load the reader. Check your connection.</span>'; });
+  }
+  function close() { if (document.fullscreenElement) document.exitFullscreen(); modal.classList.remove('open'); stage.innerHTML = ''; doc = null; }
+  ['magRead','magCover'].forEach(function(id) { var el = document.getElementById(id); if (el) el.addEventListener('click', open); });
+  document.getElementById('magClose').addEventListener('click', close);
+  document.getElementById('magFull').addEventListener('click', function() { if (document.fullscreenElement) document.exitFullscreen(); else if (modal.requestFullscreen) modal.requestFullscreen(); });
+  document.addEventListener('keydown', function(e) {
+    if (!modal.classList.contains('open')) return;
+    if (e.key === 'Escape') close(); else if (e.key === 'ArrowRight') go(page + 1); else if (e.key === 'ArrowLeft') go(page - 1);
+  });
+  window.addEventListener('resize', function() { if (doc && document.getElementById('magCanvas')) render(); });
+})();
+</script>
 </body>
 </html>
