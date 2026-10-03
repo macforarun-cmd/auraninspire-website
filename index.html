@@ -880,9 +880,9 @@ img{max-width:100%;display:block;}
 <!-- ===== Shop ===== -->
 <section class="section section-tint" id="shop" style="display:none;">
   <p class="eyebrow">SHOP</p>
-  <h2 class="section-title">Aviation products</h2>
+  <h2 class="section-title">Aviation gifts &amp; accessories</h2>
   <div class="shop-grid" id="shopGrid"></div>
-  <p class="shop-note">Secure online payment by Razorpay (cards, UPI, net banking). Questions about an order? <a href="#contact">Contact us</a>.</p>
+  <p class="shop-note" id="shopNote">Online ordering opens soon. Questions? <a href="#contact">Contact us</a>.</p>
 </section>
 
 <div class="shop-modal" id="shopModal" role="dialog" aria-modal="true" aria-labelledby="smName">
@@ -1255,6 +1255,16 @@ document.addEventListener('DOMContentLoaded', function() {
 // { name: "Product name", price: 499, image: "assets/products/photo.jpg", link: "https://rzp.io/l/yourlink",
 //   desc: "One short line", details: "Longer description shown when a product is opened", features: ["Point one", "Point two"] }
 var PRODUCTS = [
+  { name: "Aviation Bracelet", price: 799, image: "assets/products/p1.jpg", link: "", desc: "Premium leather strap with aircraft charm", details: "Great for gifting to aviation students, pilots and travel lovers.", features: ["Premium leather strap with aircraft charm", "Stainless steel material", "Adjustable size (Unisex)", "Elegant & stylish design", "Ideal for aviation enthusiasts"] },
+  { name: "Aviation Diary / Notebook", price: 599, image: "assets/products/p2.jpg", link: "", desc: "Premium hardcover aviation-themed diary", details: "Perfect for students, professionals and travel planners.", features: ["Premium hardcover diary", "Aviation themed design", "200 lined pages", "Elastic closure with pen holder", "Suitable for notes, planning and journaling"] },
+  { name: "Aviation Pen", price: 499, image: "assets/products/p3.jpg", link: "", desc: "Premium metal pen with aircraft engraving", details: "Ideal for daily use, corporate gifting and aviation lovers.", features: ["Premium metal body", "Aircraft design engraving", "Smooth writing experience", "Available in blue and black ink", "Comes in a gift box"] },
+  { name: "Pilot Watch (Classic)", price: 2499, image: "assets/products/p4.jpg", link: "", desc: "Aviation-themed classic pilot watch", details: "A premium gift for pilots, students and aviation professionals.", features: ["Aviation themed dial design", "Stainless steel case", "Genuine leather strap", "Quartz movement", "Water resistant", "Suitable for casual and formal wear"] },
+  { name: "Flight Theme Digital Watch", price: 1999, image: "assets/products/p5.jpg", link: "", desc: "Digital watch with a flight theme", details: "Perfect for aviation enthusiasts and frequent travellers.", features: ["Digital display with flight theme", "Date, time and alarm", "LED backlight", "Durable and lightweight", "Suitable for everyday use"] },
+  { name: "Aircraft Model", price: 1499, image: "assets/products/p6.jpg", link: "", desc: "Die-cast aircraft model with display stand", details: "Ideal for students, collectors and aviation enthusiasts.", features: ["High quality die-cast model", "Detailed and realistic design", "Available in multiple aircraft types (A320, B737, A380 etc.)", "With display stand", "Great for collection and decor"] },
+  { name: "Aviation Keychain", price: 399, image: "assets/products/p7.jpg", link: "", desc: "Metal aircraft keychain with FLY SAFE tag", details: "A great souvenir and gifting option.", features: ["Metal aircraft keychain", "Durable and lightweight", "Engraved \"FLY SAFE\" tag", "Ideal for bags, keys or luggage", "Stylish and compact"] },
+  { name: "Aviation Travel Bag", price: 2999, image: "assets/products/p8.jpg", link: "", desc: "Multi-compartment travel and laptop bag", details: "Perfect for students, professionals and frequent travellers.", features: ["Spacious multi-compartment design", "Laptop compartment (up to 15\")", "Durable and water resistant", "Comfortable shoulder straps", "Ideal for travel, college and professional use"] },
+  { name: "Aviation ID Card Holder", price: 349, image: "assets/products/p9.jpg", link: "", desc: "Premium aviation-themed ID holder with lanyard", details: "Suitable for students, crew members and aviation professionals.", features: ["Premium PU leather material", "Aviation themed design", "Comes with lanyard", "Suitable for ID cards, access cards or office use", "Durable and lightweight"] },
+  { name: "Pilot Duo Figurine", price: 1299, image: "assets/products/p10.jpg", link: "", desc: "Pilot and cabin crew desk figurine", details: "A unique gift for aviation enthusiasts, students and professionals.", features: ["Detailed and attractive design", "Made with high quality material", "Perfect for desk or shelf decor", "Represents pilot and cabin crew", "Ideal for gifting and collection"] }
 ];
 
 (function() {
@@ -1305,6 +1315,9 @@ var PRODUCTS = [
       c.addEventListener('click', function() { openModal(p); });
       c.addEventListener('keydown', function(e) { if (e.key === 'Enter') openModal(p); });
     });
+    var anyLink = items.some(function(p) { return p.link && /^https:\/\//.test(p.link); });
+    var note = document.getElementById('shopNote');
+    if (note && anyLink) note.innerHTML = 'Secure online payment by Razorpay (cards, UPI, net banking). Questions about an order? <a href="#contact">Contact us</a>.';
     var show = items.length > 0;
     sec.style.display = show ? '' : 'none';
     if (nav) nav.style.display = show ? '' : 'none';
