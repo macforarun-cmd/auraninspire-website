@@ -106,6 +106,23 @@ img{max-width:100%;display:block;}
 .shop-buy.off{background:var(--grey-300);color:var(--grey-600);cursor:default;}
 .shop-note{margin-top:1.6rem;font-size:.8rem;color:var(--grey-600);}
 .shop-note a{color:var(--blue-deep);text-decoration:underline;}
+.shop-card{cursor:pointer;}
+.shop-card .shop-more{font-size:.72rem;color:var(--blue-deep);font-weight:600;margin-top:.1rem;}
+.shop-ribbon{position:absolute;top:10px;left:10px;background:#e63946;color:#fff;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;padding:.2rem .5rem;border-radius:4px;z-index:2;}
+.shop-img{position:relative;}
+.shop-modal{position:fixed;inset:0;z-index:500;display:none;align-items:center;justify-content:center;background:rgba(8,16,30,.7);padding:1rem;}
+.shop-modal.open{display:flex;}
+.sm-box{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:min(860px,100%);max-height:92vh;overflow:auto;background:var(--surface);color:var(--ink);border-radius:18px;box-shadow:0 30px 70px -20px rgba(0,0,0,.6);}
+.sm-img{background:var(--grey-100);display:flex;align-items:center;justify-content:center;min-height:280px;}
+.sm-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.sm-info{padding:1.8rem 1.6rem;display:flex;flex-direction:column;gap:.7rem;}
+.sm-tag{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;color:var(--blue);}
+.sm-info h3{font-size:1.35rem;}
+.sm-price{font-size:1.5rem;font-weight:800;color:var(--navy);}
+.sm-desc{font-size:.9rem;color:var(--grey-600);line-height:1.55;}
+.sm-feat{margin:0 0 .4rem 1.1rem;font-size:.86rem;line-height:1.6;}
+.sm-close{position:absolute;top:.5rem;right:.8rem;z-index:3;background:rgba(255,255,255,.85);border:none;width:34px;height:34px;border-radius:50%;font-size:1.4rem;cursor:pointer;color:#0b1f3a;}
+@media (max-width:700px){.sm-box{grid-template-columns:minmax(0,1fr);}.sm-img{min-height:220px;max-height:260px;}}
 @media (max-width:1100px){.shop-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
 @media (max-width:700px){.shop-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;}.shop-body{padding:.7rem .75rem .9rem;}}
 @media (max-width:600px){.fc-badge{display:none;}}
@@ -868,6 +885,21 @@ img{max-width:100%;display:block;}
   <p class="shop-note">Secure online payment by Razorpay (cards, UPI, net banking). Questions about an order? <a href="#contact">Contact us</a>.</p>
 </section>
 
+<div class="shop-modal" id="shopModal" role="dialog" aria-modal="true" aria-labelledby="smName">
+  <div class="sm-box">
+    <button type="button" class="sm-close" id="smClose" aria-label="Close">×</button>
+    <div class="sm-img"><img id="smImg" src="" alt=""></div>
+    <div class="sm-info">
+      <p class="sm-tag" id="smTag">PRODUCT</p>
+      <h3 id="smName"></h3>
+      <p class="sm-price" id="smPrice"></p>
+      <p class="sm-desc" id="smDesc"></p>
+      <ul class="sm-feat" id="smFeat"></ul>
+      <div id="smBuy"></div>
+    </div>
+  </div>
+</div>
+
 <!-- ===== Contact / Footer ===== -->
 <footer class="site-footer" id="contact">
   <div class="footer-grid">
@@ -1220,37 +1252,65 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <script>
 // ===== SHOP: add your products here (up to 10) =====
-// { name: "Product name", price: 499, image: "assets/products/photo.jpg", link: "https://rzp.io/l/yourlink", desc: "One short line" }
+// { name: "Product name", price: 499, image: "assets/products/photo.jpg", link: "https://rzp.io/l/yourlink",
+//   desc: "One short line", details: "Longer description shown when a product is opened", features: ["Point one", "Point two"] }
 var PRODUCTS = [
 ];
 
 (function() {
   var sec = document.getElementById('shop'), grid = document.getElementById('shopGrid'), nav = document.getElementById('navShop');
   if (!sec || !grid) return;
+  var preview = /[?&]shop=preview/.test(location.search);
+  var SAMPLE = ['about-corporate-consulting.jpg','program-cabin-crew.jpg','program-ground-handling.jpg','hero-main.jpg','founder-arun-kumar.jpg','program-leadership.jpg','program-airline-fare.jpg','about-research-innovation.jpg','auran-studio.jpg','about-education-training.jpg'].map(function(f, i) {
+    return { name: 'Sample product ' + (i + 1), price: 499 + i * 100, image: 'assets/images/' + f, link: i % 3 ? 'https://rzp.io/l/sample' : '', desc: 'Short product line goes here', details: 'This is where the full product description will appear: what it is, who it is for, and what the buyer gets.', features: ['Feature or inclusion one', 'Feature or inclusion two', 'Delivery information'] };
+  });
   function money(n) { try { return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(n); } catch (e) { return '₹' + n; } }
+  function buyEl(p) {
+    var a;
+    if (p.link && /^https:\/\//.test(p.link)) { a = document.createElement('a'); a.href = p.link; a.target = '_blank'; a.rel = 'noopener'; a.className = 'shop-buy'; a.textContent = 'Buy now'; }
+    else { a = document.createElement('span'); a.className = 'shop-buy off'; a.textContent = 'Coming soon'; }
+    return a;
+  }
+  var modal = document.getElementById('shopModal');
+  function openModal(p) {
+    document.getElementById('smImg').src = p.image || ''; document.getElementById('smImg').alt = p.name;
+    document.getElementById('smName').textContent = p.name;
+    document.getElementById('smPrice').textContent = money(p.price);
+    document.getElementById('smDesc').textContent = p.details || p.desc || '';
+    var ul = document.getElementById('smFeat'); ul.innerHTML = '';
+    (p.features || []).forEach(function(f) { var li = document.createElement('li'); li.textContent = f; ul.appendChild(li); });
+    var bx = document.getElementById('smBuy'); bx.innerHTML = ''; bx.appendChild(buyEl(p));
+    modal.classList.add('open');
+  }
+  function closeModal() { modal.classList.remove('open'); }
+  document.getElementById('smClose').addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
   function render(list) {
     grid.innerHTML = '';
     var items = (list || []).slice(0, 10);
     items.forEach(function(p) {
-      var c = document.createElement('div'); c.className = 'shop-card';
+      var c = document.createElement('div'); c.className = 'shop-card'; c.tabIndex = 0;
       var im = document.createElement('div'); im.className = 'shop-img';
+      if (preview) { var r = document.createElement('span'); r.className = 'shop-ribbon'; r.textContent = 'SAMPLE'; im.appendChild(r); }
       if (p.image) { var i = document.createElement('img'); i.src = p.image; i.alt = p.name; i.loading = 'lazy'; im.appendChild(i); }
       var b = document.createElement('div'); b.className = 'shop-body';
       var n = document.createElement('div'); n.className = 'shop-name'; n.textContent = p.name;
       var d = document.createElement('div'); d.className = 'shop-desc'; d.textContent = p.desc || '';
       var pr = document.createElement('div'); pr.className = 'shop-price'; pr.textContent = money(p.price);
-      var a;
-      if (p.link && /^https:\/\//.test(p.link)) { a = document.createElement('a'); a.href = p.link; a.target = '_blank'; a.rel = 'noopener'; a.className = 'shop-buy'; a.textContent = 'Buy now'; }
-      else { a = document.createElement('span'); a.className = 'shop-buy off'; a.textContent = 'Coming soon'; }
-      b.appendChild(n); b.appendChild(d); b.appendChild(pr); b.appendChild(a);
+      var more = document.createElement('div'); more.className = 'shop-more'; more.textContent = 'View details →';
+      b.appendChild(n); b.appendChild(d); b.appendChild(pr); b.appendChild(more);
+      var a = buyEl(p); a.addEventListener('click', function(e) { e.stopPropagation(); }); b.appendChild(a);
       c.appendChild(im); c.appendChild(b); grid.appendChild(c);
+      c.addEventListener('click', function() { openModal(p); });
+      c.addEventListener('keydown', function(e) { if (e.key === 'Enter') openModal(p); });
     });
     var show = items.length > 0;
     sec.style.display = show ? '' : 'none';
     if (nav) nav.style.display = show ? '' : 'none';
   }
   window.renderShop = render;
-  render(PRODUCTS);
+  render(preview ? SAMPLE : PRODUCTS);
 })();
 </script>
 </body><script>
