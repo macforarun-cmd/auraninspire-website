@@ -120,19 +120,19 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;}
 <section class="hero">
   <p class="eyebrow">MY TEACHING</p>
   <h1>Courses &amp; Teaching Material</h1>
-  <p>Course slides and videos by Arun Kumar for aviation management students and professionals. Enter your email once to view.</p>
+  <p>Course slides and videos by Arun Kumar for aviation management students and professionals. Enter your PIN to view.</p>
 </section>
 
 <section class="section">
   <div class="gate" id="gate">
-    <h2>Enter to view</h2>
-    <p>Enter your email address to open the teaching material.</p>
-    <form id="gForm" action="https://formspree.io/f/meajwjeo" method="POST" novalidate>
-      <input type="text" name="email" id="gInput" placeholder="Email address" autocomplete="off" required>
+    <h2>Enter PIN</h2>
+    <p>Enter the PIN to open the teaching dashboard.</p>
+    <form id="gForm" novalidate>
+      <input type="password" id="gInput" placeholder="PIN" inputmode="numeric" autocomplete="off" required>
       <p class="gate-err" id="gErr"></p>
       <button type="submit" class="btn btn-primary" id="gBtn">Enter</button>
     </form>
-    <p class="gate-note">We'll never share your email.</p>
+    <p class="gate-note">Don't have a PIN? Contact Arun Kumar.</p>
   </div>
   <div id="content" style="display:none;">
     <div id="courseList" class="grid"></div>
@@ -262,7 +262,7 @@ var COURSES = [
 ];
 
 (function() {
-  var OWNER_PIN = '6666';
+  var PIN = '6666'; // change this number to change the PIN
   var KEY = 'ai_teaching_access';
   var gate = document.getElementById('gate'), content = document.getElementById('content'), form = document.getElementById('gForm');
   var list = document.getElementById('courseList'), courseView = document.getElementById('courseView'), unitsEl = document.getElementById('units');
@@ -395,18 +395,12 @@ var COURSES = [
   });
   form.addEventListener('submit', function(e) {
     e.preventDefault();
-    var v = document.getElementById('gInput').value.trim(), err = document.getElementById('gErr'), btn = document.getElementById('gBtn');
-    err.style.display = 'none';
-    if (v === OWNER_PIN) { setRole('owner'); show(); return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { err.textContent = 'Please enter a valid email address.'; err.style.display = 'block'; return; }
-    btn.disabled = true; btn.textContent = 'Please wait…';
-    var data = new FormData(); data.append('email', v); data.append('source', 'teaching-page');
-    fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
-      .then(function(res) { if (!res.ok) throw new Error('bad'); setRole('visitor'); show(); })
-      .catch(function() { err.textContent = 'Something went wrong — please check your connection and try again.'; err.style.display = 'block'; })
-      .then(function() { btn.disabled = false; btn.textContent = 'Enter'; });
+    var v = document.getElementById('gInput').value.trim(), err = document.getElementById('gErr');
+    if (v === PIN) { setRole('ok'); show(); return; }
+    err.textContent = 'Incorrect PIN. Please try again.'; err.style.display = 'block';
+    document.getElementById('gInput').value = ''; document.getElementById('gInput').focus();
   });
-  if (role()) show();
+  if (role() === 'ok') show();
 })();
 </script>
 </body>
