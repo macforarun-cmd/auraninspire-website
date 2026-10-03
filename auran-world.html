@@ -69,6 +69,14 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;line-height:1.18;}
   .platform-card.wide{flex:0 0 130px;}
   .platform-icon{width:52px;height:52px;}
 }
+
+/* Vertical list layout */
+.platform-grid{flex-direction:column;flex-wrap:nowrap;gap:1.1rem;align-items:flex-start;max-width:420px;}
+.platform-card,.platform-card.wide{flex:0 0 auto;flex-direction:row;align-items:center;gap:1.1rem;text-align:left;width:100%;padding:.4rem .6rem .4rem 0;border-radius:18px;}
+.platform-card:hover{transform:translateX(8px);}
+.platform-icon{margin:0;flex:none;}
+.platform-card h4,.platform-card.wide h4{white-space:normal;min-height:0;align-items:center;justify-content:flex-start;font-size:1.05rem;}
+@media (max-width:700px){.platform-grid{max-width:none;}.platform-card,.platform-card.wide{flex:0 0 auto;}}
 </style>
 </head>
 <body>
@@ -123,10 +131,6 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;line-height:1.18;}
           </svg>
         </span>
         <h4>Auran CockpIT</h4>
-      </a>
-      <a href="course-file-work.html" class="platform-card wide">
-        <span class="platform-icon">📁</span>
-        <h4>Course File Work</h4>
       </a>
       <a href="testit.html" class="platform-card">
         <span class="platform-icon">
