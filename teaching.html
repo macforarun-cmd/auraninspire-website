@@ -159,6 +159,9 @@ h1,h2,h3{font-weight:700;letter-spacing:-.015em;}
 // Each topic: { no: "1.1", title: "...", file: "path/to/file.pdf", type: "pdf" | "video" }
 var U1 = "assets/teaching/air-ticketing/unit-1/";
 var U2 = "assets/teaching/air-ticketing/unit-2/";
+var U3 = "assets/teaching/air-ticketing/unit-3/";
+var U4 = "assets/teaching/air-ticketing/unit-4/";
+var U5 = "assets/teaching/air-ticketing/unit-5/";
 var COURSES = [
   {
     title: "Air Ticketing & Fare Construction",
@@ -198,6 +201,60 @@ var COURSES = [
           { no: "2.10", title: "Fare Rules and Restrictions", file: U2 + "10_Topic_2.10_Fare_Rules_and_Restrictions.pdf" },
           { no: "2.11", title: "Fare Calculation Tools: ATPCO", file: U2 + "11_Topic_2.11_Fare_Calculation_Tools_ATPCO.pdf" },
           { no: "2.12", title: "Farelogix: Managing Fare Rules and Pricing Policies", file: U2 + "12_Topic_2.12_Farelogix_Managing_Fare_Rules_and_Pricing_Policies.pdf" }
+        ]
+      },
+      {
+        title: "Unit 3", name: "Fare Construction Advanced",
+        desc: "Advanced fare construction: add-ons and surcharges, open-jaw and circle trips, backhauls, stopovers, HIP and CTM checks, routing, seasonal pricing, combinability, taxes and compliance.",
+        topics: [
+          { no: "3.1", title: "Introduction to Fare Basis Codes", file: U3 + "01_Topic_3.1_Introduction_to_Fare_Basis_Codes.pdf" },
+          { no: "3.2", title: "International vs Domestic Fare Construction", file: U3 + "02_Topic_3.2_International_vs_Domestic_Fare_Construction.pdf" },
+          { no: "3.3", title: "Add-ons and Surcharges", file: U3 + "03_Topic_3.3_Add_ons_and_Surcharges.pdf" },
+          { no: "3.4", title: "Open-Jaw and Circle Trips", file: U3 + "04_Topic_3.4_Open_Jaw_and_Circle_Trips.pdf" },
+          { no: "3.5", title: "Backhauls and Directional Fares", file: U3 + "05_Topic_3.5_Backhauls_and_Directional_Fares.pdf" },
+          { no: "3.6", title: "Stopovers and Layovers in Fare Construction", file: U3 + "06_Topic_3.6_Stopovers_and_Layovers_in_Fare_Construction.pdf" },
+          { no: "3.7", title: "HIP and CTM Checks", file: U3 + "07_Topic_3.7_HIP_and_CTM_Checks.pdf" },
+          { no: "3.8", title: "Routing Restrictions", file: U3 + "08_Topic_3.8_Routing_Restrictions.pdf" },
+          { no: "3.9", title: "Seasonal and Day-of-Week Pricing", file: U3 + "09_Topic_3.9_Seasonal_and_Day_of_Week_Pricing.pdf" },
+          { no: "3.10", title: "Understanding Fare Combinability", file: U3 + "10_Topic_3.10_Understanding_Fare_Combinability.pdf" },
+          { no: "3.11", title: "Tax Calculation and Compliance", file: U3 + "11_Topic_3.11_Tax_Calculation_and_Compliance.pdf" },
+          { no: "3.12", title: "Compliance with International Fare Rules", file: U3 + "12_Topic_3.12_Compliance_with_International_Fare_Rules.pdf" }
+        ]
+      },
+      {
+        title: "Unit 4", name: "Ticket Issuance and Modifications",
+        desc: "Ticket issuance, reissue and revalidation, refunds and exchanges, schedule changes, voids, name changes, SSRs, code-share and multi-airline ticketing, fraud prevention and complex scenarios.",
+        topics: [
+          { no: "4.1", title: "Introduction to Air Ticket Issuance", file: U4 + "01_Topic_4.1_Introduction_to_Air_Ticket_Issuance.pdf" },
+          { no: "4.2", title: "Reissuance and Revalidation of Air Tickets", file: U4 + "02_Topic_4.2_Reissuance_and_Revalidation_of_Air_Tickets.pdf" },
+          { no: "4.3", title: "Ticket Refunds and Exchanges", file: U4 + "03_Topic_4.3_Ticket_Refunds_and_Exchanges.pdf" },
+          { no: "4.4", title: "Handling Schedule Changes", file: U4 + "04_Topic_4.4_Handling_Schedule_Changes.pdf" },
+          { no: "4.5", title: "Void and Cancellations", file: U4 + "05_Topic_4.5_Void_and_Cancellations.pdf" },
+          { no: "4.6", title: "Name Changes and Corrections", file: U4 + "06_Topic_4.6_Name_Changes_and_Corrections.pdf" },
+          { no: "4.7", title: "Special Service Requests (SSR)", file: U4 + "07_Topic_4.7_Special_Service_Requests_SSR.pdf" },
+          { no: "4.8", title: "Ticketing for Code-share Flights", file: U4 + "08_Topic_4.8_Ticketing_for_Code_share_Flights.pdf" },
+          { no: "4.9", title: "Multi-airline Ticketing", file: U4 + "09_Topic_4.9_Multi_airline_Ticketing.pdf" },
+          { no: "4.10", title: "Fraud Prevention in Ticketing", file: U4 + "10_Topic_4.10_Fraud_Prevention_in_Ticketing.pdf" },
+          { no: "4.11", title: "Combining Fare Rules and Ticket Issuance", file: U4 + "11_Topic_4.11_Combining_Fare_Rules_and_Ticket_Issuance.pdf" },
+          { no: "4.12", title: "Handling Complex Ticketing Scenarios", file: U4 + "12_Topic_4.12_Handling_Complex_Ticketing_Scenarios.pdf" }
+        ]
+      },
+      {
+        title: "Unit 5", name: "Technology and Trends",
+        desc: "Air ticketing technology: GDS, NDC, blockchain, AI and machine learning, mobile ticketing, dynamic pricing, personalisation, sustainability, future trends and ethics.",
+        topics: [
+          { no: "5.1", title: "Introduction to Air Ticketing Technology", file: U5 + "01_Topic_5.1_Introduction_to_Air_Ticketing_Technology.pdf" },
+          { no: "5.2", title: "Global Distribution Systems (GDS)", file: U5 + "02_Topic_5.2_Global_Distribution_Systems_GDS.pdf" },
+          { no: "5.3", title: "New Distribution Capability (NDC)", file: U5 + "03_Topic_5.3_New_Distribution_Capability_NDC.pdf" },
+          { no: "5.4", title: "Blockchain in Air Ticketing", file: U5 + "04_Topic_5.4_Blockchain_in_Air_Ticketing.pdf" },
+          { no: "5.5", title: "AI and Machine Learning in Ticketing", file: U5 + "05_Topic_5.5_AI_and_Machine_Learning_in_Ticketing.pdf" },
+          { no: "5.6", title: "Mobile Ticketing Solutions", file: U5 + "06_Topic_5.6_Mobile_Ticketing_Solutions.pdf" },
+          { no: "5.7", title: "Dynamic Pricing and Revenue Management", file: U5 + "07_Topic_5.7_Dynamic_Pricing_and_Revenue_Management.pdf" },
+          { no: "5.8", title: "Personalisation in Air Ticketing", file: U5 + "08_Topic_5.8_Personalisation_in_Air_Ticketing.pdf" },
+          { no: "5.9", title: "Sustainability and Green Ticketing", file: U5 + "09_Topic_5.9_Sustainability_and_Green_Ticketing.pdf" },
+          { no: "5.10", title: "Future Trends and Innovations in Air Ticketing", file: U5 + "10_Topic_5.10_Future_Trends_and_Innovations_in_Air_Ticketing.pdf" },
+          { no: "5.11", title: "Overview of Emerging Technologies", file: U5 + "11_Topic_5.11_Overview_of_Emerging_Technologies.pdf" },
+          { no: "5.12", title: "Ethical Considerations and Challenges", file: U5 + "12_Topic_5.12_Ethical_Considerations_and_Challenges.pdf" }
         ]
       }
     ]
