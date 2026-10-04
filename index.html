@@ -143,31 +143,17 @@ img{max-width:100%;display:block;}
 .mz-list a:hover{color:var(--blue-deep);}
 .mz-feature{background:var(--surface);border:1px solid var(--grey-300);border-radius:6px;padding:1.4rem 1.4rem 1.6rem;text-align:center;box-shadow:0 20px 40px -28px rgba(11,31,58,.5);}
 .mz-feature .mz-kicker{text-align:left;}
-.mz-cover{position:relative;display:block;width:min(260px,70%);margin:.3rem auto 1.1rem;padding:0;border:none;background:none;cursor:pointer;transform:perspective(900px) rotateY(-6deg);transition:transform .35s ease;}
-.mz-cover:hover{transform:perspective(900px) rotateY(0) translateY(-6px);}
-.mz-cover img{display:block;width:100%;border-radius:3px 6px 6px 3px;box-shadow:-6px 0 0 -2px #d8d8d8,14px 22px 34px -10px rgba(11,31,58,.55);}
-.mz-cover::after{content:"";position:absolute;left:0;top:0;bottom:0;width:7%;background:linear-gradient(90deg,rgba(0,0,0,.22),transparent);border-radius:3px 0 0 3px;pointer-events:none;}
-.mz-badge{position:absolute;top:10px;right:-8px;background:#c8202e;color:#fff;font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;padding:.25rem .6rem;box-shadow:0 4px 10px rgba(0,0,0,.3);}
-.mz-title{font-family:Georgia,serif;font-size:1.5rem;margin-bottom:.2rem;}
-.mz-meta{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;color:var(--grey-600);margin-bottom:1rem;}
-.mz-actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;}
-.mz-actions button,.mz-actions a{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;padding:.6rem 1.3rem;border-radius:999px;border:1px solid #c8202e;cursor:pointer;text-decoration:none;}
-.mz-actions button{background:#c8202e;color:#fff;}
-.mz-actions button:hover{background:#a3161f;}
-.mz-actions a{background:transparent;color:#c8202e;}
-.mz-actions a:hover{background:rgba(200,32,46,.08);}
+.mk-feature{text-align:left;}
+.mk-list{list-style:none;margin:0;padding:0;}
+.mk-list li{display:grid;grid-template-columns:2.6rem 1fr;gap:.9rem;padding:.95rem 0;border-bottom:1px solid var(--grey-300);align-items:start;}
+.mk-list li:last-child{border-bottom:none;}
+.mk-no{font-family:Georgia,serif;font-style:italic;font-size:1.5rem;line-height:1;color:#c8202e;}
+.mk-name{display:block;font-family:Georgia,serif;font-size:1.08rem;font-weight:700;line-height:1.25;color:var(--text,var(--navy));}
+.mk-name:hover{color:var(--blue-deep);text-decoration:underline;}
+.mk-desc{display:block;font-size:.8rem;color:var(--grey-600);line-height:1.4;margin-top:.15rem;}
+.mk-pub{display:block;font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-top:.3rem;}
+.mk-note{font-size:.72rem;color:var(--grey-600);margin-top:.8rem;border-top:1px solid var(--grey-300);padding-top:.7rem;}
 @media (max-width:900px){.mz-split{grid-template-columns:minmax(0,1fr);gap:2.4rem;}}
-.mag-modal{position:fixed;inset:0;z-index:999;background:rgba(8,16,30,.9);display:none;flex-direction:column;align-items:center;justify-content:center;padding:1rem;}
-.mag-modal.open{display:flex;}
-.mag-bar{display:flex;gap:10px;align-items:center;justify-content:space-between;width:min(760px,100%);color:#fff;margin-bottom:10px;font-size:14px;}
-.mag-bar button{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:6px;padding:8px 14px;cursor:pointer;font-family:inherit;}
-.mag-stage{position:relative;width:min(760px,100%);flex:1;min-height:0;display:flex;align-items:center;justify-content:center;}
-.mag-stage canvas{max-width:100%;max-height:100%;background:#fff;box-shadow:0 12px 40px rgba(0,0,0,.6);border-radius:4px;}
-.mag-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;padding:0;font-size:24px;background:rgba(12,35,64,.85);border:1px solid rgba(255,255,255,.4);color:#fff;cursor:pointer;}
-.mag-prev{left:-6px;}.mag-next{right:-6px;}
-.mag-nav:disabled{opacity:.3;}
-.mag-msg{color:#cbd7ec;font-size:14px;}
-@media (max-width:600px){.mag-prev{left:2px;}.mag-next{right:2px;}}
 @media (max-width:600px){.fc-badge{display:none;}}
 .btn{display:inline-block;padding:.7rem 1.4rem;font-weight:600;font-size:.84rem;border-radius:4px;transition:background .2s,color .2s,border-color .2s;}
 .btn-primary{background:var(--navy);color:#fff;border:1px solid var(--navy);}
@@ -867,7 +853,7 @@ img{max-width:100%;display:block;}
 <!-- ===== Insights: magazine-style news (left) + featured magazine (right) ===== -->
 <section class="section section-tint" id="insights">
   <p class="eyebrow">LATEST INSIGHTS</p>
-  <h2 class="section-title">Aviation news &amp; the Chronicle</h2>
+  <h2 class="section-title">Aviation news &amp; magazines</h2>
   <div class="mz-split">
     <div class="mz-news">
       <div class="mz-kicker"><span>The Briefing</span><i></i></div>
@@ -882,15 +868,17 @@ img{max-width:100%;display:block;}
         <li><span class="mz-no">04</span><div><span class="mz-tag">Research · 15 Jul 2026</span><a href="#">Urban air mobility: an emerging regulatory landscape</a></div></li>
       </ol>
     </div>
-    <aside class="mz-feature" aria-label="Featured magazine">
-      <div class="mz-kicker"><span>Magazine</span><i></i></div>
-      <button type="button" class="mz-cover" id="mzCover" aria-label="Open the Aviation Chronicle">
-        <img src="assets/studio/chronicle-cover-01.jpg" alt="MH Cockpit Aviation Chronicle — front page">
-        <span class="mz-badge">SPECIAL EDITION</span>
-      </button>
-      <h3 class="mz-title">Aviation Chronicle</h3>
-      <p class="mz-meta">MH Cockpit · Volume 01 · Issue 01 · 2026 · 18 pages</p>
-      <div class="mz-actions"><button type="button" id="mzRead">Read</button><a href="assets/studio/aviation-chronicle.pdf" target="_blank" rel="noopener">View PDF</a></div>
+    <aside class="mz-feature mk-feature" aria-label="Aviation magazines in the market">
+      <div class="mz-kicker"><span>Aviation magazines in the market</span><i></i></div>
+      <ol class="mk-list">
+        <li><span class="mk-no">01</span><div><a href="https://aviationweek.com/" target="_blank" rel="noopener noreferrer" class="mk-name">Aviation Week &amp; Space Technology</a><span class="mk-desc">Aerospace, defence &amp; commercial aviation intelligence</span><span class="mk-pub">Aviation Week ↗</span></div></li>
+        <li><span class="mk-no">02</span><div><a href="https://www.flightglobal.com/" target="_blank" rel="noopener noreferrer" class="mk-name">Flight International</a><span class="mk-desc">The long-running weekly of the global aerospace industry</span><span class="mk-pub">FlightGlobal ↗</span></div></li>
+        <li><span class="mk-no">03</span><div><a href="https://www.ainonline.com/" target="_blank" rel="noopener noreferrer" class="mk-name">Aviation International News</a><span class="mk-desc">Business aviation news, reviews &amp; events</span><span class="mk-pub">AIN Media ↗</span></div></li>
+        <li><span class="mk-no">04</span><div><a href="https://airwaysmag.com/" target="_blank" rel="noopener noreferrer" class="mk-name">Airways Magazine</a><span class="mk-desc">Airlines, airports &amp; route news for aviation enthusiasts</span><span class="mk-pub">Airways ↗</span></div></li>
+        <li><span class="mk-no">05</span><div><a href="https://www.aviationbusinessnews.com/" target="_blank" rel="noopener noreferrer" class="mk-name">Aviation Business News</a><span class="mk-desc">Airline, MRO &amp; airport business coverage</span><span class="mk-pub">Aviation Business News ↗</span></div></li>
+        <li><span class="mk-no">06</span><div><a href="https://www.avweb.com/" target="_blank" rel="noopener noreferrer" class="mk-name">AVweb</a><span class="mk-desc">General aviation news, safety &amp; flying</span><span class="mk-pub">AVweb ↗</span></div></li>
+      </ol>
+      <p class="mk-note">Independent publications — each link opens the publisher's own website.</p>
     </aside>
   </div>
 </section>
@@ -1432,57 +1420,6 @@ var PRODUCTS = [
   var ORDER = ['day', 'sunset', 'night', 'rain', 'storm'], i = 0;
   stage.setAttribute('data-wx', ORDER[0]);
   setInterval(function() { i = (i + 1) % ORDER.length; stage.setAttribute('data-wx', ORDER[i]); }, 10000);
-})();
-</script>
-<div class="mag-modal" id="magModal" role="dialog" aria-modal="true" aria-label="Aviation Chronicle">
-<div class="mag-bar"><span id="magCount"></span><span><button id="magFull" type="button">Full screen</button> <button id="magClose" type="button">Close</button></span></div>
-<div class="mag-stage" id="magStage"></div>
-</div>
-<script>
-(function() {
-  var URL_PDF = 'assets/studio/aviation-chronicle.pdf';
-  var modal = document.getElementById('magModal'), stage = document.getElementById('magStage'), count = document.getElementById('magCount');
-  var doc = null, page = 1, busy = false;
-  function loadLib(cb, fail) {
-    if (window.pdfjsLib) { cb(); return; }
-    var sc = document.createElement('script'); sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-    sc.onload = function() { window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; cb(); };
-    sc.onerror = fail; document.head.appendChild(sc);
-  }
-  function render() {
-    busy = true;
-    doc.getPage(page).then(function(pg) {
-      var c = document.getElementById('magCanvas'), base = pg.getViewport({ scale: 1 }), dpr = window.devicePixelRatio || 1;
-      var sc = Math.min(stage.clientWidth / base.width, stage.clientHeight / base.height) * dpr, vp = pg.getViewport({ scale: sc });
-      c.width = vp.width; c.height = vp.height; c.style.width = (vp.width / dpr) + 'px'; c.style.height = (vp.height / dpr) + 'px';
-      return pg.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise;
-    }).then(function() {
-      busy = false; count.textContent = 'Page ' + page + ' / ' + doc.numPages;
-      stage.querySelector('.mag-prev').disabled = page <= 1; stage.querySelector('.mag-next').disabled = page >= doc.numPages;
-    }).catch(function() { busy = false; });
-  }
-  function go(n) { if (doc && !busy && n >= 1 && n <= doc.numPages) { page = n; render(); } }
-  function open() {
-    modal.classList.add('open'); stage.innerHTML = '<span class="mag-msg">Loading magazine…</span>';
-    loadLib(function() {
-      window.pdfjsLib.getDocument(URL_PDF).promise.then(function(d) {
-        doc = d; page = 1;
-        stage.innerHTML = '<canvas id="magCanvas"></canvas><button class="mag-nav mag-prev" type="button" aria-label="Previous page">‹</button><button class="mag-nav mag-next" type="button" aria-label="Next page">›</button>';
-        stage.querySelector('.mag-prev').onclick = function() { go(page - 1); };
-        stage.querySelector('.mag-next').onclick = function() { go(page + 1); };
-        render();
-      }).catch(function() { stage.innerHTML = '<span class="mag-msg">Could not load the magazine. Please try again.</span>'; });
-    }, function() { stage.innerHTML = '<span class="mag-msg">Could not load the reader. Check your connection.</span>'; });
-  }
-  function close() { if (document.fullscreenElement) document.exitFullscreen(); modal.classList.remove('open'); stage.innerHTML = ''; doc = null; }
-  ['mzRead','mzCover'].forEach(function(id) { var el = document.getElementById(id); if (el) el.addEventListener('click', open); });
-  document.getElementById('magClose').addEventListener('click', close);
-  document.getElementById('magFull').addEventListener('click', function() { if (document.fullscreenElement) document.exitFullscreen(); else if (modal.requestFullscreen) modal.requestFullscreen(); });
-  document.addEventListener('keydown', function(e) {
-    if (!modal.classList.contains('open')) return;
-    if (e.key === 'Escape') close(); else if (e.key === 'ArrowRight') go(page + 1); else if (e.key === 'ArrowLeft') go(page - 1);
-  });
-  window.addEventListener('resize', function() { if (doc && document.getElementById('magCanvas')) render(); });
 })();
 </script>
 </body><script>
