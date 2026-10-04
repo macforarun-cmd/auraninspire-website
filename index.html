@@ -154,6 +154,49 @@ img{max-width:100%;display:block;}
 .mk-pub{display:block;font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-top:.3rem;}
 .mk-note{font-size:.72rem;color:var(--grey-600);margin-top:.8rem;border-top:1px solid var(--grey-300);padding-top:.7rem;}
 @media (max-width:900px){.mz-split{grid-template-columns:minmax(0,1fr);gap:2.4rem;}}
+
+/* ---------- News board (digital display) on a sketch background ---------- */
+#insights{position:relative;overflow:hidden;}
+#insights::before{content:"";position:absolute;inset:0;background:url('assets/images/airport-sketch.jpg') center 55%/cover no-repeat;opacity:.28;mix-blend-mode:multiply;pointer-events:none;}
+[data-theme="dark"] #insights::before{filter:invert(1);mix-blend-mode:screen;opacity:.16;}
+#insights>*{position:relative;z-index:1;}
+.nb-top{display:flex;align-items:center;gap:1rem;background:#0b1220;color:#ffb000;border-radius:12px 12px 0 0;padding:.75rem 1.1rem;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;font-size:.78rem;border:1px solid #1d2a40;border-bottom:none;}
+.nb-title{font-weight:700;}
+.nb-clock{margin-left:auto;font-size:1rem;color:#fff;text-shadow:0 0 10px rgba(255,176,0,.6);letter-spacing:.1em;}
+.nb-live{display:inline-flex;align-items:center;gap:.45rem;color:#ff4d4d;font-weight:700;}
+.nb-dot{width:9px;height:9px;border-radius:50%;background:#ff3b3b;box-shadow:0 0 8px 2px rgba(255,59,59,.8);animation:nbBlink 1.1s steps(2,jump-none) infinite;display:inline-block;}
+@keyframes nbBlink{0%{opacity:1;}100%{opacity:.15;}}
+.nb-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#1d2a40;border:1px solid #1d2a40;border-radius:0 0 12px 12px;overflow:hidden;}
+.nb-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:.55rem;text-align:left;background:rgba(255,255,255,.86);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);border:none;padding:1.1rem 1.1rem 1.2rem 6.4rem;min-height:170px;cursor:pointer;font-family:inherit;color:var(--navy);transition:background .25s,transform .25s;}
+.nb-card:hover{background:#fff;}
+[data-theme="dark"] .nb-card{background:rgba(18,26,39,.88);color:#e6ebf2;}
+[data-theme="dark"] .nb-card:hover{background:#121a27;}
+.nb-led{display:inline-flex;align-items:center;gap:.45rem;background:#0b1220;color:#ffb000;font-family:var(--mono);font-weight:700;font-size:.78rem;letter-spacing:.14em;padding:.28rem .6rem;border-radius:5px;text-shadow:0 0 8px rgba(255,176,0,.6);}
+.nb-led .nb-dot{width:6px;height:6px;background:#ffb000;box-shadow:0 0 6px 1px rgba(255,176,0,.8);}
+.nb-ico{position:absolute;left:1rem;top:1.1rem;width:72px;height:72px;filter:drop-shadow(0 6px 8px rgba(11,31,58,.35));transform:rotate(-6deg);transition:transform .3s;}
+.nb-card:hover .nb-ico{transform:rotate(0) scale(1.1) translateY(-3px);}
+.nb-tag{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);}
+.nb-head{font-family:Georgia,'Times New Roman',serif;font-size:1.12rem;font-weight:700;line-height:1.28;}
+.nb-read{margin-top:auto;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:#c8202e;}
+.nb-read i{font-style:normal;display:inline-block;transition:transform .25s;}
+.nb-card:hover .nb-read i{transform:translateX(5px);}
+.nb-modal{position:fixed;inset:0;z-index:600;display:none;align-items:center;justify-content:center;background:rgba(8,16,30,.7);padding:1rem;}
+.nb-modal.open{display:flex;}
+.nb-paper{position:relative;width:min(620px,100%);max-height:90vh;overflow:auto;background:#fbf7ec;color:#1c1c1c;border-radius:4px;padding:1.6rem 2rem 1.8rem;box-shadow:0 40px 90px -20px rgba(0,0,0,.7);background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.018) 0 2px,transparent 2px 4px);}
+.nb-paper.in{animation:nbPop .5s cubic-bezier(.2,.9,.25,1.15) both;transform-origin:var(--ox,50%%) var(--oy,50%%);}
+@keyframes nbPop{0%{transform:scale(.25) rotate(-8deg);opacity:0;}100%{transform:scale(1) rotate(0);opacity:1;}}
+.nb-mast{display:flex;justify-content:space-between;align-items:baseline;border-top:3px double #1c1c1c;border-bottom:1px solid #1c1c1c;padding:.5rem 0;margin-bottom:1rem;font-family:Georgia,serif;}
+.nb-mast span{font-size:1.15rem;font-weight:700;letter-spacing:.18em;}
+.nb-mast i{font-size:.78rem;font-style:normal;}
+.nb-ptag{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:#c8202e;margin-bottom:.4rem;}
+.nb-paper h3{font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2rem);line-height:1.15;margin-bottom:1rem;}
+.nb-body p{font-family:Georgia,serif;font-size:1rem;line-height:1.7;margin-bottom:.9rem;text-align:justify;}
+.nb-body p:first-child::first-letter{float:left;font-size:3rem;line-height:.85;padding:.15rem .5rem 0 0;font-weight:700;}
+.nb-sign{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;color:#555;}
+.nb-close{position:absolute;top:.4rem;right:.7rem;background:none;border:none;font-size:1.7rem;cursor:pointer;color:#1c1c1c;}
+@media (max-width:900px){.nb-grid{grid-template-columns:minmax(0,1fr);}}
+@media (max-width:520px){.nb-card{padding-left:5.6rem;}.nb-ico{width:60px;height:60px;}.nb-paper{padding:1.2rem 1.2rem 1.4rem;}}
+@media (prefers-reduced-motion:reduce){.nb-dot{animation:none;}.nb-paper.in{animation:none;}}
 @media (max-width:600px){.fc-badge{display:none;}}
 .btn{display:inline-block;padding:.7rem 1.4rem;font-weight:600;font-size:.84rem;border-radius:4px;transition:background .2s,color .2s,border-color .2s;}
 .btn-primary{background:var(--navy);color:#fff;border:1px solid var(--navy);}
@@ -855,18 +898,38 @@ img{max-width:100%;display:block;}
   <p class="eyebrow">LATEST INSIGHTS</p>
   <h2 class="section-title">Aviation news &amp; magazines</h2>
   <div class="mz-split">
-    <div class="mz-news">
-      <div class="mz-kicker"><span>The Briefing</span><i></i></div>
-      <article class="mz-lead">
-        <span class="mz-tag">Industry · 31 Jul 2026</span>
-        <a href="#" class="mz-lead-title">Why fare construction still matters in the GDS era</a>
-        <p>Automation prices the ticket, but the people who understand how a fare is built are the ones who catch the errors. A look at what every aviation student should still learn by hand.</p>
-      </article>
-      <ol class="mz-list">
-        <li><span class="mz-no">02</span><div><span class="mz-tag">Sustainability · 28 Jul 2026</span><a href="#">Green airports: what students should know before graduating</a></div></li>
-        <li><span class="mz-no">03</span><div><span class="mz-tag">Education · 22 Jul 2026</span><a href="#">Bridging classroom theory and real airline practice</a></div></li>
-        <li><span class="mz-no">04</span><div><span class="mz-tag">Research · 15 Jul 2026</span><a href="#">Urban air mobility: an emerging regulatory landscape</a></div></li>
-      </ol>
+    <div class="mz-news nb">
+      <div class="nb-top"><span class="nb-live"><b class="nb-dot"></b>LIVE</span><span class="nb-title">AURAN NEWS BOARD</span><span class="nb-clock" id="nbClock" aria-hidden="true"></span></div>
+      <div class="nb-grid">
+      <button type="button" class="nb-card" data-i="0">
+        <span class="nb-led"><b class="nb-dot"></b>31 JUL</span>
+        <svg class="nb-ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="12" width="40" height="42" rx="3" fill="#fff" stroke="#0b1f3a" stroke-width="2.5"/><path d="M50 22h6a2 2 0 0 1 2 2v26a4 4 0 0 1-4 4H14" fill="#e8eefb" stroke="#0b1f3a" stroke-width="2.5"/><rect x="16" y="18" width="28" height="8" fill="#0b1f3a"/><rect x="16" y="31" width="12" height="9" fill="#c8202e"/><path d="M32 32h12M32 37h12M16 45h28M16 50h20" stroke="#0b1f3a" stroke-width="2" stroke-linecap="round"/></svg>
+        <span class="nb-tag">Industry · 31 Jul 2026</span>
+        <span class="nb-head">Why fare construction still matters in the GDS era</span>
+        <span class="nb-read">Read the news <i>→</i></span>
+      </button>
+      <button type="button" class="nb-card" data-i="1">
+        <span class="nb-led"><b class="nb-dot"></b>28 JUL</span>
+        <svg class="nb-ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="12" width="40" height="42" rx="3" fill="#fff" stroke="#0b1f3a" stroke-width="2.5"/><path d="M50 22h6a2 2 0 0 1 2 2v26a4 4 0 0 1-4 4H14" fill="#e8eefb" stroke="#0b1f3a" stroke-width="2.5"/><rect x="16" y="18" width="28" height="8" fill="#0b1f3a"/><rect x="16" y="31" width="12" height="9" fill="#c8202e"/><path d="M32 32h12M32 37h12M16 45h28M16 50h20" stroke="#0b1f3a" stroke-width="2" stroke-linecap="round"/></svg>
+        <span class="nb-tag">Sustainability · 28 Jul 2026</span>
+        <span class="nb-head">Green airports: what students should know before graduating</span>
+        <span class="nb-read">Read the news <i>→</i></span>
+      </button>
+      <button type="button" class="nb-card" data-i="2">
+        <span class="nb-led"><b class="nb-dot"></b>22 JUL</span>
+        <svg class="nb-ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="12" width="40" height="42" rx="3" fill="#fff" stroke="#0b1f3a" stroke-width="2.5"/><path d="M50 22h6a2 2 0 0 1 2 2v26a4 4 0 0 1-4 4H14" fill="#e8eefb" stroke="#0b1f3a" stroke-width="2.5"/><rect x="16" y="18" width="28" height="8" fill="#0b1f3a"/><rect x="16" y="31" width="12" height="9" fill="#c8202e"/><path d="M32 32h12M32 37h12M16 45h28M16 50h20" stroke="#0b1f3a" stroke-width="2" stroke-linecap="round"/></svg>
+        <span class="nb-tag">Education · 22 Jul 2026</span>
+        <span class="nb-head">Bridging classroom theory and real airline practice</span>
+        <span class="nb-read">Read the news <i>→</i></span>
+      </button>
+      <button type="button" class="nb-card" data-i="3">
+        <span class="nb-led"><b class="nb-dot"></b>15 JUL</span>
+        <svg class="nb-ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="12" width="40" height="42" rx="3" fill="#fff" stroke="#0b1f3a" stroke-width="2.5"/><path d="M50 22h6a2 2 0 0 1 2 2v26a4 4 0 0 1-4 4H14" fill="#e8eefb" stroke="#0b1f3a" stroke-width="2.5"/><rect x="16" y="18" width="28" height="8" fill="#0b1f3a"/><rect x="16" y="31" width="12" height="9" fill="#c8202e"/><path d="M32 32h12M32 37h12M16 45h28M16 50h20" stroke="#0b1f3a" stroke-width="2" stroke-linecap="round"/></svg>
+        <span class="nb-tag">Research · 15 Jul 2026</span>
+        <span class="nb-head">Urban air mobility: an emerging regulatory landscape</span>
+        <span class="nb-read">Read the news <i>→</i></span>
+      </button>
+      </div>
     </div>
     <aside class="mz-feature mk-feature" aria-label="Aviation magazines in the market">
       <div class="mz-kicker"><span>Aviation magazines in the market</span><i></i></div>
@@ -1420,6 +1483,43 @@ var PRODUCTS = [
   var ORDER = ['day', 'sunset', 'night', 'rain', 'storm'], i = 0;
   stage.setAttribute('data-wx', ORDER[0]);
   setInterval(function() { i = (i + 1) % ORDER.length; stage.setAttribute('data-wx', ORDER[i]); }, 10000);
+})();
+</script>
+<div class="nb-modal" id="nbModal" role="dialog" aria-modal="true" aria-labelledby="nbHead">
+  <article class="nb-paper" id="nbPaper">
+    <button type="button" class="nb-close" id="nbClose" aria-label="Close">×</button>
+    <div class="nb-mast"><span>THE AURAN TIMES</span><i id="nbDate"></i></div>
+    <p class="nb-ptag" id="nbTag"></p>
+    <h3 id="nbHead"></h3>
+    <div class="nb-body" id="nbBody"></div>
+    <p class="nb-sign">— AuranInspire Aviation Desk</p>
+  </article>
+</div>
+<script>
+(function() {
+  var NEWS = [{"tag": "Industry", "date": "31 Jul 2026", "head": "Why fare construction still matters in the GDS era", "body": ["Booking systems now price a ticket in a fraction of a second, so it is tempting to treat fare construction as a solved problem. It is not. Somebody still has to understand why a fare comes out the way it does.", "Agents and analysts who know the rules of mileage, routing and fare basis can spot a wrong price before a customer does. That is why the fundamentals still belong in every aviation course, even in the age of automation."]}, {"tag": "Sustainability", "date": "28 Jul 2026", "head": "Green airports: what students should know before graduating", "body": ["Airports are changing how they handle energy, ground vehicles, waste and noise. Graduates will work in an industry where sustainability targets sit alongside safety and cost.", "Learning how a green airport is planned and measured gives students a head start. It also shows how operations, finance and environment teams work together."]}, {"tag": "Education", "date": "22 Jul 2026", "head": "Bridging classroom theory and real airline practice", "body": ["A lecture can explain a process, but only practice shows how it behaves on a busy day. The best programmes put students into realistic simulations, case studies and industry sessions.", "That blend of theory and practice is what makes new joiners useful in their first month, rather than their first year."]}, {"tag": "Research", "date": "15 Jul 2026", "head": "Urban air mobility: an emerging regulatory landscape", "body": ["Air taxis and drones are moving from concept to trials, and regulators are writing the rules at the same time. Certification, airspace and safety standards are all still taking shape.", "For aviation students this is a field to watch. The people who understand both the technology and the regulation will be in demand."]}];
+  var cards = document.querySelectorAll('.nb-card'), modal = document.getElementById('nbModal'), paper = document.getElementById('nbPaper');
+  if (!cards.length) return;
+  function open(i, card) {
+    var n = NEWS[i];
+    document.getElementById('nbTag').textContent = n.tag;
+    document.getElementById('nbHead').textContent = n.head;
+    document.getElementById('nbDate').textContent = n.date;
+    var b = document.getElementById('nbBody'); b.innerHTML = '';
+    n.body.forEach(function(t) { var p = document.createElement('p'); p.textContent = t; b.appendChild(p); });
+    var r = card.getBoundingClientRect();
+    paper.style.setProperty('--ox', (r.left + r.width / 2) + 'px'); paper.style.setProperty('--oy', (r.top + r.height / 2) + 'px');
+    modal.classList.add('open'); paper.classList.remove('in'); void paper.offsetWidth; paper.classList.add('in');
+    document.getElementById('nbClose').focus();
+  }
+  function close() { modal.classList.remove('open'); }
+  Array.prototype.forEach.call(cards, function(c) { c.addEventListener('click', function() { open(parseInt(c.getAttribute('data-i'), 10), c); }); });
+  document.getElementById('nbClose').addEventListener('click', close);
+  modal.addEventListener('click', function(e) { if (e.target === modal) close(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') close(); });
+  var clk = document.getElementById('nbClock');
+  function tick() { try { clk.textContent = new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit' }); } catch (e) {} }
+  if (clk) { tick(); setInterval(tick, 1000); }
 })();
 </script>
 </body><script>
