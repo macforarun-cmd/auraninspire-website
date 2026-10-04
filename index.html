@@ -197,6 +197,38 @@ img{max-width:100%;display:block;}
 @media (max-width:900px){.nb-grid{grid-template-columns:minmax(0,1fr);}}
 @media (max-width:520px){.nb-card{padding-left:5.6rem;}.nb-ico{width:60px;height:60px;}.nb-paper{padding:1.2rem 1.2rem 1.4rem;}}
 @media (prefers-reduced-motion:reduce){.nb-dot{animation:none;}.nb-paper.in{animation:none;}}
+
+/* ---------- Scene: the news screens sit inside the airport sketch ---------- */
+.nb-scene-img{display:none;}
+@media (min-width:901px){
+  #insights::before{display:none;}
+  .nb-scene{display:block;position:relative;max-width:1280px;margin:0 auto;}
+  .nb-scene-img{display:block;width:100%;height:auto;mix-blend-mode:multiply;opacity:.95;}
+  .nb-scene .mz-news{position:absolute;left:13.2%;top:7.5%;width:49.5%;}
+  .nb-scene .nb-top{padding:.5rem .8rem;font-size:.66rem;}
+  .nb-scene .nb-clock{font-size:.8rem;}
+  .nb-scene .nb-grid{background:#16233a;}
+  .nb-scene .nb-card{background:rgba(9,15,28,.95);color:#fff;min-height:0;padding:.7rem .8rem .8rem 4.3rem;gap:.35rem;}
+  .nb-scene .nb-card:hover{background:#0f1a30;}
+  .nb-scene .nb-ico{width:48px;height:48px;left:.7rem;top:.8rem;}
+  .nb-scene .nb-led{font-size:.64rem;padding:.2rem .45rem;}
+  .nb-scene .nb-tag{font-size:.56rem;color:#8fb4ff;}
+  .nb-scene .nb-head{font-size:.86rem;line-height:1.25;}
+  .nb-scene .nb-read{font-size:.58rem;margin-top:.1rem;color:#ff7a85;}
+  .nb-scene .mk-feature{position:absolute;left:65%;top:3.5%;width:34%;padding:.8rem 1rem .9rem;background:rgba(9,15,28,.95);border-color:#16233a;box-shadow:0 20px 40px -20px rgba(0,0,0,.6);}
+  .nb-scene .mk-feature .mz-kicker{margin-bottom:.4rem;}
+  .nb-scene .mk-feature .mz-kicker span{font-size:.58rem;letter-spacing:.14em;color:#ffb000;}
+  .nb-scene .mk-feature .mz-kicker i{background:linear-gradient(90deg,#ffb000,transparent);}
+  .nb-scene .mk-list li{padding:.42rem 0;grid-template-columns:1.8rem 1fr;gap:.5rem;border-bottom-color:#1d2a40;}
+  .nb-scene .mk-no{font-size:1.05rem;color:#ffb000;}
+  .nb-scene .mk-name{font-size:.82rem;color:#fff;}
+  .nb-scene .mk-desc{display:none;}
+  .nb-scene .mk-pub{font-size:.54rem;margin-top:.1rem;color:#8fb4ff;}
+  .nb-scene .mk-note{display:none;}
+}
+@media (min-width:901px) and (max-width:1100px){
+  .nb-scene .nb-head{font-size:.74rem;}.nb-scene .nb-tag{display:none;}.nb-scene .mk-name{font-size:.72rem;}
+}
 @media (max-width:600px){.fc-badge{display:none;}}
 .btn{display:inline-block;padding:.7rem 1.4rem;font-weight:600;font-size:.84rem;border-radius:4px;transition:background .2s,color .2s,border-color .2s;}
 .btn-primary{background:var(--navy);color:#fff;border:1px solid var(--navy);}
@@ -897,7 +929,8 @@ img{max-width:100%;display:block;}
 <section class="section section-tint" id="insights">
   <p class="eyebrow">LATEST INSIGHTS</p>
   <h2 class="section-title">Aviation news &amp; magazines</h2>
-  <div class="mz-split">
+  <div class="mz-split nb-scene">
+    <img class="nb-scene-img" src="assets/images/airport-sketch.jpg" alt="" aria-hidden="true">
     <div class="mz-news nb">
       <div class="nb-top"><span class="nb-live"><b class="nb-dot"></b>LIVE</span><span class="nb-title">AURAN NEWS BOARD</span><span class="nb-clock" id="nbClock" aria-hidden="true"></span></div>
       <div class="nb-grid">
