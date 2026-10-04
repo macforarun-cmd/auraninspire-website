@@ -278,6 +278,25 @@ img{max-width:100%;display:block;}
   .nb-scene .nb-head{font-size:.95cqw;}
   .nb-scene .nb-tag{font-size:.54cqw;letter-spacing:.03em;white-space:nowrap;}
 }
+
+/* ---------- News as pinned posters inside the drawing ---------- */
+@media (min-width:901px){
+  .nb-scene .nb-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.3cqw;background:#fff!important;border:.16cqw solid var(--ink)!important;border-radius:.3cqw;box-shadow:.35cqw .45cqw 0 rgba(26,36,51,.2)!important;padding:.75cqw .6cqw .65cqw!important;transform:rotate(var(--r,0deg));transition:transform .25s ease,box-shadow .25s ease;}
+  .nb-scene .nb-card::before{content:"";position:absolute;top:-.5cqw;left:50%;width:.9cqw;height:.9cqw;margin-left:-.45cqw;border-radius:50%;background:#c8202e;box-shadow:inset -.12cqw -.12cqw 0 rgba(0,0,0,.25),0 .15cqw .25cqw rgba(0,0,0,.3);}
+  .nb-scene .nb-card:hover{transform:rotate(0) translateY(-.4cqw) scale(1.04);box-shadow:.5cqw .8cqw 0 rgba(26,36,51,.25)!important;background:#fff!important;z-index:3;}
+  .nb-scene .nb-card:nth-child(1){--r:-2deg;left:18%;top:19%;width:12.6%;}
+  .nb-scene .nb-card:nth-child(2){--r:1.5deg;left:37.2%;top:20%;width:11.4%;}
+  .nb-scene .nb-card:nth-child(3){--r:2deg;left:68.4%;top:4.5%;width:12.4%;}
+  .nb-scene .nb-card:nth-child(4){--r:-1.5deg;left:84.6%;top:4.5%;width:12.4%;}
+  .nb-scene .nb-ico{position:static;width:2.5cqw;height:2.5cqw;margin:0;transform:none;}
+  .nb-scene .nb-led{order:-1;font-size:.7cqw;letter-spacing:.14em;border-bottom:.12cqw solid var(--ink);padding-bottom:.25cqw;width:100%;justify-content:center;}
+  .nb-scene .nb-tag{display:none;}
+  .nb-scene .nb-head{font-size:.82cqw;line-height:1.22;min-height:0;text-align:center;}
+  .nb-scene .nb-read{font-size:.58cqw;margin:.1cqw 0 0;}
+  .nb-scene .nb-card .tw-w{white-space:normal;}
+  .nb-scene .nb-top{left:15.8%;top:2%;}
+}
+@media (prefers-reduced-motion:reduce){.nb-scene .nb-card{transition:none;}}
 [data-theme="dark"] .nb-scene-img{filter:invert(1);mix-blend-mode:screen;opacity:.35;}
 @media (max-width:600px){.fc-badge{display:none;}}
 .btn{display:inline-block;padding:.7rem 1.4rem;font-weight:600;font-size:.84rem;border-radius:4px;transition:background .2s,color .2s,border-color .2s;}
