@@ -298,6 +298,153 @@ img{max-width:100%;display:block;}
 }
 @media (prefers-reduced-motion:reduce){.nb-scene .nb-card{transition:none;}}
 [data-theme="dark"] .nb-scene-img{filter:invert(1);mix-blend-mode:screen;opacity:.35;}
+
+/* ---------- Animated cartoon airport (inline SVG) behind the news posters ---------- */
+#insights::before{display:none;}
+.ap-svg{display:block;width:100%;height:auto;--ap-ink:#1a2433;--ap-sky-a:#8fd0ff;--ap-sky-b:#eaf7ff;--ap-glass:#bfe4ff;--ap-wall:#f3f6fb;--ap-roof:#26324a;--ap-apron:#d4d9e2;--ap-runway:#8d95a3;--ap-grass:#a9dd8d;--ap-bush:#7cc36a;--ap-cloud:#fff;--ap-lit:rgba(255,255,255,.4);--ap-star:0;--ap-day:1;border-radius:12px;}
+[data-theme="dark"] .ap-svg{--ap-sky-a:#070d20;--ap-sky-b:#2a3c66;--ap-glass:#1b2d52;--ap-wall:#2c3752;--ap-roof:#141b2c;--ap-apron:#3a4358;--ap-runway:#262c38;--ap-grass:#1d3a2a;--ap-bush:#245238;--ap-cloud:#4a5c84;--ap-lit:rgba(255,215,122,.55);--ap-star:1;--ap-day:0;}
+.ap-svg :where(path.ap-ink){fill:none;}
+.ap-svg .ap-ink,.ap-svg .ap-body,.ap-svg .ap-fin,.ap-svg .ap-wing,.ap-svg .ap-wing-far,.ap-svg .ap-eng,.ap-svg .ap-glass,.ap-svg .ap-wheel,.ap-svg .ap-win circle{stroke:var(--ap-ink);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round;}
+.ap-svg .ap-wall{fill:var(--ap-wall);}
+.ap-svg .ap-roof{fill:var(--ap-roof);}
+.ap-svg .ap-glass{fill:var(--ap-glass);}
+.ap-svg .ap-body{fill:#fff;}
+.ap-svg .ap-fin{fill:#1d5fd6;}
+.ap-svg .ap-wing{fill:#dfe7f3;}
+.ap-svg .ap-wing-far{fill:#b9c6dc;}
+.ap-svg .ap-eng{fill:#c4cfe2;}
+.ap-svg .ap-stripe{fill:none;stroke:#c8202e;stroke-width:3;stroke-linecap:round;}
+.ap-svg .ap-win circle{fill:#9fd3ff;stroke-width:1;}
+.ap-svg .ap-wheel{fill:#2b3445;}
+.ap-svg .ap-skin{fill:#ffd9b0;}
+.ap-svg .ap-door{fill:#6b7a99;}
+.ap-svg .ap-tube{fill:#e8edf5;}
+.ap-svg .ap-rotunda{fill:#cfd8e6;}
+.ap-svg .ap-apron{fill:var(--ap-apron);}
+.ap-svg .ap-guide{stroke:#f2c200;stroke-width:1.4;stroke-dasharray:8 6;fill:none;}
+.ap-svg .ap-runway{fill:var(--ap-runway);}
+.ap-svg .ap-edge{stroke:#fff;stroke-width:1.2;opacity:.8;fill:none;}
+.ap-svg .ap-dash{stroke:#fff;stroke-width:2;stroke-dasharray:16 12;fill:none;animation:apDash 1.4s linear infinite;}
+.ap-svg .ap-lights circle{fill:#ffd24a;animation:apBlink 1.6s steps(2,jump-none) infinite;}
+.ap-svg .ap-grass{fill:var(--ap-grass);}
+.ap-svg .ap-bush ellipse{fill:var(--ap-bush);stroke:var(--ap-ink);stroke-width:1.2;}
+.ap-svg .ap-cloud path{fill:var(--ap-cloud);opacity:.92;}
+.ap-svg .ap-stars circle{fill:#fff;opacity:var(--ap-star);animation:apTwinkle 3s ease-in-out infinite alternate;}
+.ap-svg .ap-sun{opacity:var(--ap-day);}
+.ap-svg .ap-sun circle{fill:#ffd24a;stroke:#f0a500;stroke-width:1.5;}
+.ap-svg .ap-rays{stroke:#f0a500;stroke-width:2;stroke-linecap:round;fill:none;transform-box:fill-box;transform-origin:center;animation:apSpin 40s linear infinite;}
+.ap-svg .ap-moon{opacity:calc(1 - var(--ap-day));}
+.ap-svg .ap-moon circle:first-child{fill:#fff6d0;}
+.ap-svg .ap-lit rect{fill:var(--ap-lit);}
+.ap-svg .ap-board{fill:#0b1220;stroke:var(--ap-ink);stroke-width:2;}
+.ap-svg text{font-family:var(--mono,monospace);}
+.ap-svg .ap-bhead{fill:#ffb000;font-size:8.6px;font-weight:700;letter-spacing:.12em;}
+.ap-svg .ap-bline{stroke:#24324d;stroke-width:1;fill:none;}
+.ap-svg .ap-brows{font-size:8px;font-weight:600;transition:opacity .25s;}
+.ap-svg .ap-brows.out{opacity:0;}
+.ap-svg .ap-f{fill:#fff;}
+.ap-svg .ap-c{fill:#cfe3ff;}
+.ap-svg .ap-t{fill:#ffb000;}
+.ap-svg .ap-s{fill:#41e08a;}
+.ap-svg .ap-s.warn{fill:#ffb000;}
+.ap-svg .ap-s.bad{fill:#ff5a5a;animation:apBlink 1.1s steps(2,jump-none) infinite;}
+.ap-svg .ap-bubble{fill:#fff;stroke:var(--ap-ink);stroke-width:1.4;stroke-linejoin:round;}
+.ap-svg .ap-say text{fill:var(--ap-ink);font-size:6.6px;font-weight:600;}
+.ap-svg .ap-say{opacity:0;}
+.ap-svg .ap-sockcloth{fill:#ff7a1a;}
+.ap-svg .ap-sockband{stroke:#fff;stroke-width:3;fill:none;}
+.ap-svg .ap-beacon{fill:#ff3b30;animation:apBlink .9s steps(2,jump-none) infinite;}
+.ap-svg .ap-strobe{fill:#ff3b30;animation:apBlink 1.2s steps(2,jump-none) infinite;}
+.ap-svg .ap-tr{fill:#ffb800;}
+.ap-svg .ap-cart{fill:#5b6b88;}
+.ap-svg .ap-bag{fill:#c0793a;}
+.ap-svg .ap-bag2{fill:#3b82c4;}
+.ap-svg .ap-fueltank{fill:#f5f5f5;}
+.ap-svg .ap-hose{stroke:#2b3445;stroke-width:2;}
+.ap-svg .ap-radar,.ap-svg .ap-ctrl path{transform-box:fill-box;}
+.ap-svg .ap-radar{transform-origin:50% 100%;animation:apRadar 3.2s ease-in-out infinite;}
+.ap-svg .ap-wave{transform-origin:0 100%;animation:apWave .7s ease-in-out infinite alternate;}
+.ap-svg .ap-wand{transform-box:fill-box;transform-origin:0 100%;animation:apWave .6s ease-in-out infinite alternate;}
+.ap-svg .ap-sockcloth{transform-box:fill-box;transform-origin:100% 50%;animation:apSock 2.4s ease-in-out infinite alternate;}
+.ap-svg .ap-cloud{will-change:transform;}
+.ap-svg .ap-c1{translate:0 38px;animation:apCloud 90s linear infinite;}
+.ap-svg .ap-c2{translate:0 82px;animation:apCloud 120s linear infinite -50s;}
+.ap-svg .ap-c3{translate:0 16px;animation:apCloud 70s linear infinite -20s;}
+.ap-svg .ap-bird{translate:0 70px;animation:apBird 34s linear infinite;}
+.ap-svg .ap-b2{translate:0 96px;animation-duration:42s;animation-delay:-14s;}
+.ap-svg .ap-bird path{animation:apFlap .45s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center;}
+.ap-svg .ap-walk use,.ap-svg .ap-marsh use{animation:apBob .42s ease-in-out infinite alternate;}
+.ap-svg .ap-w1{animation:apW1 26s linear infinite;}
+.ap-svg .ap-w2{animation:apW2 31s linear infinite -11s;}
+.ap-svg .ap-w3{animation:apW1 38s linear infinite -24s;}
+.ap-svg .ap-marsh{transform:translate(428px,270px);}
+.ap-svg .ap-in1{animation:apPace 7s ease-in-out infinite alternate;}
+.ap-svg .ap-in2{animation:apPace 5s ease-in-out infinite alternate -2s;}
+.ap-svg .ap-in3{animation:apPace 6s ease-in-out infinite alternate -4s;}
+.ap-svg .ap-tractor{animation:apDriveL 28s linear infinite -9s;}
+.ap-svg .ap-fuel{animation:apDriveR 36s linear infinite -20s;}
+.ap-svg .ap-gate-plane{animation:apGate 40s infinite;}
+.ap-svg .ap-bridge-tube{transform-origin:410px 252px;animation:apTube 40s infinite;}
+.ap-svg .ap-bridge-tube rect,.ap-svg .ap-bridge-tube path{vector-effect:non-scaling-stroke;}
+.ap-svg .ap-bridge-leg{animation:apLeg 40s infinite;}
+.ap-svg .ap-pax{animation:apPax 40s infinite;}
+.ap-svg .ap-pax circle{stroke:var(--ap-ink);stroke-width:1;animation:apPaxWalk 5.5s linear infinite;animation-delay:var(--dl,0s);}
+.ap-svg .ap-land{animation:apLand 30s infinite;}
+.ap-svg .ap-land-in{transform-box:fill-box;transform-origin:50% 60%;animation:apLandTilt 30s infinite;}
+.ap-svg .ap-toff{animation:apToff 30s infinite;}
+.ap-svg .ap-toff-in{transform-box:fill-box;transform-origin:50% 60%;animation:apToffTilt 30s infinite;}
+.ap-svg .ap-say1{animation:apSay1 30s infinite;}
+.ap-svg .ap-say2{animation:apSay2 30s infinite;}
+.ap-svg .ap-say3{animation:apSay3 40s infinite;}
+[data-theme="dark"] .ap-svg .ap-lit rect{animation:apTwinkle 4s ease-in-out infinite alternate;}
+@keyframes apBlink{0%{opacity:1;}100%{opacity:.15;}}
+@keyframes apTwinkle{0%{opacity:.35;}100%{opacity:1;}}
+@keyframes apSpin{to{transform:rotate(360deg);}}
+@keyframes apDash{to{stroke-dashoffset:-28;}}
+@keyframes apRadar{0%{transform:scaleX(1);}50%{transform:scaleX(-1);}100%{transform:scaleX(1);}}
+@keyframes apWave{0%{transform:rotate(-18deg);}100%{transform:rotate(18deg);}}
+@keyframes apSock{0%{transform:rotate(-7deg);}100%{transform:rotate(7deg);}}
+@keyframes apCloud{from{transform:translateX(-120px);}to{transform:translateX(860px);}}
+@keyframes apBird{from{transform:translateX(-40px);}to{transform:translateX(800px);}}
+@keyframes apFlap{0%{transform:scaleY(1);}100%{transform:scaleY(-.6);}}
+@keyframes apBob{0%{transform:translateY(0);}100%{transform:translateY(-1.6px);}}
+@keyframes apW1{0%{transform:translate(-10px,272px);opacity:0;}4%{opacity:1;}96%{opacity:1;}100%{transform:translate(380px,272px);opacity:0;}}
+@keyframes apW2{0%{transform:translate(390px,276px);opacity:0;}4%{opacity:1;}96%{opacity:1;}100%{transform:translate(0px,276px);opacity:0;}}
+@keyframes apPace{0%{transform:translateX(-7px);}100%{transform:translateX(9px);}}
+@keyframes apDriveL{from{transform:translateX(840px);}to{transform:translateX(-110px);}}
+@keyframes apDriveR{from{transform:translateX(-100px);}to{transform:translateX(780px);}}
+/* gate cycle (40s): taxi in 0-12%, bridge docks 12-17%, passengers 17-55%, bridge undocks 56-61%, push-back 62-78% */
+@keyframes apGate{0%{transform:translateX(340px);animation-timing-function:cubic-bezier(.25,.6,.4,1);}12%{transform:translateX(0);}62%{transform:translateX(0);animation-timing-function:ease-in-out;}78%{transform:translateX(340px);}100%{transform:translateX(340px);}}
+@keyframes apTube{0%,12%{transform:scaleX(.12);}17%,56%{transform:scaleX(1);}61%,100%{transform:scaleX(.12);}}
+@keyframes apLeg{0%,12%{transform:translateX(-51px);}17%,56%{transform:translateX(0);}61%,100%{transform:translateX(-51px);}}
+@keyframes apPax{0%,17%{opacity:0;}19%,54%{opacity:1;}56%,100%{opacity:0;}}
+@keyframes apPaxWalk{from{transform:translateX(468px);}to{transform:translateX(410px);}}
+/* runway (30s): landing 0-50%, take-off 54-86% */
+@keyframes apLand{0%{transform:translate(1000px,40px);animation-timing-function:linear;}16%{transform:translate(520px,313px);animation-timing-function:cubic-bezier(.15,.55,.45,1);}50%{transform:translate(-190px,313px);}100%{transform:translate(-190px,313px);}}
+@keyframes apLandTilt{0%,13%{transform:rotate(-5deg);}16%{transform:rotate(4deg);}20%,100%{transform:rotate(0);}}
+@keyframes apToff{0%,54%{transform:translate(-40px,313px);animation-timing-function:cubic-bezier(.5,0,.9,.6);}72%{transform:translate(470px,313px);animation-timing-function:linear;}80%{transform:translate(680px,240px);animation-timing-function:linear;}86%{transform:translate(860px,120px);}100%{transform:translate(860px,120px);}}
+@keyframes apToffTilt{0%,70%{transform:rotate(0);}74%{transform:rotate(-8deg);}86%,100%{transform:rotate(-16deg);}}
+@keyframes apSay1{0%,1%{opacity:0;}3%,13%{opacity:1;}15%,100%{opacity:0;}}
+@keyframes apSay2{0%,52%{opacity:0;}54%,66%{opacity:1;}68%,100%{opacity:0;}}
+@keyframes apSay3{0%,17%{opacity:0;}19%,34%{opacity:1;}36%,100%{opacity:0;}}
+@media (prefers-reduced-motion:reduce){
+  .ap-svg *{animation:none!important;}
+  .ap-svg .ap-land,.ap-svg .ap-toff,.ap-svg .ap-tractor,.ap-svg .ap-fuel,.ap-svg .ap-walk,.ap-svg .ap-say{display:none;}
+}
+@media (max-width:900px){
+  .nb-scene .ap-svg{margin:0 0 1rem;}
+}
+@media (min-width:901px){
+  .nb-scene .ap-svg{position:absolute;inset:0;width:100%;height:100%;border-radius:0;z-index:0;}
+  .nb-scene .nb-top{left:3%;top:2.4%;width:34%;}
+  .nb-scene .nb-card:nth-child(1){left:3%;top:11%;width:12.4%;}
+  .nb-scene .nb-card:nth-child(2){left:26%;top:11%;width:12.4%;}
+  .nb-scene .nb-card:nth-child(3){left:49%;top:11%;width:12.4%;}
+  .nb-scene .nb-card:nth-child(4){left:70%;top:11%;width:12.4%;}
+  .ns-sign{left:4.5%;top:32%;width:48.5%;height:3.4%;background:#0b1220;border-radius:.3cqw;}
+  .ns-track{font-size:.72cqw;color:#ffb000;}
+  .ns-track span::before{color:#ff5a5a;}
+}
 @media (max-width:600px){.fc-badge{display:none;}}
 .btn{display:inline-block;padding:.7rem 1.4rem;font-weight:600;font-size:.84rem;border-radius:4px;transition:background .2s,color .2s,border-color .2s;}
 .btn-primary{background:var(--navy);color:#fff;border:1px solid var(--navy);}
@@ -999,7 +1146,148 @@ img{max-width:100%;display:block;}
   <p class="eyebrow">LATEST INSIGHTS</p>
   <h2 class="section-title">Aviation news &amp; magazines</h2>
   <div class="mz-split nb-scene">
-    <img class="nb-scene-img" src="assets/images/airport-sketch.jpg" alt="" aria-hidden="true">
+    <svg class="ap-svg" viewBox="0 0 740 413" role="img" aria-label="Animated cartoon airport: aircraft landing and taking off, an aerobridge at the gate, ground vehicles and a live arrivals and departures board" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="apSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--ap-sky-a)"/><stop offset="1" style="stop-color:var(--ap-sky-b)"/></linearGradient>
+        <g id="apPlane">
+          <path class="ap-wing-far" d="M96 14 L128 14 L112 2 L100 2 Z"/>
+          <path class="ap-fin" d="M150 12 L168 -18 L184 -18 L178 14 Z"/>
+          <path class="ap-body" d="M2 30 C2 17 16 12 36 12 L156 12 C168 12 178 22 182 36 L170 44 L30 44 C14 44 2 40 2 30 Z"/>
+          <path class="ap-stripe" d="M8 34 H174"/>
+          <path class="ap-glass" d="M9 21 Q15 16 28 16 L28 25 L7 25 Z"/>
+          <g class="ap-win"><circle cx="42" cy="25" r="3"/><circle cx="54" cy="25" r="3"/><circle cx="66" cy="25" r="3"/><circle cx="78" cy="25" r="3"/><circle cx="90" cy="25" r="3"/><circle cx="102" cy="25" r="3"/><circle cx="114" cy="25" r="3"/><circle cx="126" cy="25" r="3"/><circle cx="138" cy="25" r="3"/></g>
+          <path class="ap-wing" d="M80 38 L126 38 L106 58 L88 58 Z"/>
+          <ellipse class="ap-eng" cx="98" cy="50" rx="11" ry="6"/>
+        </g>
+        <g id="apGear"><path class="ap-ink" d="M48 44 V52 M128 44 V52"/><circle class="ap-wheel" cx="48" cy="52" r="5"/><circle class="ap-wheel" cx="128" cy="52" r="5"/></g>
+        <g id="apPerson"><path class="ap-ink" d="M-2 14 V22 M2 14 V22"/><rect x="-5" y="5" width="10" height="11" rx="3" style="fill:currentColor" class="ap-ink"/><circle cx="0" cy="0" r="5" class="ap-skin ap-ink"/></g>
+        <clipPath id="apTubeClip"><rect x="412" y="244" width="58" height="16"/></clipPath>
+      </defs>
+
+      <!-- sky -->
+      <rect width="740" height="330" fill="url(#apSky)"/>
+      <g class="ap-stars"><circle cx="60" cy="40" r="1"/><circle cx="150" cy="70" r="1.2"/><circle cx="300" cy="30" r="1"/><circle cx="420" cy="66" r="1.2"/><circle cx="520" cy="24" r="1"/><circle cx="640" cy="110" r="1"/><circle cx="700" cy="60" r="1.2"/><circle cx="240" cy="100" r="1"/></g>
+      <g class="ap-sun"><circle cx="478" cy="30" r="13"/><g class="ap-rays"><path d="M478 8v-5M478 52v5M456 30h-5M500 30h5M462 14l-3-3M494 46l3 3M494 14l3-3M462 46l-3 3"/></g></g>
+      <g class="ap-moon"><circle cx="478" cy="30" r="12"/><circle cx="484" cy="26" r="11" style="fill:var(--ap-sky-a)"/></g>
+
+      <!-- clouds -->
+      <g class="ap-cloud ap-c1"><path d="M0 18 q0-10 12-10 q4-9 16-5 q12-3 15 8 q10 0 10 9 z"/></g>
+      <g class="ap-cloud ap-c2"><path d="M0 22 q0-12 14-12 q5-10 20-6 q14-2 17 10 q12 0 12 8 z"/></g>
+      <g class="ap-cloud ap-c3"><path d="M0 14 q0-8 9-8 q4-7 13-4 q10-2 12 6 q8 0 8 6 z"/></g>
+
+      <!-- birds -->
+      <g class="ap-bird ap-b1"><path class="ap-ink" d="M0 0 q4-5 8 0 q4-5 8 0"/></g>
+      <g class="ap-bird ap-b2"><path class="ap-ink" d="M0 0 q3-4 6 0 q3-4 6 0"/></g>
+
+      <!-- control tower -->
+      <g class="ap-tower">
+        <path class="ap-wall ap-ink" d="M672 300 L678 124 L698 124 L704 300 Z"/>
+        <path class="ap-ink" d="M681 160 H695 M680 200 H696 M679 240 H697" />
+        <path class="ap-roof ap-ink" d="M654 84 H722 L712 122 H664 Z"/>
+        <path class="ap-glass ap-ink" d="M660 90 H716 L709 118 H667 Z"/>
+        <path class="ap-ink" d="M674 90 V118 M688 90 V118 M702 90 V118"/>
+        <g class="ap-ctrl"><circle cx="681" cy="106" r="4" class="ap-skin ap-ink"/><path class="ap-ink ap-wave" d="M685 112 L692 102"/></g>
+        <rect class="ap-roof ap-ink" x="656" y="80" width="64" height="6" rx="2"/>
+        <path class="ap-ink" d="M688 80 V62"/>
+        <g class="ap-radar"><path class="ap-ink" d="M674 60 Q688 48 702 60 Z" style="fill:#e8ecf3"/></g>
+        <circle class="ap-beacon" cx="688" cy="60" r="3"/>
+      </g>
+      <!-- tower radio chatter -->
+      <g class="ap-say ap-say1"><rect class="ap-bubble" x="612" y="14" width="124" height="22" rx="5"/><path class="ap-bubble" d="M690 36 L698 36 L694 46 Z"/><text x="674" y="29" text-anchor="middle">AN 101 · cleared to land</text></g>
+      <g class="ap-say ap-say2"><rect class="ap-bubble" x="612" y="14" width="124" height="22" rx="5"/><path class="ap-bubble" d="M690 36 L698 36 L694 46 Z"/><text x="674" y="29" text-anchor="middle">AN 202 · cleared for take-off</text></g>
+      <g class="ap-say ap-say3"><rect class="ap-bubble" x="452" y="168" width="124" height="22" rx="5"/><path class="ap-bubble" d="M508 190 L518 190 L512 202 Z"/><text x="514" y="183" text-anchor="middle">Gate 2 · now boarding</text></g>
+
+      <!-- apron, runway, grass -->
+      <rect class="ap-apron" x="0" y="286" width="740" height="32"/>
+      <path class="ap-guide" d="M0 311 H740"/>
+      <rect class="ap-runway" x="0" y="318" width="740" height="34"/>
+      <path class="ap-edge" d="M0 320 H740 M0 350 H740"/>
+      <path class="ap-dash" d="M0 335 H740"/>
+      <g class="ap-lights"><circle cx="30" cy="321" r="1.6"/><circle cx="110" cy="321" r="1.6"/><circle cx="190" cy="321" r="1.6"/><circle cx="270" cy="321" r="1.6"/><circle cx="350" cy="321" r="1.6"/><circle cx="430" cy="321" r="1.6"/><circle cx="510" cy="321" r="1.6"/><circle cx="590" cy="321" r="1.6"/><circle cx="670" cy="321" r="1.6"/><circle cx="710" cy="321" r="1.6"/></g>
+      <rect class="ap-grass" x="0" y="352" width="740" height="61"/>
+      <g class="ap-bush"><ellipse cx="40" cy="358" rx="16" ry="7"/><ellipse cx="250" cy="357" rx="20" ry="7"/><ellipse cx="520" cy="358" rx="18" ry="7"/><ellipse cx="705" cy="357" rx="14" ry="6"/></g>
+
+      <!-- terminal -->
+      <g class="ap-terminal">
+        <rect class="ap-roof ap-ink" x="10" y="126" width="392" height="26" rx="3"/>
+        <rect class="ap-wall ap-ink" x="14" y="152" width="384" height="138"/>
+        <rect class="ap-glass ap-ink" x="230" y="160" width="160" height="112"/>
+        <path class="ap-ink" d="M270 160 V272 M310 160 V272 M350 160 V272 M230 216 H390"/>
+        <g class="ap-lit"><rect x="233" y="164" width="34" height="48"/><rect x="273" y="164" width="34" height="48"/><rect x="313" y="164" width="34" height="48"/><rect x="353" y="164" width="34" height="48"/></g>
+        <!-- passengers waiting behind the glass -->
+        <g class="ap-in ap-in1"><use href="#apPerson" x="250" y="246" style="color:#e0643c"/></g>
+        <g class="ap-in ap-in2"><use href="#apPerson" x="330" y="246" style="color:#2f7be0" /></g>
+        <g class="ap-in ap-in3"><use href="#apPerson" x="372" y="246" style="color:#2fb872" /></g>
+        <path class="ap-ink" d="M230 272 H390"/>
+        <!-- flight board -->
+        <rect class="ap-board" x="22" y="158" width="200" height="104" rx="4"/>
+        <text class="ap-bhead" id="apBoardTitle" x="30" y="171">ARRIVALS</text>
+        <text class="ap-bhead ap-bclock" id="apBoardClock" x="214" y="171" text-anchor="end">--:--</text>
+        <path class="ap-bline" d="M28 176 H216"/>
+        <g class="ap-brows" id="apRows">
+          <text y="189"><tspan x="30" class="ap-f">AN 101</tspan><tspan x="72" class="ap-c">DELHI</tspan><tspan x="124" class="ap-t">09:40</tspan><tspan x="214" text-anchor="end" class="ap-s">LANDED</tspan></text>
+          <text y="206"><tspan x="30" class="ap-f">AN 118</tspan><tspan x="72" class="ap-c">MUMBAI</tspan><tspan x="124" class="ap-t">09:55</tspan><tspan x="214" text-anchor="end" class="ap-s">ON TIME</tspan></text>
+          <text y="223"><tspan x="30" class="ap-f">AN 126</tspan><tspan x="72" class="ap-c">CHENNAI</tspan><tspan x="124" class="ap-t">10:10</tspan><tspan x="214" text-anchor="end" class="ap-s">DELAYED</tspan></text>
+          <text y="240"><tspan x="30" class="ap-f">AN 133</tspan><tspan x="72" class="ap-c">DUBAI</tspan><tspan x="124" class="ap-t">10:25</tspan><tspan x="214" text-anchor="end" class="ap-s">ON TIME</tspan></text>
+          <text y="257"><tspan x="30" class="ap-f">AN 140</tspan><tspan x="72" class="ap-c">SINGAPORE</tspan><tspan x="124" class="ap-t">10:40</tspan><tspan x="214" text-anchor="end" class="ap-s">ON TIME</tspan></text>
+        </g>
+        <path class="ap-ink" d="M14 290 H398"/>
+              </g>
+
+      <!-- windsock on the apron -->
+      <g class="ap-sock"><path class="ap-ink" d="M642 286 V196"/><path class="ap-sockcloth ap-ink" d="M642 196 L616 200 L616 211 L642 215 Z"/><path class="ap-sockband" d="M629 198 V213"/></g>
+
+      <!-- gate plane + aerobridge (one 40s cycle: taxi in, dock, passengers, undock, push back) -->
+      <g class="ap-bridge-tube">
+        <rect class="ap-tube ap-ink" x="410" y="244" width="58" height="16" rx="3"/>
+        <path class="ap-ink" d="M416 248 H462" style="stroke-dasharray:6 3"/>
+      </g>
+      <g class="ap-bridge-leg">
+        <rect class="ap-roof ap-ink" x="458" y="258" width="8" height="26"/>
+        <circle class="ap-wheel" cx="462" cy="286" r="3"/>
+        <rect class="ap-door ap-ink" x="464" y="242" width="8" height="20" rx="2"/>
+      </g>
+      <rect class="ap-rotunda ap-ink" x="400" y="240" width="14" height="24" rx="3"/>
+      <g class="ap-pax" clip-path="url(#apTubeClip)">
+        <circle class="ap-skin" cx="0" cy="252" r="3.2" style="--dl:0s"/>
+        <circle class="ap-skin" cx="0" cy="252" r="3.2" style="--dl:-1.6s"/>
+        <circle class="ap-skin" cx="0" cy="252" r="3.2" style="--dl:-3.2s"/>
+      </g>
+      <g class="ap-gate-plane">
+        <g transform="translate(440 232) scale(.95)"><use href="#apGear"/><use href="#apPlane"/><circle class="ap-strobe" cx="170" cy="-18" r="2.4"/></g>
+      </g>
+
+      <!-- ground crew & vehicles -->
+      <g class="ap-veh ap-tractor">
+        <g transform="translate(0 276) scale(-1 1)">
+          <rect class="ap-cart ap-ink" x="-96" y="8" width="26" height="12" rx="2"/><rect class="ap-bag ap-ink" x="-92" y="1" width="9" height="8" rx="1.5"/><rect class="ap-bag2 ap-ink" x="-81" y="3" width="8" height="6" rx="1.5"/>
+          <rect class="ap-cart ap-ink" x="-64" y="8" width="26" height="12" rx="2"/><rect class="ap-bag2 ap-ink" x="-60" y="2" width="10" height="7" rx="1.5"/><rect class="ap-bag ap-ink" x="-48" y="4" width="8" height="5" rx="1.5"/>
+          <path class="ap-ink" d="M-70 17 H-64 M-38 17 H-32"/>
+          <rect class="ap-tr ap-ink" x="-32" y="6" width="30" height="14" rx="3"/><rect class="ap-tr ap-ink" x="-12" y="-2" width="12" height="10" rx="2"/>
+          <circle class="ap-wheel" cx="-24" cy="21" r="4"/><circle class="ap-wheel" cx="-8" cy="21" r="4"/><circle class="ap-cart-w ap-wheel" cx="-86" cy="21" r="3"/><circle class="ap-wheel" cx="-52" cy="21" r="3"/>
+          <circle class="ap-skin ap-ink" cx="-6" cy="-6" r="3.6"/>
+        </g>
+      </g>
+      <g class="ap-veh ap-fuel">
+        <g transform="translate(0 286)">
+          <rect class="ap-fueltank ap-ink" x="0" y="-4" width="44" height="22" rx="10"/>
+          <path class="ap-stripe" d="M6 8 H38"/>
+          <rect class="ap-tr ap-ink" x="44" y="4" width="16" height="14" rx="3"/><path class="ap-glass ap-ink" d="M50 6 H58 V12 H50 Z"/>
+          <path class="ap-ink ap-hose" d="M2 14 q-10 0 -12 10"/>
+          <circle class="ap-wheel" cx="12" cy="20" r="4.5"/><circle class="ap-wheel" cx="36" cy="20" r="4.5"/><circle class="ap-wheel" cx="54" cy="20" r="4.5"/>
+        </g>
+      </g>
+      <!-- marshaller beside the aircraft -->
+      <g class="ap-marsh"><use href="#apPerson" x="0" y="0" style="color:#ff8a00"/><path class="ap-ink ap-wand" d="M5 8 L13 0" style="stroke:#ff3b30;stroke-width:2.4"/></g>
+      <!-- walking passengers -->
+      <g class="ap-walk ap-w1"><use href="#apPerson" style="color:#e0643c"/></g>
+      <g class="ap-walk ap-w2"><use href="#apPerson" style="color:#2fb872"/></g>
+      <g class="ap-walk ap-w3"><use href="#apPerson" style="color:#7a5be0"/></g>
+
+      <!-- landing and take-off -->
+      <g class="ap-land"><g class="ap-land-in"><g transform="scale(.55)"><use href="#apGear"/><use href="#apPlane"/></g></g></g>
+      <g class="ap-toff"><g class="ap-toff-in"><g transform="scale(-.55 .55)"><use href="#apGear"/><use href="#apPlane"/></g></g></g>
+    </svg>
     <div class="ns-sign" aria-hidden="true"><div class="ns-track"><span>31 JUL · INDUSTRY — Why fare construction still matters in the GDS era</span><span>28 JUL · SUSTAINABILITY — Green airports: what students should know before graduating</span><span>22 JUL · EDUCATION — Bridging classroom theory and real airline practice</span><span>15 JUL · RESEARCH — Urban air mobility: an emerging regulatory landscape</span></div></div>
     <div class="mz-news nb">
       <div class="nb-top"><span class="nb-live"><b class="nb-dot"></b>LIVE</span><span class="nb-title">AURAN NEWS BOARD</span><span class="nb-clock" id="nbClock" aria-hidden="true"></span></div>
@@ -1647,6 +1935,36 @@ var PRODUCTS = [
     var io = new IntersectionObserver(function(e) { if (e[0].isIntersecting) { go(); io.disconnect(); } }, { threshold: .25 });
     io.observe(sec);
   } else go();
+})();
+</script>
+<script>
+(function() {
+  var rows = document.getElementById('apRows'), title = document.getElementById('apBoardTitle'), clk = document.getElementById('apBoardClock');
+  if (!rows || !title) return;
+  var cities = ['DELHI','MUMBAI','CHENNAI','DUBAI','SINGAPORE','BENGALURU','KOCHI','LONDON','DOHA','KOLKATA','HYDERABAD','COLOMBO'];
+  var step = 0, dep = false;
+  function ist() { var p = new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }).split(':'); return parseInt(p[0], 10) * 60 + parseInt(p[1], 10); }
+  function hhmm(m) { m = ((m % 1440) + 1440) % 1440; return ('0' + Math.floor(m / 60)).slice(-2) + ':' + ('0' + (m % 60)).slice(-2); }
+  function fill() {
+    var base = Math.round(ist() / 5) * 5, t = rows.querySelectorAll('text');
+    title.textContent = dep ? 'DEPARTURES' : 'ARRIVALS';
+    Array.prototype.forEach.call(t, function(row, i) {
+      var off = (i - 1) * 15, s = row.querySelectorAll('tspan'), st, cls = '';
+      s[0].textContent = 'AN ' + (100 + (dep ? 100 : 0) + ((step * 5 + i) * 7) % 90);
+      s[1].textContent = cities[(step * 5 + i * 3 + (dep ? 5 : 0)) % cities.length];
+      s[2].textContent = hhmm(base + off);
+      if (!dep) { st = i === 0 ? 'LANDED' : i === 1 ? 'APPROACH' : (i === 2 && step % 2) ? 'DELAYED' : 'ON TIME'; cls = st === 'DELAYED' ? 'bad' : st === 'APPROACH' ? 'warn' : ''; }
+      else { st = i === 0 ? 'DEPARTED' : i === 1 ? 'BOARDING' : i === 2 ? 'GATE OPEN' : (i === 4 && step % 3 === 0) ? 'DELAYED' : i === 3 ? 'CHECK-IN' : 'ON TIME'; cls = st === 'DELAYED' ? 'bad' : (st === 'BOARDING' || st === 'CHECK-IN') ? 'warn' : ''; }
+      s[3].textContent = st; s[3].setAttribute('class', 'ap-s' + (cls ? ' ' + cls : ''));
+    });
+    if (clk) clk.textContent = hhmm(ist());
+  }
+  fill();
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  setInterval(function() {
+    rows.classList.add('out');
+    setTimeout(function() { dep = !dep; if (!dep) step++; fill(); rows.classList.remove('out'); }, 280);
+  }, 5200);
 })();
 </script>
 </body><script>
